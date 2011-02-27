@@ -22,10 +22,6 @@ OSGi tutorial for beginners - http://www.javaworld.com/javaworld/jw-03-2008/jw-0
 
 OSGi tooling - http://en.wikipedia.org/wiki/OSGi-Tooling
 
+OSGi best practices - https://cwiki.apache.org/FELIX/presentations.data/best-practices-apachecon-20060628.pdf
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+OSGi at IBM - 
