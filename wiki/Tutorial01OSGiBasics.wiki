@@ -18,6 +18,9 @@ Eclipse installation
 === Declarative services ===
 
 == Resources ==
+OSGi tutorial for beginners - http://www.javaworld.com/javaworld/jw-03-2008/jw-03-osgi1.html
+
+OSGi tooling - http://en.wikipedia.org/wiki/OSGi-Tooling
 
 
 = Details =
