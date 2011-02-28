@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" name="Test01 simple component">
+   <implementation class="cz.mff.cuni.d3s.nprg044.tut1.test01.ComponentOne"/>
+   <reference bind="setLogService" cardinality="1..1" interface="org.osgi.service.log.LogService" name="LogService" policy="static" unbind="unsetLogService"/>
+   <service>
+      <provide interface="cz.mff.cuni.d3s.nprg044.tut1.test01.api.IService"/>
+   </service>
+   <reference bind="bindHelloService" cardinality="0..1" interface="cz.mff.cuni.d3s.nprg044.tut1.test01.api.IHelloService" name="IHelloService" policy="dynamic" unbind="unbindHelloService"/>
+   <reference bind="bindCF" cardinality="1..1" interface="org.osgi.service.component.ComponentFactory" name="ComponentFactory" policy="static" target="(component.factory=cz.mff.cuni.d3s.nprg044.tut1.test01.HelloComponentFactory)" unbind="unbindCF"/>
+</scr:component>
