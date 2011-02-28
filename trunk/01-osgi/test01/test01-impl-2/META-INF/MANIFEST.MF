@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test01 Implementation 2
-Bundle-SymbolicName: cz.mff.cuni.d3s.nprg044.tut1.test01.impl2
+Bundle-SymbolicName: cz.cuni.mff.d3s.nprg044.tut1.test01.impl2
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: D3S MFF CUNI
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Service-Component: OSGI-INF/component.xml
+Service-Component: OSGI-INF/componentTwo.xml
 Import-Package: cz.mff.cuni.d3s.nprg044.tut1.test01.api

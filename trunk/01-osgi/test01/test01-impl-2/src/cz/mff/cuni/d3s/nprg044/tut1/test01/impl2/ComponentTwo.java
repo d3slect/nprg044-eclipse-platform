@@ -6,11 +6,11 @@ public class ComponentTwo implements IService {
 
 	@Override
 	public void test() {
-		System.out.println("test #2");		
+		System.out.println("test01-impl-2.ComponentTwo.test(): This is a test!");		
 	}
 	
 	private void activate() {
-		System.out.println("Activating component implementation #2");
+		System.err.println("test01-impl-2.ComponentTwo.activate():Component activated..");
 	}
 
 }
