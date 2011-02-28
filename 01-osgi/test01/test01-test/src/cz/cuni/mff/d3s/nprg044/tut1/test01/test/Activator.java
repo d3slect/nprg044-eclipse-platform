@@ -25,6 +25,7 @@ public class Activator implements BundleActivator {
 		public Object addingService(ServiceReference reference) {
 			IService service = (IService) this.ctx.getService(reference);
 			
+			System.err.println("test01-test.SimpleServiceCustomizer:IService added..");
 			service.test();
 			Activator.this.simpleService = service;
 			
@@ -37,8 +38,8 @@ public class Activator implements BundleActivator {
 
 		@Override
 		public void removedService(ServiceReference reference, Object service) {
-		}
-		
+			System.err.println("test01-test.SimpleServiceCustomizer:IService removed..");
+		}		
 	}
 	
 	/*
@@ -50,17 +51,16 @@ public class Activator implements BundleActivator {
 		// create a tracker and track the log service
 		simpleServiceTracker = 
 			new ServiceTracker(context, IService.class.getName(), new SimpleServiceCustomizer(context));
+		System.err.println("test01-test.Activator.start(): opening tracker for IService");
 		simpleServiceTracker.open();
 		
 		// grab the service
 		simpleService = (IService) simpleServiceTracker.getService();
 
 		if(simpleService != null) {
-			System.err.println("Hurray");
+			System.err.println("test01-test.Activator.start(): IService tracked directly after opening the tracker");
 			simpleService.test();
-		} else {
-//			simpleServiceTracker.
-		}
+		} 
 	}
 	
 	/*
@@ -68,8 +68,10 @@ public class Activator implements BundleActivator {
 	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		if(simpleService != null)
+		if(simpleService != null) {
+			System.err.println("test01-test.Activator.stop(): closing the tracker");
 			simpleService.test();
+		}
 		
 		// close the service tracker
 		simpleServiceTracker.close();

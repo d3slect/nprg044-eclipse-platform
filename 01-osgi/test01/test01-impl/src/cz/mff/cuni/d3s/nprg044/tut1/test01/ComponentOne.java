@@ -6,7 +6,6 @@ import java.util.Properties;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.ComponentFactory;
 import org.osgi.service.component.ComponentInstance;
-import org.osgi.service.http.HttpService;
 import org.osgi.service.log.LogService;
 
 import cz.mff.cuni.d3s.nprg044.tut1.test01.api.IHelloService;
@@ -14,8 +13,7 @@ import cz.mff.cuni.d3s.nprg044.tut1.test01.api.IService;
 
 public class ComponentOne implements IService {
 
-	private LogService logService;
-	private HttpService httpService;
+	private LogService logService;	
 	private IHelloService helloService;
 
 	@Override
@@ -24,16 +22,17 @@ public class ComponentOne implements IService {
 	}
 	
 	private void setLogService(LogService logService) {
-		System.err.println("LogService bound to " + logService);
+		System.err.println("test01-impl.ComponentOne.setLogService() to: " + logService);
 		this.logService = logService;
 	}
 	
 	private void unsetLogService(LogService logService) {
+		System.err.println("test01-impl.ComponentOne.unsetLogService() to null ");
 		this.logService = null;
 	}
 	
 	private void bindHelloService(IHelloService helloService) {
-		System.err.println("HelloService bound to " + helloService);
+		System.err.println("test01-impl.ComponentOne.bindHelloService() to: " + helloService);
 		this.helloService = helloService;
 		
 		// use hello service
@@ -41,10 +40,11 @@ public class ComponentOne implements IService {
 	}
 	
 	private void bindCF(ComponentFactory cf) {
-		System.err.println("Component factory is bound + " + cf );
+		System.err.println("test01-impl.ComponentOne.bindCF() to: " + cf);
 		Dictionary dict = new Properties() {{ put("greeting", "hi"); }};
 		
 		// get component instance
+		System.err.println("test01-impl.ComponentOne.bindCF(): creating a new instance of component" );
 		ComponentInstance ci = cf.newInstance(dict);
 		// get service
 		//  is already get via bindHelloService
@@ -54,13 +54,11 @@ public class ComponentOne implements IService {
 	}
 	
 	public void activate() {
-		logService.log(LogService.LOG_INFO, "Component activate!");
-		System.out.println("Activating component implementation #1");
+		logService.log(LogService.LOG_INFO, "Component activate!");		
 	}
 	
 	public void activate(ComponentContext ctx) {
-		logService.log(LogService.LOG_INFO, "Component activate, component context:=> " + ctx);
-		System.out.println("Abraka dabra");
+		logService.log(LogService.LOG_INFO, "Component activate, component context:=> " + ctx);		
 	}
 
 }
