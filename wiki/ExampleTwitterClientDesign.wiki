@@ -1,4 +1,5 @@
 #summary Twitter client example design
+#sidebar TableOfContents
 
 = Example: Twitter client =
 
@@ -8,6 +9,8 @@
 
 == Details ==
 
+  * twitter perspective
+     * configure views
   * wizard for account configuration
   * view for account list
   * view for timeline (multiple timelines?)
@@ -19,7 +22,9 @@
   * preferences to setup
     * font in view?
     * URL shorter service 
+      * predefined providers via extension points
     * image post service
+      * predefined providers via extension points
 
 = Design=
 == Views ==
