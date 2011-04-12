@@ -1,5 +1,6 @@
 #summary SideBar
 #labels sidebar
 
-  * [OSGi basics]
-  * [Eclipse basics]
+  * [Tutorial01OSGiBasics OSGi basics]
+  * [Tutorial02EclipseBasics Eclipse basics]
+  * [Tutorial03 Views, Editors]
