@@ -9,12 +9,15 @@
 
 == Details ==
 
-  * twitter perspective
+  * Twitter perspective
      * configure views
-  * wizard for account configuration
-  * view for account list
-  * view for timeline (multiple timelines?)
-  * form-based editor for editing the post
+  * Wizard for account configuration
+  * View for account list
+  * View for timeline 
+    * support for multiple timelines (user timeline, friends timeline)
+    * message 
+      * URL highlighting
+  * Form-based editor for editing the post
     * computing the number of character
     * attaching the photo
     * URL shorter 
