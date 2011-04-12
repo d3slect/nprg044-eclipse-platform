@@ -1,6 +1,7 @@
 #summary The basic principles of Eclipse platforom
 
 = Eclipse basics =
+<wiki:toc max_depth="3" />
 
 == Basic concepts of Eclipse Workbench ==
 
