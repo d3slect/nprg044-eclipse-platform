@@ -1,0 +1,5 @@
+#summary SideBar
+#labels sidebar
+
+  * [OSGi basics]
+  * [Eclipse basics]
