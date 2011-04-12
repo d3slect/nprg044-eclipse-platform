@@ -1,4 +1,4 @@
-#summary The basic principles of Eclipse platforom
+#summary The basic principles of Eclipse platform
 
 = Eclipse basics =
 <wiki:toc max_depth="3" />
@@ -6,7 +6,6 @@
 == Basic concepts of Eclipse Workbench ==
 
 ===Workspace===
-
 
 ===Perspective===
 
@@ -22,8 +21,17 @@
 
 ===Debugging===
 
+Eclipse platform design
+  * runtime Equinox OSGi
+  * SWT+JFace+...
+  * Plug-ins
+
+
 == Simple plug-in project==
 
+=== Plug-in ===
+An OSGi bundle. 
+Additional meta-information in plugin.xml (extension points)
   * project creation
     * MANIFEST.MF
     * plugin.xml
