@@ -2,12 +2,50 @@
 
 = Eclipse basics =
 
-Add your content here.
+== Basic concepts of Eclipse Workbench ==
+
+===Workspace===
 
 
-= Details =
+===Perspective===
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+===Editors===
+
+===Views===
+
+===Projects===
+
+===Run configuration===
+ * Run
+ * Debug
+
+===Debugging===
+
+== Simple plug-in project==
+
+  * project creation
+    * MANIFEST.MF
+    * plugin.xml
+  * creating run configuration
+  * project
+
+
+== Hints ===
+It is useful to learn basic shortcuts to speed up Eclipse development
+  * Open type - _Ctrl+Shift+T_
+  * Open resource - _Ctrl+Shift+R_
+  * Show inheritance tree of selected element - _Ctrl+T_
+  * Quick fix (on line marked by error/warning) - _Ctrl+1_
+  * Maximize editor - _Ctrl+M_
+  * Plug-in spy - shows more information about selected element (ID, implementation class) - _Alt+Shift+F1_
+
+Useful views:
+  * Plug-in registry view - shows deployed plugins, their state, dependencies, allows to start/stop a plugin.
+
+
+
+== Recommended reading ==
+
+  * Lars Vogel: _Eclipse IDE  Tutorial_, http://www.vogella.de/articles/Eclipse/article.html
+  * Lars Voge: _Eclipse Shortcuts_, http://www.vogella.de/articles/EclipseShortcuts/article.html
+  * 
