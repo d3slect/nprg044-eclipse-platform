@@ -1,0 +1,29 @@
+#summary Twitter client example design
+
+= Example: Twitter client =
+
+== Scenario ==
+
+== Wireframe ==
+
+== Details ==
+
+  * wizard for account configuration
+  * view for account list
+  * view for timeline (multiple timelines?)
+  * form-based editor for editing the post
+    * computing the number of character
+    * attaching the photo
+    * URL shorter 
+      * edit box which will contact URL shorter services
+  * preferences to setup
+    * font in view?
+    * URL shorter service 
+    * image post service
+
+= Design=
+== Views ==
+
+== Editor ==
+
+== Commands ==
