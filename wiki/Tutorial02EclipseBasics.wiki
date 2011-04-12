@@ -35,6 +35,8 @@ Additional meta-information in plugin.xml (extension points)
   * project creation
     * MANIFEST.MF
     * plugin.xml
+Extension point
+
   * creating run configuration
   * project
 
