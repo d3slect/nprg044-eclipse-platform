@@ -1,5 +1,4 @@
 #summary Twitter client example design
-#sidebar TableOfContents
 
 = Example: Twitter client =
 
