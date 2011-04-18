@@ -1,10 +1,13 @@
 #summary Twitter client example design
+#labels examples
 
 = Example: Twitter client =
 
 == Scenario ==
 
 == Wireframe ==
+Application wireframe:
+http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/twitter-client-wireframe.png
 
 == Details ==
 
