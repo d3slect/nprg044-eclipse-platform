@@ -2,8 +2,10 @@
 #labels examples
 
 = Example: Twitter client =
+<wiki:toc max_depth="2" />
 
 == Scenario ==
+Create a Twitter client as an updatable Eclipse application (PDE as well as standalone RCP). It should allow showing users' statuses, posting a new message, etc. 
 
 == Wireframe ==
 Application wireframe:
