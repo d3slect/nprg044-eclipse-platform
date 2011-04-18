@@ -27,6 +27,12 @@
       * predefined providers via extension points
     * image post service
       * predefined providers via extension points
+  * bundle the application
+   * help dialog
+     * twitter4j logo
+   * intro screen
+   * create RCP application
+  * create an update site
 
 = Design=
 == Views ==
