@@ -1,6 +1,6 @@
 #summary Introduction to Eclipse platform
 
-= Eclipse basics =
+= Tutorial #2: Eclipse basics =
 <wiki:toc max_depth="3" />
 
 == Plan ==
@@ -45,7 +45,7 @@ It is a core working area (i.e., directory) where your instance of Eclipse is ru
 Project is a directory containing _.project_ file describing project's metadata (name, dependencies, builders). The project's directory can be part of workspace directory or just linked to a workspace (typically used when the project is a part of SVN/HG repository).
 
 ===Perspective===
-Eclipse IDE provides multiple views on the workspace, called _perspective_. The perspective defines which project will be shown, how the workbench will be configured (layout of _views_, _editors_, _menus_ and their items). 
+Eclipse IDE provides multiple views on the workspace, called _perspective_. The perspective defines which project will be shown, how the workbench will be configured (layout of _views_, _editors_, _menus_, toolbars and their items). 
 
 ===Menu===
 
@@ -97,6 +97,9 @@ How?
  * revisit MANIFEST.MF
    * tab: hide internal/implementation packages (*internal*)
      * _good practice_ is to publish only API packages
+ 
+   Note: _If you change project build-path or MANIFEST.MF , they can be resynchronized. In such case, you can open MANIFEST.MF, and on the first tab click on 'Update build path...'
+ 
 
 == Simple plug-in project==
 
@@ -108,6 +111,7 @@ It is useful to learn basic shortcuts to speed up Eclipse development
   * Show inheritance tree of selected element - _Ctrl+T_
   * Quick fix (on line marked by error/warning) - _Ctrl+1_
   * Maximize editor - _Ctrl+M_
+  * Goto line - _Ctrl+L_
   * Plug-in spy - shows more information about selected element (ID, implementation class) - _Alt+Shift+F1_
 
 Useful views:
