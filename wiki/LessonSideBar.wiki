@@ -9,6 +9,9 @@
     * Perspective
     * Wizards    
     * Commands and handlers
+    * Preferences
+    * Resources
+    * Concurrency
     * Update site
     * Standalone RCP application
 
