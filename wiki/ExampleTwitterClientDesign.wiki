@@ -33,6 +33,7 @@
    * intro screen
    * create RCP application
   * create an update site
+    * publish update site on eclipse labs to allow updates
 
 = Design=
 == Views ==
