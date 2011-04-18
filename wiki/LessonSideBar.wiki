@@ -4,6 +4,15 @@
   * Tutorial structure
     * [Tutorial01OSGiBasics OSGi basics]
     * [Tutorial02EclipseBasics Eclipse basics]
-    * [Tutorial03 Views, Editors]
+    * Views
+    * Editors
+    * Perspective
+    * Wizards    
+    * Commands and handlers
+    * Update site
+    * Standalone RCP application
+
   * Examples
     * Twitter Client
+
+  * Source code
