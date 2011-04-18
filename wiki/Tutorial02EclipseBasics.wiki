@@ -66,7 +66,7 @@ Eclipse IDE provides multiple views on the workspace, called _perspective_. The 
 
 
 === Plug-in ===
-Eclipse plug-in is an OSGi bundle with additional meta-information stored in plugin.xml (e.g., extension points definition).
+Eclipse plug-in is an OSGi bundle with additional meta-information stored in plugin.xml (e.g., extension points definition). It also add new MANIFEST.MF headers (e.g., `Eclipse-BundleShape`).
 
 ====Project structure====
 {{{
@@ -121,6 +121,10 @@ How?
       * plug-in name: `Twitter API test`
       * enable _Generate an activator_ check box
       * rename `Activator` class to `TwitterTestActivator`
+        * Activator is a class handling plug-in life-cycle (start/stop)
+          * it is created when plug-in's class is required
+          * it is possible to specify an excptions via `exclude/include` directive in `MANIFEST.MF`
+            * see [http://wiki.eclipse.org/Lazy_Start_Bundles Bundle Activation]
  * Edit MANIFEST.MF and put plug-in `cz.cuni.mff.d3s.nprg044.twitter.api` to Dependencies
  * Edit code of `TwitterTestActivator` and put `System.out.println` calls into constructor, start and stop methods.
   * Hint: start typing std and press _Ctrl+space_, the template dialog will be shown and you can select demanded option (e.g., `System.out.println`)
@@ -137,14 +141,13 @@ TODO
   # tab - a new Eclipse instance workspace location 
   # tab - VM arguments
   # tab - plugins which will be deployed into a new Eclipse (so called _target platform_):
-    * Select _Plug-ins selected below only_
-    * Click on _Deselect all_
-    * Select only `cz.cuni.mff.d3s.nprg044.twitter.api.test`
-    * Click on _Add required plug-ins only_
-      * only your plug-in and its dependencies will create a _target platform_
+    * default configuration is OK, but you can specify your own Eclipse configuration:
+      * Select _Plug-ins selected below only_
+      * Click on _Deselect all_
+      * Select only `cz.cuni.mff.d3s.nprg044.twitter.api.test`
+      * Click on _Add required plug-ins only_
+        * only your plug-in and its dependencies will create a _target platform_ of new Eclipse
      
- * Debug
-
 ===Debugging===
 
 ----
