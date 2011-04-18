@@ -113,7 +113,7 @@ How?
 == Simple plug-in project==
   Goal: _Create a simple plug-in with activator and log a message from activator. Launch the plugin and _
 
- * create new plugin-project
+ * Create new plugin-project
   * menu _New > Project > Plug-in Project_:
     # fill name of project: `cz.cuni.mff.d3s.nprg044.twitter.api.test`
     # fill 
@@ -127,7 +127,26 @@ How?
             * see [http://wiki.eclipse.org/Lazy_Start_Bundles Bundle Activation]
  * Edit MANIFEST.MF and put plug-in `cz.cuni.mff.d3s.nprg044.twitter.api` to Dependencies
  * Edit code of `TwitterTestActivator` and put `System.out.println` calls into constructor, start and stop methods.
-  * Hint: start typing std and press _Ctrl+space_, the template dialog will be shown and you can select demanded option (e.g., `System.out.println`)
+   * Hint: start typing `sys` and then press _Ctrl+space_, the template dialog will be shown and you can select demanded option (e.g., `System.out.println`)
+ * Append method showUserStatus() 
+{{{
+protected void showUserStatus(String username) {
+		try {
+            Twitter twitter = new TwitterFactory().getInstance();
+            User user = twitter.showUser(username);
+            if (null != user.getStatus()) {
+                System.out.println("@" + user.getScreenName() + " - " + user.getStatus().getText());
+            } else {
+                // the user is protected
+                System.out.println("@" + user.getScreenName());
+            }            
+        } catch (TwitterException te) {
+            te.printStackTrace();
+        }		
+}
+}}}
+
+
 
 ===Run the plug-in===
 To run the plug-in, it is necessary to create a _Run configuration_ providing declaring an environment to execute the plug-in (recall - Eclipse plug-in is an OSGi bundle which needs OSGi framework to run).
