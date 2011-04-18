@@ -38,6 +38,13 @@ eclipse/
  * eclipse
  * eclipse.ini
 }}}
+
+====Eclipse platform design====
+  * runtime Equinox OSGi
+  * SWT+JFace+...
+  * Plug-ins
+  * TODO obrazek
+
 ===Workspace===
 It is a core working area (i.e., directory) where your instance of Eclipse is running. It can be changed. It contains a set of various projects.
 
@@ -47,35 +54,27 @@ Project is a directory containing _.project_ file describing project's metadata 
 ===Perspective===
 Eclipse IDE provides multiple views on the workspace, called _perspective_. The perspective defines which project will be shown, how the workbench will be configured (layout of _views_, _editors_, _menus_, toolbars and their items). 
 
-===Menu===
+===Menus and toolbars===
 
 ===Views===
 
 ===Editors===
 
 
-
-
-
-===Run configuration===
- * Run
- * Debug
-
-===Debugging===
-
-Eclipse platform design
-  * runtime Equinox OSGi
-  * SWT+JFace+...
-  * Plug-ins
-  * TODO obrazek
-
 === Plug-in ===
-An OSGi bundle. 
-Additional meta-information in plugin.xml (extension points)
-  * project creation
+Eclipse plug-in is an OSGi bundle with additional meta-information stored in plugin.xml (e.g., extension points definition).
+
+====Project structure====
+{{{
+simple-eclipse-plugin\
+  |-src
+  |-lib
+  |-META-INF
     * MANIFEST.MF
-    * plugin.xml
-Extension point
+  * plugin.xml
+}}}
+
+====Extension point====
 
  * updatable from update-sites
   * creating run configuration
@@ -83,6 +82,8 @@ Extension point
 
 
 == Plug-in project from existing JAR ==
+Goal: _Create an Eclipse plug-in from existing JAR_
+
 Why?
 If you need to bundle 3rd party library as a OSGi/Eclipse bundle
 
@@ -90,9 +91,9 @@ How?
  * unpack `twitter4j-2.2.1.zip`
    * can be downloaded from http://twitter4j.org/
  * create new plug-in project
-   * New > Project > Plug-in from existing JAR:
+   * menu _New > Project > Plug-in from existing JAR_:
     # select JAR `twitter4j-core-2.2.1.jar`
-    # name project, name plug-in, plug-in ID (must be unique), uncheck option 'Unzip JAR archives into project'
+    # fill name project, name plug-in, plug-in ID (must be unique), uncheck option 'Unzip JAR archives into project'
  * wizard will create a new project and setup its MANIFEST.MF
  * revisit MANIFEST.MF
    * tab: hide internal/implementation packages (*internal*)
@@ -102,6 +103,21 @@ How?
  
 
 == Simple plug-in project==
+Goal: _Create a simple plug-in with activator and log a message from activator._
+
+ * create new plugin-project
+  * menu _New > Project > Plug-in Project_:
+    # fill name of project
+    # fill plug-in ID (should be unique), name, version
+      * enable _Generate an activator_ check box
+      * rename `Activator` class to `TwitterTestActivator`
+ * E
+
+===Run configuration===
+ * Run
+ * Debug
+
+===Debugging===
 
 
 == Commands ==
@@ -123,7 +139,7 @@ Useful views:
 
 
 
-== Recommended reading ==
+== Recommended reading & links ==
 
   * Lars Vogel: _Eclipse IDE  Tutorial_, http://www.vogella.de/articles/Eclipse/article.html
   * Lars Vogel: _Eclipse Shortcuts_, http://www.vogella.de/articles/EclipseShortcuts/article.html
