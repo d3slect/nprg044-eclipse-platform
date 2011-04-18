@@ -24,6 +24,10 @@ Parameters of Eclipse Java application are stored in file `eclipse.ini`:
 -vmargs -Dosgi.requiredJavaVersion=1.5 -XX:MaxPermSize=256m -Xms40m -Xmx384m
 }}}
 
+Other useful arguments are (see also [http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.user/tasks/running_eclipse.htm Running Eclipse help page]):
+  * `-consoleLog` : shows a messages from Eclipse Java application
+  * `-clean` : clean cached data, bundles, services information
+
   Note: _Sometimes it is recommended to increase the parameter XX:MaxPermSize._
 
 ====Eclipse installation===
@@ -80,9 +84,12 @@ simple-eclipse-plugin\
   * creating run configuration
   * project
 
+====Features====
+A set of plug-ins.
+-----
 
 == Plug-in project from existing JAR ==
-Goal: _Create an Eclipse plug-in from existing JAR_
+  Goal: _Create an Eclipse plug-in from existing JAR_
 
 Why?
 If you need to bundle 3rd party library as a OSGi/Eclipse bundle
@@ -101,28 +108,53 @@ How?
  
    Note: _If you change project build-path or MANIFEST.MF , they can be resynchronized. In such case, you can open MANIFEST.MF, and on the first tab click on 'Update build path...'
  
+-----
 
 == Simple plug-in project==
-Goal: _Create a simple plug-in with activator and log a message from activator._
+  Goal: _Create a simple plug-in with activator and log a message from activator. Launch the plugin and _
 
  * create new plugin-project
   * menu _New > Project > Plug-in Project_:
-    # fill name of project
-    # fill plug-in ID (should be unique), name, version
+    # fill name of project: `cz.cuni.mff.d3s.nprg044.twitter.api.test`
+    # fill 
+      * plug-in ID (should be unique): `cz.cuni.mff.d3s.nprg044.twitter.api.test`, 
+      * plug-in name: `Twitter API test`
       * enable _Generate an activator_ check box
       * rename `Activator` class to `TwitterTestActivator`
- * E
+ * Edit MANIFEST.MF and put plug-in `cz.cuni.mff.d3s.nprg044.twitter.api` to Dependencies
+ * Edit code of `TwitterTestActivator` and put `System.out.println` calls into constructor, start and stop methods.
+  * Hint: start typing std and press _Ctrl+space_, the template dialog will be shown and you can select demanded option (e.g., `System.out.println`)
 
-===Run configuration===
- * Run
+===Run the plug-in===
+To run the plug-in, it is necessary to create a _Run configuration_ providing declaring an environment to execute the plug-in (recall - Eclipse plug-in is an OSGi bundle which needs OSGi framework to run).
+
+====Run configuration====
+TODO
+
+====Create launch configuration====
+ * Toolbar > launch configurations
+ * Create a new _Eclipse application_ run configuration:
+  # tab - a new Eclipse instance workspace location 
+  # tab - VM arguments
+  # tab - plugins which will be deployed into a new Eclipse (so called _target platform_):
+    * Select _Plug-ins selected below only_
+    * Click on _Deselect all_
+    * Select only `cz.cuni.mff.d3s.nprg044.twitter.api.test`
+    * Click on _Add required plug-ins only_
+      * only your plug-in and its dependencies will create a _target platform_
+     
  * Debug
 
 ===Debugging===
 
+----
 
 == Commands ==
 
-  Note; _Commands and handlers represents new approach replacing old approach of actions._
+  Note: _Commands and handlers represents new approach replacing old approach of actions._
+
+== Menu contribution ==
+
 
 == Useful Hints ===
 It is useful to learn basic shortcuts to speed up Eclipse development:
