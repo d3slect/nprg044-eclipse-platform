@@ -1,19 +1,61 @@
-#summary The basic principles of Eclipse platform
+#summary Introduction to Eclipse platform
 
 = Eclipse basics =
 <wiki:toc max_depth="3" />
 
+== Plan ==
+The plan is to shows basics of Eclipse RCP development on a simple example of Twitter client. 
+ 
 == Basic concepts of Eclipse Workbench ==
 
+=== Eclipse ===
+Eclipse IDE is a Java application running on the top of extended OSGi Equinox runtime. It is composed of OSGi bundles called Eclipse plugins.
+
+Launch of Eclipse is provided by a binary launcher which detects a provided Java platform and launch Eclipse Java application:
+Parameters of Eclipse Java application are stored in file `eclipse.ini`:
+{{{
+-startup plugins/org.eclipse.equinox.launcher_1.1.1.R36x_v20101122_1400.jar
+--launcher.library plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.2.R36x_v20101019_1345
+-product org.eclipse.epp.package.cpp.product
+--launcher.defaultAction openFile
+-showsplash org.eclipse.platform
+--launcher.XXMaxPermSize 256m
+--launcher.defaultAction openFile
+-vmargs -Dosgi.requiredJavaVersion=1.5 -XX:MaxPermSize=256m -Xms40m -Xmx384m
+}}}
+
+  Note: _Sometimes it is recommended to increase the parameter XX:MaxPermSize._
+
+====Eclipse installation===
+Important files and directories
+{{{
+eclipse/
+ |-configuration/
+  * config.ini
+ |-features/
+ |-plugins/
+ * artifacts.xml
+ * eclipse
+ * eclipse.ini
+}}}
 ===Workspace===
+It is a core working area (i.e., directory) where your instance of Eclipse is running. It can be changed. It contains a set of various projects.
+
+===Projects===
+Project is a directory containing _.project_ file describing project's metadata (name, dependencies, builders). The project's directory can be part of workspace directory or just linked to a workspace (typically used when the project is a part of SVN/HG repository).
 
 ===Perspective===
+Eclipse IDE provides multiple views on the workspace, called _perspective_. The perspective defines which project will be shown, how the workbench will be configured (layout of _views_, _editors_, _menus_ and their items). 
 
-===Editors===
+===Menu===
 
 ===Views===
 
-===Projects===
+===Editors===
+
+
+
+
 
 ===Run configuration===
  * Run
@@ -25,9 +67,7 @@ Eclipse platform design
   * runtime Equinox OSGi
   * SWT+JFace+...
   * Plug-ins
-
-
-== Simple plug-in project==
+  * TODO obrazek
 
 === Plug-in ===
 An OSGi bundle. 
@@ -37,8 +77,28 @@ Additional meta-information in plugin.xml (extension points)
     * plugin.xml
 Extension point
 
+ * updatable from update-sites
   * creating run configuration
   * project
+
+
+== Plug-in project from existing JAR ==
+Why?
+If you need to bundle 3rd party library as a OSGi/Eclipse bundle
+
+How?
+ * unpack `twitter4j-2.2.1.zip`
+   * can be downloaded from http://twitter4j.org/
+ * create new plug-in project
+   * New > Project > Plug-in from existing JAR:
+    # select JAR `twitter4j-core-2.2.1.jar`
+    # name project, name plug-in, plug-in ID (must be unique), uncheck option 'Unzip JAR archives into project'
+ * wizard will create a new project and setup its MANIFEST.MF
+ * revisit MANIFEST.MF
+   * tab: hide internal/implementation packages (*internal*)
+     * _good practice_ is to publish only API packages
+
+== Simple plug-in project==
 
 
 == Hints ===
