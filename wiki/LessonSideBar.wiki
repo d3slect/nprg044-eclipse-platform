@@ -4,16 +4,18 @@
   * Tutorial structure
     * [Tutorial01OSGiBasics OSGi basics]
     * [Tutorial02EclipseBasics Eclipse basics]
+      * Commands and handlers
     * Views
     * Editors
     * Perspective
     * Wizards    
-    * Commands and handlers
     * Preferences
     * Resources
     * Concurrency
+    * Testing bundles
     * Update site
     * Standalone RCP application
+      * Splash screen
 
   * Examples
     * Twitter Client
