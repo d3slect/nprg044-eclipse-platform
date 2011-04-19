@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Twitter action set"
+            visible="true"
+            id="cz.cuni.mff.d3s.nprg044.twitter.actions.actionSet">
+         <action
+               label="&amp;Show user timelinetion"
+               icon="icons/sample.gif"
+               class="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction"
+               tooltip="Show timeline"
+               menubarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/additions"
+               toolbarPath="sampleGroup"
+               id="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction">
+         </action>
+         <menu
+               id="cz.cuni.mff.d3s.nprg044.twitter.actions.timelineMenu"
+               label="Timeline"
+               path="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/additions">
+         </menu>
+         <action
+               id="cz.cuni.mff.d3s.nprg044.twitter.actions.action1"
+               label="Test"
+               menubarPath="cz.cuni.mff.d3s.nprg044.twitter.actions.timelineMenu/additions"
+               style="push">
+         </action>
+      </actionSet>
+   </extension>
+
+</plugin>
