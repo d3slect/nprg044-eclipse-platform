@@ -1,3 +1,4 @@
+#summary Eclipse basics
 
 = Tutorial #2: Eclipse basics =
 <wiki:toc max_depth="3" />
