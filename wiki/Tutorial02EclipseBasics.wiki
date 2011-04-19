@@ -150,8 +150,6 @@ protected void showUserStatus(String username) {
 }
 }}}
 
-
-
 ===Run the plug-in===
 To run the plug-in, it is necessary to create a _Launch configuration_ providing declaring an environment to execute the plug-in (recall - Eclipse plug-in is an OSGi bundle which needs OSGi framework to run). 
 
@@ -221,6 +219,8 @@ Placement-modifiers represents a position in given menu/toolbar/popup - for exam
   Goal: _Define a plug-in which will provide an action showing user status_
 
   * create a new plug-in project `cz.cuni.mff.d3s.nprg044.twitter.commands`
+  * tab _Dependencies_:
+    * add `org.eclipse.core.commands` and `org.eclipse.ui`
   * tab _Extensions_:
    * add `org.eclipse.ui.commands` extension
      * defined category `Twitter commands`
