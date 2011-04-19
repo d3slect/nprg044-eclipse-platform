@@ -1,4 +1,3 @@
-#summary Introduction to Eclipse platform
 
 = Tutorial #2: Eclipse basics =
 <wiki:toc max_depth="3" />
