@@ -12,8 +12,7 @@ The tutorial and source code are published at http://code.google.com/a/eclipsela
 ====Eclipse platform design====
 Eclipse IDE is a Java application running on the top of extended OSGi Equinox runtime. It is composed of OSGi bundles called Eclipse plugins.
   
-http://www.vogella.de/articles/EclipseRCP/images/architecture10.gif
-  Note: _the source of picture is http://www.vogella.de/ _
+TODO picture of architecture
 
 ====Eclipse installation====
 Important files and directories
