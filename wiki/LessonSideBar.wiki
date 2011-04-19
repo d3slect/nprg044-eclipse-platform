@@ -16,8 +16,5 @@
     * Update site
     * Standalone RCP application
       * Splash screen
-
   * Examples
     * [ExampleTwitterClientDesign Twitter Client]
-
-  * Source code
