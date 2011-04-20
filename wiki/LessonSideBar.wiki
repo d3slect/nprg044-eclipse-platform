@@ -4,7 +4,7 @@
   * Tutorial structure
     * [Tutorial01OSGiBasics OSGi basics]
     * [Tutorial02EclipseBasics Eclipse basics]
-      * Commands and handlers
+      * [Tutorial02EclipseBasics#Commands Commands and handlers]
     * Views
     * Editors
     * Perspective
