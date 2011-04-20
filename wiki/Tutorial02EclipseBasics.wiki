@@ -45,7 +45,7 @@ Other useful arguments are (see also [http://help.eclipse.org/helios/index.jsp?t
   * `-consoleLog` : shows a messages from Eclipse Java application
   * `-clean` : clean cached data, bundles, services information
 
-  Note: _Sometimes it is recommended to increase the parameter XX:MaxPermSize._
+  ||Note: _Sometimes it is recommended to increase the parameter XX:MaxPermSize._||
 
 
 ===Basic terminology of Eclipse workbench===
@@ -110,7 +110,7 @@ How?
    * tab: hide internal/implementation packages (*internal*)
      * _good practice_ is to publish only API packages
  
-   Note: _If you change project build-path or MANIFEST.MF , they can be resynchronized. In such case, you can open MANIFEST.MF, and on the first tab click on 'Update build path...'
+   ||Note: _If you change project build-path or MANIFEST.MF , they can be resynchronized. In such case, you can open MANIFEST.MF, and on the first tab click on 'Update build path...'||
  
 -----
 
@@ -195,7 +195,7 @@ A _command_ represent an activity which can be launched from different places of
 It is handled by a _handler_ according a context (e.g., selected object, active editor or view).
 Furthermore, a command can have associated key-bindings which are also activated according to a context.
 
-  Note: _Commands and handlers represents new approach which should replace old approach of actions. However actions are still used._
+  ||Note: _Commands and handlers represents new approach which should replace old approach of actions. However actions are still used._||
 
 Commands are defined via extension points:
   * `org.eclipse.ui.commands` - commands definition, commands category definition
@@ -292,7 +292,7 @@ public class ShowUserStatusHandler extends AbstractHandler {
           * add new _command_ subelement for command `cz.cuni.mff.d3s.nprg044.twitter.commands.command.showUserStatus`
             * define its icon and tool-tip
 
-  Note: _Good practice is to define elements' IDs hierarchicaly with meaningfull parts, e.g., `cz.cuni.mff.d3s.nprg044.twitter.commands.AuthorizeUser`.
+  ||Note: _Good practice is to define elements' IDs hierarchicaly with meaningfull parts, e.g., `cz.cuni.mff.d3s.nprg044.twitter.commands.AuthorizeUser`.||
 
 ==Actions==
 Another way (originaly intended to be deprecated) of adding various actions to workbench. It defines directly action and its handler.
