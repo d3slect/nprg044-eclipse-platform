@@ -1,4 +1,4 @@
-#summary Introduction into views and editors
+#summary Views and editors
 
 =Views and Editors=
 <wiki:toc max_depth="1" />
