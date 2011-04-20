@@ -1,6 +1,11 @@
 #summary Introduction into views and editors
 
+=Views and Editors=
+<wiki:toc max_depth="1" />
 
+=Views=
+
+=Editors=
 
 = Details =
 
@@ -8,3 +13,7 @@ Add your content here.  Format your content with:
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
+<div style="border: 1px;">
+dfdfd
+</div>
+||_Note: ""_||
