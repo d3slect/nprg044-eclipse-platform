@@ -5,13 +5,17 @@
     * [Tutorial01OSGiBasics OSGi basics]
     * [Tutorial02EclipseBasics Eclipse basics]
       * [Tutorial02EclipseBasics#Commands Commands and handlers]
-    * Views
-    * Editors
+    * [Tutorial03ViewsEditors UI basics]
+      * SWT and JFace
+      * Views
     * Perspective
+    * Editors
     * Wizards    
     * Preferences
     * Resources
+    * Help
     * Concurrency
+      * Progress bars
     * Testing bundles
     * Update site
     * Standalone RCP application

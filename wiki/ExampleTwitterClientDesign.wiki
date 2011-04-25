@@ -39,6 +39,7 @@ http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/t
    * create RCP application
   * create an update site
     * publish update site on eclipse labs to allow updates
+  * new plugin can define a new URL shortener service or image post service via extension point
 
 = Design=
 == Views ==
