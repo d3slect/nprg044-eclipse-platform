@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterCategory"
+            name="Twitter">
+      </category>
+      <view
+            allowMultiple="true"
+            category="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterCategory"
+            class="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterMessageTimelineView"
+            fastViewWidthRatio="0.3"
+            icon="icons/twitter2.png"
+            id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView"
+            name="Twitter Timeline"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>
