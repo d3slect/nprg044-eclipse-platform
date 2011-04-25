@@ -340,6 +340,8 @@ It is useful to learn basic shortcuts to speed up Eclipse development:
   * Quick fix (on line marked by error/warning) - _Ctrl+1_
   * Maximize editor - _Ctrl+M_
   * Goto line - _Ctrl+L_
+  * Refactor the name - _Alt+Shift+R_
+  * Open type's methods (in editor) - _Ctrl+O_
   * Plug-in spy - shows more information about selected element (ID, implementation class) - _Alt+Shift+F1_
 
 Useful views:

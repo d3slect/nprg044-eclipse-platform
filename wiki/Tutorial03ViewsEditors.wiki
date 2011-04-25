@@ -1,7 +1,7 @@
 #summary Views and editors
 
 =Views=
-<wiki:toc max_depth="1" />
+<wiki:toc max_depth="2" />
 
 = Eclipse GUI basics =
 Workbench part
@@ -27,39 +27,119 @@ IViewSite
 
 = SWT and JFace =
 == SWT ==
-SWT is a widget toolkit providing API built on top of native OS GUI platform. It is part of Eclipse platform, but you can use it in standalone applications. It is event driven.
+SWT is a widget toolkit providing API built on top of native OS GUI platform. It is part of Eclipse platform, but you can use it in standalone applications. It is event driven. The events are handled by UI thread (the thread which creates `Display` object).
+
+You never know if you are running in UI or non-UI thread. Hence, applications that wish to call UI code from a non-UI thread must provide a Runnable that calls the UI code. The methods syncExec(Runnable) and asyncExec(Runnable) in the Display class are used to execute these runnables in the UI thread during the event loop. See http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_threading.htm. 
 
 Class `Display` - The `Display` represents the connection between SWT and the underlying platform's GUI system. Displays are primarily used to manage the platform event loop and control communication between the UI thread and other threads. You must create a display before creating any windows, and you must dispose of the display when your shell is closed. This is typically done by Eclipse workbench. 
 
 Class `Shell` is a _window_ managed by the OS platform window manager. Top level shells are those that are created as a child of the display. These windows are the windows that users move, resize, minimize, and maximize while using the application. Secondary shells are those that are created as a child of another shell. These windows are typically used as dialog windows or other transient windows that only exist in the context of another window (so called _composite widgets_).
 
-Class `Widget` represents a handle to OS resource. Needs to be disposed explicitely!
-
 Class `SWT` - contains definition of style bits. E.g., SWT.YES, SWT.NO, SWT.VERTICAL, SWT.BORDER. Intepretation depends on control (e.g., SWT.SINGLE - single selection, single line)
+
+Typical structure of standalone SWT application implementation:
+{{{
+  public static void main (String [] args) {
+      Display display = new Display();
+      Shell shell = new Shell(display);
+      Label label = new Label(shell, SWT.CENTER);
+      label.setText("Hello_world");
+      label.setBounds(shell.getClientArea ());
+      shell.open();
+      while (!shell.isDisposed()) {
+         if (!display.readAndDispatch()) display.sleep();
+      }
+      display.dispose();
+   }
+}}}
+
+Class `Widget` represents a handle of OS resource. Needs to be disposed explicitely!
 
   ||Note: _SWT requires that the user has to explicitelly free any OS resources which were allocated. In SWT, `Widget.dispose()` method is used for freeying resources associated with a widget. There are several simple rules:
   * if the user creates a widget using constructor, it has to also dispose it.
   * When `Composite` widget is diposed, also its children are recursively disposed.
   * If the user gets a widget without using ctor, he/she cannot dispose it.
-  * If the user passes a reference of widget, he/she cannot dispose it until the widget is still in use.
-  * 
-  _ ||
+  * If the user passes a reference of widget, he/she cannot dispose it until the widget is still in use._||
 
+
+There are three basic types of widgets - _Control, Layout, Event_.
 === SWT Controls ===
- |- Widget 
-  |- Control
-Label, Tree, Text, List, Button, Canvas - see [http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm Eclipse Help SWT] for the full list.
+Package `org.eclipse.swt.widgets' provides Label, Tree, Table, Text, List, Button, Canvas - see [http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm Eclipse Help SWT] for the full list.
 You can fully control these widgets - configure fonts, colors, dimension.
 
-====SWT Layouts ====
-
 === SWT Events ===
-SWT is event driven. 
+SWT is event driven. Package `org.eclipse.swt.events' provides various kinds of events - modify, verify, key, move, drag (see http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm). 
+The `Control` class has methods to register listeners for various kinds of events.
 
-=== SWT Custom Widgets ===
+====SWT Layouts ====
+Package `org.eclipse.swt.layout' provides:
+  * `FillLayout` 
+   * Lays out controls in a single row or column, forcing them to be the same size.
+  * `FormLayout` 
+   *Positions the children by using FormAttachments to optionally configure the left, top, right and bottom edges of each child.
+  * `GridLayout`
+   * Positions the children by rows and columns.
+  * `RowLayout`
+    * Places the children either in horizontal rows or vertical columns.
 
-=== Example TODO name ===
+===SWT graphics===
+http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
 
+=== Example of SWT ===
+
+ * create a new plug-in project `swt.examples`
+  * this is little bit tricky, however, we do need to care about dependencies due to classpath is automatically resolved.
+ * add `org.eclipse.ui` plug-in into dependencies
+ * create a new class `swt.examples.Example01` with a main method 
+{{{
+public class Example01 {
+	
+	public static void main(String[] args) {
+		// create display
+		Display display = new Display();
+		// top-level widget is shell
+		final Shell shell = new Shell(display);
+
+		// create a GridLayout
+		shell.setLayout(new GridLayout());
+		final Composite c = new Composite(shell, SWT.NONE);
+		GridLayout layout = new GridLayout(3, true);
+		c.setLayout(layout);
+
+		for (int i = 0; i < 5; i++) {
+			Button b = new Button(c, SWT.PUSH | SWT.FLAT);
+			b.setText("Button " + i);
+		}
+
+		Button b = new Button(shell, SWT.PUSH);
+		b.setText("add a new button at row 2 column 1");
+		final int[] index = new int[1];
+		b.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				Button s = new Button(c, SWT.PUSH);
+				s.setText("Special " + index[0]);
+				index[0]++;
+				Control[] children = c.getChildren();
+				s.moveAbove(children[3]);
+				shell.layout(new Control[] { s });
+			}
+		});
+
+		shell.open();
+		shell.pack();
+		// main event loop
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
+		}
+		// dispose widgets
+		display.dispose();
+	}
+} 
+}}}
+ * run as _Java Application_ !
+
+  ||Note: for more SWT code snippets please visit http://www.eclipse.org/swt/snippets/.||
 == JFace ==
 
  * method `getControl()` to access SWT control
@@ -96,7 +176,8 @@ Interface `IAdaptable`
 == Example: `cz.cuni.mff.d3s.twitter.ui.views`==
   || Note: _Naming convenction - see part `ui`._||
 
-Create a view showing messages (so called _timeline_) of a given user:
+  Goal: _Create a plugin providing a view showing messages timeline of a given user.
+
   * import into a workspace plug-in `cz.cuni.mff.d3s.twitter.api`
   * create a new plug-in `cz.cuni.mff.d3s.twitter.ui.views`
   * configure `plugin.xml`:
@@ -120,15 +201,27 @@ Create a view showing messages (so called _timeline_) of a given user:
          * setup layout data new GridData(GridData.FILL_BOTH)
            * you have to call viewer.getControl() to access underlying SWT control (TableViewer is JFace widget)
          * setup input to `viewer.setInput(getViewSite())`
-      * SWT.VIRTUAL - content provider `ILazyContentProvider` instead of `IStructureContentProvider`
+      * if you need lazy content resolving then put `SWT.VIRTUAL` into flags. But, the content provider has to implement `ILazyContentProvider` instead of `IStructureContentProvider`
     * try to run in debug mode without configuring content provider
-    * implements content provider `MessageTimelineContentProvider` inheriting `IStructureContentProvider`
-       * setup content provider during debugging the application
-
+    * implements content provider `MessageTimelineContentProvider` inheriting from `IStructureContentProvider`
+       * implements `inputChange` method
+         * register/deregister listeners, update viewer
+       * implements `getContent` memthod
+       * setup `viewer.setInput(searchBox)`
+       * Note: _try to setup content provider for `viewer` control during debugging the application_
+    * try to run without LabelProvider
+    * implements MessageTimelineLabelProvider extending the class `LabelProvider` (implementing `ILabelProvider`) and implementing `ITableLabelProvider`.
+     * there is also different way how to specify label providers separately per column
+     * label provider cannot be shared between viewers (due to sharing SWT resources)
 
 
 = Links =
- * Eclipse help - JFace - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/jface.htm
- * Eclipse help - SWT - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm 
- * SWT: Standard Widget Toolkit - http://www.eclipse.org/resources/resource.php?id=241
- * Understanding Layouts in SWT - http://www.eclipse.org/articles/article.php?file=Article-Understanding-Layouts/index.html
+ * Eclipse help: JFace - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/jface.htm
+ * Eclipse help: SWT - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm 
+ * SWT: Standard Widget Toolkit - http://www.eclipse.org/resources/resource.php?id=241 
+ * SWT code snippets - http://www.eclipse.org/swt/snippets/
+ * JFace code snippets - http://wiki.eclipse.org/index.php/JFaceSnippets
+ * Lars Vogel: JFace tutorial - http://www.vogella.de/articles/EclipseJFaceTable/article.html
+ * Eclipse tutorial: Creating Your Own Widgets using SWT - http://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm
+ * Eclipse tutorial: Understanding Layouts in SWT - http://www.eclipse.org/articles/article.php?file=Article-Understanding-Layouts/index.html
+ 

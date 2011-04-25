@@ -4,6 +4,7 @@
   * Tutorial structure
     * [Tutorial01OSGiBasics OSGi basics]
     * [Tutorial02EclipseBasics Eclipse basics]
+      * [Tutorial02EclipseBasics#Basic_concepts_of_Eclipse_Workbench
       * [Tutorial02EclipseBasics#Commands Commands and handlers]
     * [Tutorial03ViewsEditors UI basics]
       * SWT and JFace
