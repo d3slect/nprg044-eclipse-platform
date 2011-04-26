@@ -181,9 +181,9 @@ Important points:
    * registering actions hooks/menus - e.g., via calling `getSite().registerContextMenu(menuMgr, viewer);`
 
 === Example: `cz.cuni.mff.d3s.twitter.ui.views`===
-  || Note: _Naming convenction - see part `ui`._||
+  || Note: _Plug-in name follows common Eclipse naming convention - plug-in contributes into UI by providing new views hence its name contains `ui.views` part._||
 
-  Goal: _Create a plugin providing a view showing messages timeline of a given user.
+  Goal: _Create a plugin providing a view showing message timeline for a given Twitter user._
 
   * import into a workspace plug-in `cz.cuni.mff.d3s.twitter.api`
   * create a new plug-in `cz.cuni.mff.d3s.twitter.ui.views`
@@ -198,7 +198,7 @@ Important points:
           * define ID, name, category (to Twitter category), icon
             * fastViewWidthRatio = 0.3 (one third of workbench width)
             * allowMultiple = true (we will allow showing timelines of various users)
-          * define `class` attribute to `cz.cuni.mff.d3s.twitter.ui.views.TwitterMessageTimelineView`
+          * define `class` attribute to `cz.cuni.mff.d3s.twitter.ui.views.TwitterMessageTimelineView`    
     * implements the class (inherits from the `ViewPart` class)
       * method `createPartControl(Composite parent)
         * create GridLayout, pass it to `parent.setLayout()`
@@ -208,18 +208,191 @@ Important points:
          * setup layout data new GridData(GridData.FILL_BOTH)
            * you have to call viewer.getControl() to access underlying SWT control (TableViewer is JFace widget)
          * setup input to `viewer.setInput(getViewSite())`
-      * if you need lazy content resolving then put `SWT.VIRTUAL` into flags. But, the content provider has to implement `ILazyContentProvider` instead of `IStructureContentProvider`
+      * if you need lazy content resolving then put `SWT.VIRTUAL` into `viewer`'s flags. But, the content provider has to implement `ILazyContentProvider` instead of `IStructureContentProvider`
     * try to run in debug mode without configuring content provider
+{{{
+public class TwitterMessageTimelineView extends ViewPart {
+	private static final String[] COLUMN_NAMES = {"#", "username", "message"};
+	private static final int[] COLUMN_WIDTHS = {30, 100, 200};
+	private TableViewer viewer;
+	private Text searchBox;
+
+	/**
+	 * 
+	 */
+	public TwitterMessageTimelineView() {	
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
+	public void createPartControl(Composite parent) {
+		GridLayout layout = new GridLayout(1, true);
+		parent.setLayout(layout);		
+		searchBox = new Text(parent, SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH);
+		searchBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		searchBox.setText("vtipy");		
+				
+		viewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		createColumns(viewer);
+		viewer.setContentProvider(new MessageTimelineContentProvider());
+		viewer.setLabelProvider(new MessageTimelineLabelProvider());
+		// the input for the content provider
+		viewer.setInput(searchBox);		
+		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		// tuning of the underlying table		
+		viewer.getTable().setLinesVisible(true);		
+		viewer.getTable().setHeaderVisible(true);
+		
+		// make selection available to others
+		getSite().setSelectionProvider(viewer);
+	}
+	
+	private void createColumns(TableViewer tableViewer) {
+		for (int i = 0; i < COLUMN_NAMES.length; i++) {
+			TableViewerColumn tvColumn = new TableViewerColumn(tableViewer, SWT.NULL);
+			TableColumn column = tvColumn.getColumn();
+			column.setWidth(COLUMN_WIDTHS[i]);
+			column.setText(COLUMN_NAMES[i]);
+			// I can also here register separated cell providers via calling TableViewerColumn.setLabelProvider
+			// - @see CellLabelProvider or StyledCellLabelProvider 			
+		}		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+	 */
+	@Override
+	public void setFocus() {
+		this.searchBox.setFocus();
+	}
+
+}
+}}}	
+
     * implements content provider `MessageTimelineContentProvider` inheriting from `IStructureContentProvider`
        * implements `inputChange` method
-         * register/deregister listeners, update viewer
-       * implements `getContent` memthod
-       * setup `viewer.setInput(searchBox)`
+         * register/deregister listeners, refresh the viewer
+       * implements `getContent` method
+       * setup `viewer.setInput(searchBox)` in the class `TwitterMessageTimelineView`
        * Note: _try to setup content provider for `viewer` control during debugging the application_
     * try to run without LabelProvider
+{{{
+public class MessageTimelineContentProvider implements
+		IStructuredContentProvider {
+	
+	private final static String[] EMPTY_CONTENT = new String[] {"There is no message to show..."}; 
+		
+	private String username;
+	
+	private Viewer viewer;
+	
+	private KeyListener keyListener = new KeyAdapter() {
+		public void keyReleased(KeyEvent e) {
+			if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
+				if (e.widget instanceof Text) {
+					String newUsername = ((Text) e.widget).getText();
+					if (!newUsername.equals(username)) {
+						username = newUsername;
+						// run in UI thread
+						e.display.asyncExec(new Runnable() {							
+							@Override
+							public void run() {
+								viewer.refresh();								
+							}
+						});
+					}
+				}
+			}
+		};
+	};
+
+	@Override
+	public void dispose() {	
+	}
+
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		this.viewer = viewer;
+		
+		if (oldInput instanceof Control) {
+			Control c = (Control) oldInput;
+			if (!c.isDisposed()) {
+				((Control) oldInput).removeKeyListener(keyListener);
+			}
+		}
+		if (newInput instanceof Control) {
+			Control c = (Control) newInput;
+			if (!c.isDisposed()) {
+				((Control) newInput).addKeyListener(keyListener);
+			}
+		}
+		
+		// refresh the view
+		viewer.refresh();
+	}
+
+	@Override
+	public Object[] getElements(Object inputElement) {		
+		if (username == null || "".equals(username)) {
+			return EMPTY_CONTENT;			
+		} 
+		Twitter twitter = new TwitterFactory().getInstance();
+        try {
+            List<Status> statuses = twitter.getUserTimeline(username);
+            if (!statuses.isEmpty()) {
+            	return statuses.toArray();
+            } else {
+            	return EMPTY_CONTENT;
+            }
+        } catch (Exception e) {
+        	return new String[] {e.getMessage()};
+        }
+	}
+}
+}}}
     * implements MessageTimelineLabelProvider extending the class `LabelProvider` (implementing `ILabelProvider`) and implementing `ITableLabelProvider`.
-     * there is also different way how to specify label providers separately per column
-     * label provider cannot be shared between viewers (due to sharing SWT resources)
+{{{
+public class MessageTimelineLabelProvider extends LabelProvider implements ITableLabelProvider {
+
+	@Override
+	public Image getColumnImage(Object element, int columnIndex) {
+		if (element instanceof Status && columnIndex == 0) {
+			return getImage(element);
+		}
+		
+		return null;
+	}
+
+	@Override
+	public String getColumnText(Object element, int columnIndex) {
+		if (element instanceof Status) {
+			Status status = (Status) element;
+			
+			switch (columnIndex) {
+			case 0:
+				return null;
+			case 1:				
+				return '@' + status.getUser().getScreenName();
+			case 2:
+				return status.getText();
+			default:
+				return null;
+			}			
+		}	
+		
+		return null;
+	}
+	
+	@Override
+	public Image getImage(Object element) {		
+		return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
+	}
+}
+}}}
+     
 
 === Actions in Views ===
 Next time...
