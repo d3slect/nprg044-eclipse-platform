@@ -1,29 +1,7 @@
 #summary Views and editors
 
-=Views=
+=Eclipse UI basics=
 <wiki:toc max_depth="2" />
-
-= Eclipse GUI basics =
-Workbench part
-
-TODO picture:
-IAdaptable
- |- IWorkbenchPart
-   |- IViewPart 
-   |- IEditorPart
-
-IWorkbenchPart
- * `void createPartControl(Composite parent)`
- * `IWorkbenchPartSite getSite()`
- * `String getTitle()`
- * `Image getTitleImage()`
- * `void setFocus()` - Asks this part to take focus within the workbench. Parts must assign focus to one of the controls contained in the part's parent composite. It is called by workbench
-
-IViewPart:
- * `void init(IViewSite site)` - Initializes this view with the given view site.
-
-`IWorkbenchPartSite` - The primary interface between a workbench part and the workbench.
-IViewSite
 
 = SWT and JFace =
 == SWT ==
@@ -83,7 +61,7 @@ Package `org.eclipse.swt.layout' provides:
     * Places the children either in horizontal rows or vertical columns.
 
 ===SWT graphics===
-http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
+TODO - http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
 
 === Example of SWT ===
 
@@ -92,6 +70,7 @@ http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_grap
  * add `org.eclipse.ui` plug-in into dependencies
  * create a new class `swt.examples.Example01` with a main method 
 {{{
+// based on SWT code snippets http://www.eclipse.org/swt/snippets/
 public class Example01 {
 	
 	public static void main(String[] args) {
@@ -137,43 +116,71 @@ public class Example01 {
 	}
 } 
 }}}
- * run as _Java Application_ !
+ * run the class `swt.examples.Example01` as _Java Application_ !
 
-  ||Note: for more SWT code snippets please visit http://www.eclipse.org/swt/snippets/.||
+  ||_Note: for more SWT code snippets please visit http://www.eclipse.org/swt/snippets/._||
 == JFace ==
+Packages `org.eclipse.jface.*` provides implementation of JFace UI toolkit on top of SWT toolkit. The purpose is just to simplify implementation of UI. It handles:
+  * viewers
+  * actions
+  * images and fonts registeries
+  * dialogs and wizards
 
- * method `getControl()` to access SWT control
+Notes:   
+  * Method `getControl()` of JFace widgets serves to get associated SWT control.
+  * JFace also provides a way how to automatically bind widget with data.
 
-= Views =
-A view is class implementing `IViewPart` interface. It is beneficial to start with inheriting from `ViewPart` class
-implementing basic infrastructure. 
+===Viewers===
+JFace widget which display a structured data - list, tree, tables (encapsulates native SWT widgets) - `ListViewer`, `TreeViewer` and `TableViewer`. It further allows data sorting, filtering, selection and visualization.
+
+The basic concepts for viewers are:
+  * _input element_  - the main object that the viewer is displaying (editing). It can be anything (table, JSON object, file, URI).
+  * _content provider_ - returns data which will be shown by viewer. The provider takes the input element and returns an array of data. See interface `IContentProvider` or `IStructuredContentProvider` which is used to obtain structured data. They can be also lazy in case when the viewer specifies SWT.VIRTUAL flag. Then content provider has to implement `ILazyContentProvider` which produces data on demand.
+  * _label provider_ - defines how the data returned by content provider are shown (image, text in colors). See interface `ILabelProvider`.
+    * if the label provider also implements a dedicated interface (e.g., `IColorProvider`,`IFontProvider`, `ILabelDecorator`) it can be handled by the viewer in its specific way.
+
+The shared implementation is provided by `ContentViewer` class:
+  * method `void setInput(Object o)`
+  * method `void setContentProvider(IContentProvider contentProvider)`
+  * method `void setLabelProvider(IBaseLabelProvider labelProvider)` 
+
+  ||Note: _Instances of particular content and label providers are not intended to be shared across multiple viewers. Even if all your viewers use the same type of content or label provider, each viewer should be initialized with its own instance of the provider class. The provider life cycle protocol is designed for a 1-to-1 relationship between a provider and its viewer._||
+   
+= Workbench UI =
+Eclipse workbench provides a GUI model which is not connected to JFace. It provides workbench parts represented by _views_, and _editors_.
+{{{
+IAdaptable
+ |- IWorkbenchPart
+   |- IViewPart 
+   |- IEditorPart
+}}}
+
+The class `IWorkbenchPart`:
+ * method `void createPartControl(Composite parent)`
+ * method `IWorkbenchPartSite getSite()` - _site_ is a primary interface between a workbench part and the workbench. For example, it is used for registering menus or global actions.
+ * method `String getTitle()`
+ * method `Image getTitleImage()`
+ * method `void setFocus()` - Asks this part to take focus within the workbench. Parts must assign focus to one of the controls contained in the part's parent composite. It is called by workbench
+
+  ||Note:_There are also interfaces `IWorkbenchPart2` and `IWorkbenchPart3`. They represent new version of `IWorkbenchPart`. This is common concept of introducing new version of interfaces in Eclipse_||
+
+The class `IViewPart`:
+ * `void init(IViewSite site)` - Initializes this view with the given view site. It is called by the workbench automatically during initialization of the part.
+
+The class `IEditorPart`:
+ * `void init(IEditorSite site, IEditorInput input)` - Initializes this editor with the given editor site and editor input (e.g., file, URI).It is automatically called by workbench.
+
+== Views ==
+A view is class implementing `IViewPart` interface. It shows a data with help of some [Tutorial03ViewsEditors#viewers viewer]. It is beneficial to start with extending existing `ViewPart` class implementing basic infrastructure. 
  
 Important points:
- * method `createControlPart()` - create a graphical widget showed by a view. For example, table, tree, graph visualizator.
- * method `setInput()`
- * method content provider
- * label provider
- * actions hooks
+ * method `createControlPart()` - create a graphical viewer showed by a view. For example, table, tree, or hand-made graph visualizator. Any SWT code can be here.
+   * calling method `viewer.setInput()` - setup viewer input 
+   * calling method `viewer.setContentProvider()`
+   * calling method `viewer.setLabelProvider()` 
+   * registering actions hooks/menus - e.g., via calling `getSite().registerContextMenu(menuMgr, viewer);`
 
-== Content Provider ==
- * online
- * lazy
-
- * JOBS - loading on via job async load
-
-== Label Provider ==
-
-== Adapters ==
-
-== Actions in Views ==
-
- - via IViewProvider
- - or via Commands/Actions
-
-Interface `IAdaptable`
-
-||Note: _Concept of adapters is much more powerfull and is used through whole Eclipse platform._||
-== Example: `cz.cuni.mff.d3s.twitter.ui.views`==
+=== Example: `cz.cuni.mff.d3s.twitter.ui.views`===
   || Note: _Naming convenction - see part `ui`._||
 
   Goal: _Create a plugin providing a view showing messages timeline of a given user.
@@ -214,6 +221,8 @@ Interface `IAdaptable`
      * there is also different way how to specify label providers separately per column
      * label provider cannot be shared between viewers (due to sharing SWT resources)
 
+=== Actions in Views ===
+Next time...
 
 = Links =
  * Eclipse help: JFace - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/jface.htm
