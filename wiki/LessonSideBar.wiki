@@ -6,6 +6,7 @@
     * [Tutorial02EclipseBasics Eclipse basics]
       * [Tutorial02EclipseBasics#Basic_concepts_of_Eclipse_Workbench Eclipse Workbench]
       * [Tutorial02EclipseBasics#Commands Commands and handlers]
+      * [Tutorial02EclipseBasics#Actions Actions]
     * [Tutorial03ViewsEditors UI basics]
       * [Tutorial03ViewsEditors#SWT_and_JFace SWT and JFace]
       * [Tutorial03ViewsEditors#Views Views]
