@@ -207,9 +207,9 @@ Commands are defined via extension points:
 The extension point `org.eclipse.ui.menus` defines a place where the command contributes. 
 The location is defined via locationURI which have structure `<scheme>:<menu-id>[?<placement-modifier>]`
 The `scheme` can be:
-  * menu: valid root of menu, for main menu `org.eclipse.ui.main.menu` constant is defined
-  * toolbar: main toolbar has constant `org.eclipse.ui.main.toolbar`
-  * popup: to contribute to a context pop-up menu (right-click). For contribution to all menus constant `org.eclipse.ui.popup.any` can be used
+  * menu: valid root of menu, for main menu `menu:org.eclipse.ui.main.menu` constant is defined
+  * toolbar: main toolbar has constant `toolbar:org.eclipse.ui.main.toolbar`
+  * popup: to contribute to a context pop-up menu (right-click). For contribution to all menus constant `popup:org.eclipse.ui.popup.any` can be used
 
 There are constants which represents views' toolbars, editors' context menu - see http://wiki.eclipse.org/Menu_Contributions .
 
