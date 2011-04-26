@@ -64,7 +64,7 @@ SWT is event driven. Package `org.eclipse.swt.events` provides various kinds of 
 The `Control` class has methods to register listeners for various kinds of events.
 
 ===SWT graphics===
-TODO - http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
+Class `GC` (graphical context) to draw customized widgets. See http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
 
 === Example of SWT ===
 
