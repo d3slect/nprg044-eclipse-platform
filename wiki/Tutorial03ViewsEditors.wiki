@@ -9,11 +9,11 @@ SWT is a widget toolkit providing API built on top of native OS GUI platform. It
 
 You never know if you are running in UI or non-UI thread. Hence, applications that wish to call UI code from a non-UI thread must provide a Runnable that calls the UI code. The methods syncExec(Runnable) and asyncExec(Runnable) in the Display class are used to execute these runnables in the UI thread during the event loop. See http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_threading.htm. 
 
-Class `Display` - The `Display` represents the connection between SWT and the underlying platform's GUI system. Displays are primarily used to manage the platform event loop and control communication between the UI thread and other threads. You must create a display before creating any windows, and you must dispose of the display when your shell is closed. This is typically done by Eclipse workbench. 
+  * Class `Display` - The `Display` represents the connection between SWT and the underlying platform's GUI system. Displays are primarily used to manage the platform event loop and control communication between the UI thread and other threads. You must create a display before creating any windows, and you must dispose of the display when your shell is closed. This is typically done by Eclipse workbench. 
 
-Class `Shell` is a _window_ managed by the OS platform window manager. Top level shells are those that are created as a child of the display. These windows are the windows that users move, resize, minimize, and maximize while using the application. Secondary shells are those that are created as a child of another shell. These windows are typically used as dialog windows or other transient windows that only exist in the context of another window (so called _composite widgets_).
+  * Class `Shell` is a _window_ managed by the OS platform window manager. Top level shells are those that are created as a child of the display. These windows are the windows that users move, resize, minimize, and maximize while using the application. Secondary shells are those that are created as a child of another shell. These windows are typically used as dialog windows or other transient windows that only exist in the context of another window (so called _composite widgets_).
 
-Class `SWT` - contains definition of style bits. E.g., SWT.YES, SWT.NO, SWT.VERTICAL, SWT.BORDER. Intepretation depends on control (e.g., SWT.SINGLE - single selection, single line)
+ * Class `SWT` - contains definition of style bits. E.g., SWT.YES, SWT.NO, SWT.VERTICAL, SWT.BORDER. Intepretation depends on control (e.g., SWT.SINGLE - single selection, single line)
 
 Typical structure of standalone SWT application implementation:
 {{{
