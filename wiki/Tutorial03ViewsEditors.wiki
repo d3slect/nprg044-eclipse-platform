@@ -47,11 +47,7 @@ There are three basic types of widgets - _Control, Layout, Event_.
 Package `org.eclipse.swt.widgets` provides Label, Tree, Table, Text, List, Button, Canvas - see [http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm Eclipse Help SWT] for the full list.
 You can fully control these widgets - configure fonts, colors, dimension.
 
-=== SWT Events ===
-SWT is event driven. Package `org.eclipse.swt.events` provides various kinds of events - modify, verify, key, move, drag (see http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm). 
-The `Control` class has methods to register listeners for various kinds of events.
-
-====SWT Layouts ====
+===SWT Layouts ===
 Package `org.eclipse.swt.layout` provides:
   * `FillLayout` 
    * Lays out controls in a single row or column, forcing them to be the same size.
@@ -61,6 +57,11 @@ Package `org.eclipse.swt.layout` provides:
    * Positions the children by rows and columns.
   * `RowLayout`
     * Places the children either in horizontal rows or vertical columns.
+
+
+=== SWT Events ===
+SWT is event driven. Package `org.eclipse.swt.events` provides various kinds of events - modify, verify, key, move, drag (see http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm). 
+The `Control` class has methods to register listeners for various kinds of events.
 
 ===SWT graphics===
 TODO - http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
