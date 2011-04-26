@@ -7,8 +7,8 @@
       * [Tutorial02EclipseBasics#Basic_concepts_of_Eclipse_Workbench Eclipse Workbench]
       * [Tutorial02EclipseBasics#Commands Commands and handlers]
     * [Tutorial03ViewsEditors UI basics]
-      * SWT and JFace
-      * Views
+      * [Tutorial03ViewsEditors#SWT_and_JFace SWT and JFace]
+      * [Tutorial03ViewsEditors#Views Views]
     * Perspective
     * Editors
     * Wizards    
