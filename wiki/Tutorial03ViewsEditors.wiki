@@ -42,15 +42,15 @@ Class `Widget` represents a handle of OS resource. Needs to be disposed explicit
 
 There are three basic types of widgets - _Control, Layout, Event_.
 === SWT Controls ===
-Package `org.eclipse.swt.widgets' provides Label, Tree, Table, Text, List, Button, Canvas - see [http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm Eclipse Help SWT] for the full list.
+Package `org.eclipse.swt.widgets` provides Label, Tree, Table, Text, List, Button, Canvas - see [http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm Eclipse Help SWT] for the full list.
 You can fully control these widgets - configure fonts, colors, dimension.
 
 === SWT Events ===
-SWT is event driven. Package `org.eclipse.swt.events' provides various kinds of events - modify, verify, key, move, drag (see http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm). 
+SWT is event driven. Package `org.eclipse.swt.events` provides various kinds of events - modify, verify, key, move, drag (see http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm). 
 The `Control` class has methods to register listeners for various kinds of events.
 
 ====SWT Layouts ====
-Package `org.eclipse.swt.layout' provides:
+Package `org.eclipse.swt.layout` provides:
   * `FillLayout` 
    * Lays out controls in a single row or column, forcing them to be the same size.
   * `FormLayout` 
@@ -171,7 +171,7 @@ The class `IEditorPart`:
  * `void init(IEditorSite site, IEditorInput input)` - Initializes this editor with the given editor site and editor input (e.g., file, URI).It is automatically called by workbench.
 
 == Views ==
-A view is class implementing `IViewPart` interface. It shows a data with help of some [Tutorial03ViewsEditors#viewers viewer]. It is beneficial to start with extending existing `ViewPart` class implementing basic infrastructure. 
+A view is class implementing `IViewPart` interface. It shows a data with help of some [Tutorial03ViewsEditors#Viewers viewer]. It is beneficial to start with extending existing `ViewPart` class implementing basic infrastructure. 
  
 Important points:
  * method `createControlPart()` - create a graphical viewer showed by a view. For example, table, tree, or hand-made graph visualizator. Any SWT code can be here.
@@ -201,13 +201,13 @@ Important points:
           * define `class` attribute to `cz.cuni.mff.d3s.twitter.ui.views.TwitterMessageTimelineView`    
     * implements the class (inherits from the `ViewPart` class)
       * method `createPartControl(Composite parent)
-        * create GridLayout, pass it to `parent.setLayout()`
-        * create `Text` control `searchBox` with flags SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH
-         * setup layout data - new GridData(GridData.FILL_HORIZONTAL)
-        * create `TableViewer` control `viewer` with flags SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER
-         * setup layout data new GridData(GridData.FILL_BOTH)
-           * you have to call viewer.getControl() to access underlying SWT control (TableViewer is JFace widget)
-         * setup input to `viewer.setInput(getViewSite())`
+        * create `GridLayout`, pass it to `parent.setLayout()`
+        * create `Text` control `searchBox` with flags `SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH`
+         * setup layout data - `new GridData(GridData.FILL_HORIZONTAL)`
+        * create `TableViewer` control `viewer` with flags `SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER`
+         * setup layout data `new GridData(GridData.FILL_BOTH)`
+           * you have to call `viewer.getControl()` to access underlying SWT control (`TableViewer` is JFace widget)
+         * setup input to `viewer.setInput(getViewSite())`	
       * if you need lazy content resolving then put `SWT.VIRTUAL` into `viewer`'s flags. But, the content provider has to implement `ILazyContentProvider` instead of `IStructureContentProvider`
     * try to run in debug mode without configuring content provider
 {{{
@@ -353,7 +353,7 @@ public class MessageTimelineContentProvider implements
 	}
 }
 }}}
-    * implements MessageTimelineLabelProvider extending the class `LabelProvider` (implementing `ILabelProvider`) and implementing `ITableLabelProvider`.
+    * implements `MessageTimelineLabelProvider` extending the class `LabelProvider` (implementing `ILabelProvider`) and implementing `ITableLabelProvider`.
 {{{
 public class MessageTimelineLabelProvider extends LabelProvider implements ITableLabelProvider {
 
