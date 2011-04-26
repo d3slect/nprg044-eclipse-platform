@@ -31,7 +31,7 @@ Typical structure of standalone SWT application implementation:
    }
 }}}
 
-Class `Widget` represents a handle of OS resource. Needs to be disposed explicitely!
+ * Class `Widget` represents a handle of OS resource. Needs to be disposed explicitely!
 
 ||Note: _SWT requires that the user has to explicitelly free any OS resources which were allocated. In SWT, `Widget.dispose()` method is used for freeying resources associated with a widget.||
 
