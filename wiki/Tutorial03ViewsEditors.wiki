@@ -1,4 +1,4 @@
-#summary Views and editors
+#summary UI Basics and Views
 
 =Eclipse UI basics=
 <wiki:toc max_depth="2" />
