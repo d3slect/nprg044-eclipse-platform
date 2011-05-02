@@ -205,11 +205,24 @@ Important points:
     * implements the class (inherits from the `ViewPart` class)
       * method `createPartControl(Composite parent)
         * create `GridLayout`, pass it to `parent.setLayout()`
+{{{
+GridLayout layout = new GridLayout(1, true);
+parent.setLayout(layout);		
+}}}
         * create `Text` control `searchBox` with flags `SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH`
          * setup layout data - `new GridData(GridData.FILL_HORIZONTAL)`
+{{{
+searchBox = new Text(parent, SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH);
+searchBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+searchBox.setText("vtipy");
+}}}
         * create `TableViewer` control `viewer` with flags `SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER`
          * setup layout data `new GridData(GridData.FILL_BOTH)`
            * you have to call `viewer.getControl()` to access underlying SWT control (`TableViewer` is JFace widget)
+{{{
+viewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));	
+}}}
          * setup input to `viewer.setInput(getViewSite())`	
       * if you need lazy content resolving then put `SWT.VIRTUAL` into `viewer`'s flags. But, the content provider has to implement `ILazyContentProvider` instead of `IStructureContentProvider`
     * try to run in debug mode without configuring content provider
@@ -277,9 +290,89 @@ public class TwitterMessageTimelineView extends ViewPart {
 
     * implements content provider `MessageTimelineContentProvider` inheriting from `IStructureContentProvider`
        * implements `inputChange` method
-         * register/deregister listeners, refresh the viewer
-       * implements `getContent` method
-       * setup `viewer.setInput(searchBox)` in the class `TwitterMessageTimelineView`
+         * register/deregister listeners to input, refreshing of the viewer is not necessary, because it is done by underlying infrastructure
+{{{
+public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+  this.viewer = viewer;
+
+  if (oldInput == newInput) 
+	  return;
+
+  if (oldInput instanceof Control) {
+	  Control c = (Control) oldInput;
+	  if (!c.isDisposed()) {
+		  ((Control) oldInput).removeKeyListener(keyListener);
+	  }
+  }
+  if (newInput instanceof Control) {
+	  Control c = (Control) newInput;
+	  if (!c.isDisposed()) {
+		  ((Control) newInput).addKeyListener(keyListener);
+	  }
+  }
+}
+}}}
+       * add key listern `keyListener`
+{{{
+private KeyListener keyListener = new KeyAdapter() {
+        private String username;
+
+	public void keyReleased(KeyEvent e) {
+		if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
+			if (e.widget instanceof Text) {
+				String newUsername = ((Text) e.widget).getText();
+				if (!newUsername.equals(username)) {
+					username = newUsername;
+					// run in UI thread
+					e.display.asyncExec(new Runnable() {							
+						@Override
+						public void run() {
+							// IMPORTANT it is required to check if the widget is not disposed
+							if (!viewer.getControl().isDisposed()) {
+								viewer.refresh();
+							}
+						}
+					});
+				}
+			}
+		}
+	};
+};
+}}}
+       * implements `getElements` method
+        * parameter `inputElement` is an input element setup by calling `setInput` method of the viewer
+{{{
+public Object[] getElements(Object inputElement) {		
+	  String username = getUsername(inputElement);
+	  if (username == null || "".equals(username)) {
+		  return EMPTY_CONTENT;			
+	  } 
+	  Twitter twitter = new TwitterFactory().getInstance();
+  try {
+      List<Status> statuses = twitter.getUserTimeline(username);
+      if (!statuses.isEmpty()) {
+	  return statuses.toArray();
+      } else {
+	  return EMPTY_CONTENT;
+      }
+  } catch (Exception e) {
+	  return new String[] {e.getMessage()};
+  }
+}
+
+private String getUsername(Object inputElement) {
+	if (inputElement instanceof Text) {
+		return ((Text) inputElement).getText();
+	} else if (inputElement instanceof UserNode) {
+		return ((UserNode) inputElement).getUser().getScreenName();			
+	}
+	
+	return null;
+}
+}}}
+       * in method `createPartControl` of the class `TwitterMessageTimelineView` setup `viewer.setInput(searchBox)` 
+         * searchBox will serves as an input for content provider
+         * it can be changed. The change invokes the method `inputChanged` of the content provider.
        * Note: _try to setup content provider for `viewer` control during debugging the application_
     * try to run without LabelProvider
 {{{
@@ -287,12 +380,11 @@ public class MessageTimelineContentProvider implements
 		IStructuredContentProvider {
 	
 	private final static String[] EMPTY_CONTENT = new String[] {"There is no message to show..."}; 
-		
-	private String username;
 	
 	private Viewer viewer;
 	
 	private KeyListener keyListener = new KeyAdapter() {
+		private String username;
 		public void keyReleased(KeyEvent e) {
 			if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
 				if (e.widget instanceof Text) {
@@ -332,31 +424,40 @@ public class MessageTimelineContentProvider implements
 				((Control) newInput).addKeyListener(keyListener);
 			}
 		}
-		
-		// refresh the view
-		viewer.refresh();
 	}
 
 	@Override
 	public Object[] getElements(Object inputElement) {		
+		String username = getUsername(inputElement);
 		if (username == null || "".equals(username)) {
 			return EMPTY_CONTENT;			
 		} 
 		Twitter twitter = new TwitterFactory().getInstance();
-        try {
-            List<Status> statuses = twitter.getUserTimeline(username);
-            if (!statuses.isEmpty()) {
-            	return statuses.toArray();
-            } else {
-            	return EMPTY_CONTENT;
-            }
-        } catch (Exception e) {
-        	return new String[] {e.getMessage()};
-        }
+		try {
+		    List<Status> statuses = twitter.getUserTimeline(username);
+		    if (!statuses.isEmpty()) {
+			return statuses.toArray();
+		    } else {
+			return EMPTY_CONTENT;
+		    }
+		} catch (Exception e) {
+			return new String[] {e.getMessage()};
+		}
+	}
+	
+	private String getUsername(Object inputElement) {
+		if (inputElement instanceof Text) {
+			return ((Text) inputElement).getText();
+		} 
+		
+		return null;
 	}
 }
 }}}
     * implements `MessageTimelineLabelProvider` extending the class `LabelProvider` (implementing `ILabelProvider`) and implementing `ITableLabelProvider`.
+     * it is neccessary to return the right text/image for each column
+       * there is also way via the method `TableViewerColumn.setLabelProvider()` to configure separated label provider for each column.
+     * for images you can use built-in images accessible via call `PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);`      
 {{{
 public class MessageTimelineLabelProvider extends LabelProvider implements ITableLabelProvider {
 
@@ -397,8 +498,63 @@ public class MessageTimelineLabelProvider extends LabelProvider implements ITabl
 }}}
      
 
-=== Actions in Views ===
-Next time...
+== Actions in Views ==
+===Context and Expressions===
+We want to add delete command which will clear the timeline view.
+
+First we have to define the context when the delete command will be applied. For this purpose, expresions can be used. Each expression defines a condition which has to be satisfied. The expression can be re-used in other definitions.
+  * open `plugin.xml`
+    * add a new dependency `org.eclipse.core.expressions`
+  * add a new extension `org.eclipse.core.expressions.definitions`
+   * define ID `cz.cuni.mff.d3s.nprg044.twitter.ui.view.inTimelineView`
+     * add `with` sub-element with value `activePartId` (for more variables see [http://wiki.eclipse.org/Command_Core_Expressions Core Expressions Help])
+       * add `equals` sub-element with value `cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (it is ID of defined MessageTimelineView)
+
+Add a new handler for global delete command (with id `org.eclipse.ui.edit.delete`) which will be active if and only if the timeline view is focused:
+  * open `plugin.xml`
+  * add a new extension `org.eclipse.ui.handlers`
+    * add a new handler:  
+     * setup _commandId_ to `org.eclipse.ui.edit.delete`
+     * add a new sub-element `activeWhen`
+       * add a new `reference` sub-element and setup it to `cz.cuni.mff.d3s.nprg044.twitter.ui.view.inTimelineView`
+    * add handler implementation:
+      * look at a helper class `HandlerUtil`
+{{{
+public class CleanTimelineView extends AbstractHandler{
+
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		IWorkbenchPart part = HandlerUtil.getActivePart(event);
+		if (part instanceof TwitterMessageTimelineView) {
+			((TwitterMessageTimelineView) part).cleanTimeline();
+		}
+		return null;
+	}
+
+}
+}}}
+  * add a new method `cleanTimeline` into the class `TwitterMessageTimelineView`:
+{{{
+public void cleanTimeline() {
+	searchBox.setText("");
+	viewer.refresh();
+}
+}}}
+  * try to run the example and observer behavior of delete command
+
+ 
+
+===Toolbar===
+
+===Pop-up menu===
+
+===Context menu===
+  * open property sheet
+
+== Property sheet ==
+
+=== Adaptors ===
+
 
 = Links =
  * Eclipse help: JFace - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/jface.htm
@@ -409,4 +565,6 @@ Next time...
  * Lars Vogel: JFace tutorial - http://www.vogella.de/articles/EclipseJFaceTable/article.html
  * Eclipse tutorial: Creating Your Own Widgets using SWT - http://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm
  * Eclipse tutorial: Understanding Layouts in SWT - http://www.eclipse.org/articles/article.php?file=Article-Understanding-Layouts/index.html
+ * Eclipse workbench: Using the Selection Service - http://www.eclipse.org/articles/Article-WorkbenchSelections/article.html
+ * Eclipse help: Core expressions - http://wiki.eclipse.org/Command_Core_Expressions
  
