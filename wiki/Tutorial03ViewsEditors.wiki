@@ -616,7 +616,7 @@ Then we have to adapt `Status` to `IPropertySource` type which provides details 
   # the `Status` has to implement `IAdaptable` interface:
 {{{
 public Object getAdapter(Class adapter) {
-  return IPropertySource.class.equals(adapter) ? return new StatusPropertySource(this) : null;
+  return IPropertySource.class.equals(adapter) ? return new TwitterStatusPropertySource(this) : null;
 }
 }}}
    * this is common solution if you can change the source code of `Status` class, however, in our case it is provided by third party library. But, there is another solution:
@@ -713,7 +713,10 @@ public class TwitterStatusPropertySource implements IPropertySource {
 ==Selection service==
 In the previous example, we saw that the viewer was registered as a selection provider (see line `getSite().setSelectionProvider(viewer);` in the class `TwitterMessageTimelineView`). There is also a way how to listen to selection events via registering an implementation of `ISelectionListener` with help of selection service (e.g., `getSite().getWorkbenchWindow().getSelectionService()`).
 
- 
+ * create a new view providing a list of usernames
+ * publish a viewer as a selection source
+ * register a listener to a new view via _Selection service_
+  * listener has to look at selection and repaint the viewer 
 
 = Links =
  * Eclipse help: JFace - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/jface.htm
