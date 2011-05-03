@@ -540,21 +540,180 @@ public void cleanTimeline() {
 	viewer.refresh();
 }
 }}}
-  * try to run the example and observer behavior of delete command
-
+  * try to run the example and observe behavior of delete command
  
-
 ===Toolbar===
+Let's put the delete command into a toolbar of `TwitterMessageTimelineView` view:
+  * open `plugin.xml`
+  * add the extension `org.eclipse.ui.menus`
+   * add a new _menuContribution_ 
+     * setup _locationURI_ to `toolbar:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (toolbar:<view ID>)
+     * add a sub-element _command_ referring `org.eclipse.ui.edit.delete` command
 
 ===Pop-up menu===
+ * as above, but _locatioURI_ is `menu:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (menu:<view ID>)
 
 ===Context menu===
-  * open property sheet
+The context menu has to be register first to allow contribution via extension point 'org.eclipse.ui.menus'. The view can have multiple context menu registered. Default ID of the context  menu is the part ID.
+
+ * Add a new method `createContextMenu` into the class `TwitterMessageTimelineView`
+   * The method is called from the method `createPartControl`
+{{{
+private void createContextMenu() {
+    MenuManager menuManager = new MenuManager("#PopupMenu");
+    menuManager.setRemoveAllWhenShown(true);
+    menuManager.addMenuListener(new IMenuListener() {
+	    
+	    @Override
+	    public void menuAboutToShow(IMenuManager manager) {
+		    fillContextMenu(manager);				
+	    }
+    });
+    Menu menu = menuManager.createContextMenu(viewer.getControl());
+    viewer.getControl().setMenu(menu);
+    getSite().registerContextMenu(menuManager, viewer);
+}
+}}}
+ * add method `fillContextMenu`
+   * it is necessary to add a separator for additions - it is the place where new actions will be placed.
+{{{
+private void fillContextMenu(IMenuManager manager) {
+	// this is required to allow contribution into the context menu
+	manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));				
+}
+}}}
+
+ * add a _menuContribution_ like in cases above, but set _locationURI_ to `popup:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (for one context menu the locationURI has the form `popup:<view ID>`)
+ 
+ * add a new _command_ definition `cz.cuni.mff.d3s.nprg044.twitter.ui.view.showMessageDetails` with default command handler which will show a _Property view_:
+{{{
+public class CleanTimelineView extends AbstractHandler{
+
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		IWorkbenchPart part = HandlerUtil.getActivePart(event);
+		if (part instanceof TwitterMessageTimelineView) {
+			((TwitterMessageTimelineView) part).cleanTimeline();
+		}
+		return null;
+	}
+
+}
+}}}
+  * add the command into context menu
+
 
 == Property sheet ==
+We want to select the message details in _Property View_. The message is represented by the object `Status`.
 
-=== Adaptors ===
+At first we have to provide a selection from the viewer. It is necessary to have the line 
+{{{
+getSite().setSelectionProvider(viewer);
+}}} 
+in the class `TwitterMessageTimelineView`.
 
+Then we have to adapt `Status` to `IPropertySource` type which provides details about status (plugin `org.eclipse.ui.views` has to be in dependencies). There are two ways of adaptation:
+  # the `Status` has to implement `IAdaptable` interface:
+{{{
+public Object getAdapter(Class adapter) {
+  return IPropertySource.class.equals(adapter) ? return new StatusPropertySource(this) : null;
+}
+}}}
+   * this is common solution if you can change the source code of `Status` class, however, in our case it is provided by third party library. But, there is another solution:
+ # register an adapter factory for given type:
+  * open `plugin.xml`
+  * add a new extension `org.eclipse.core.runtime.adapters`
+    * add a new factory:
+      * _adaptableType_ = `twitter4j.Status` (what is adapted)
+      * _class_ = `cz.cuni.mff.d3s.nprg044.twitter.ui.view.adapters.TwitterAdapterFactory` (adaptation factory)
+      * add a new sub-element `adapter` (what is a target of adaptation)
+        * _type_ = `org.eclipse.ui.views.properties.IPropertySource`
+
+  * implements the factory `cz.cuni.mff.d3s.nprg044.twitter.ui.view.adapters.TwitterAdapterFactory`:
+{{{
+public class TwitterAdapterFactory implements IAdapterFactory {
+	
+	private static final Class[] SUPPORTED_ADAPTERS = { IPropertySource.class };
+
+	@Override
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if  (IPropertySource.class.equals(adapterType)) {
+			return new TwitterStatusPropertySource((Status) adaptableObject);
+		}
+		return null;
+	}
+
+	@Override
+	public Class[] getAdapterList() {
+		return SUPPORTED_ADAPTERS;
+	}
+
+}
+}}}
+
+   * and implement the class `TwitterStatusPropertySource`
+{{{
+public class TwitterStatusPropertySource implements IPropertySource {
+
+	private static final String MSG_ID = "twitter.prop.msg";
+	private static final String RETWEET_COUNT_ID = "twitter.prop.retweet.count";
+	
+	private Status status;	
+	private IPropertyDescriptor[] propertyDescriptors;
+
+	public TwitterStatusPropertySource(Status status) {
+		this.status = status;
+	}
+
+	@Override
+	public Object getEditableValue() {
+		return null;
+	}
+
+	@Override
+	public IPropertyDescriptor[] getPropertyDescriptors() {
+		if (propertyDescriptors == null) {
+			IPropertyDescriptor descMessage = new PropertyDescriptor(MSG_ID, "Message");
+			IPropertyDescriptor retweetCount= new PropertyDescriptor(RETWEET_COUNT_ID, "Retweet count");
+			propertyDescriptors = new IPropertyDescriptor[] { descMessage, retweetCount };
+		}
+		
+		return propertyDescriptors;
+	}
+
+	@Override
+	public Object getPropertyValue(Object id) {
+		if (id.equals(MSG_ID)) {
+			return status.getText();
+		} else if (id.equals(RETWEET_COUNT_ID)) {
+			return status.getRetweetCount();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public boolean isPropertySet(Object id) {
+		return false;
+	}
+
+	@Override
+	public void resetPropertyValue(Object id) {
+	}
+
+	@Override
+	public void setPropertyValue(Object id, Object value) {
+	}
+
+}
+}}}
+
+|| _The concept of adaptors is one of the most important concepts in Eclipse platform. It is used to use one object in different contexts._ ||
+
+==Selection service==
+In the previous example, we saw that the viewer was registered as a selection provider (see line `getSite().setSelectionProvider(viewer);` in the class `TwitterMessageTimelineView`). There is also a way how to listen to selection events via registering an implementation of `ISelectionListener` with help of selection service (e.g., `getSite().getWorkbenchWindow().getSelectionService()`).
+
+ 
 
 = Links =
  * Eclipse help: JFace - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/jface.htm
@@ -567,4 +726,6 @@ public void cleanTimeline() {
  * Eclipse tutorial: Understanding Layouts in SWT - http://www.eclipse.org/articles/article.php?file=Article-Understanding-Layouts/index.html
  * Eclipse workbench: Using the Selection Service - http://www.eclipse.org/articles/Article-WorkbenchSelections/article.html
  * Eclipse help: Core expressions - http://wiki.eclipse.org/Command_Core_Expressions
+ * Eclipse tutorial: Take control over you properties - http://www.eclipse.org/articles/Article-Properties-View/properties-view.html
+ * Eclipse tutorial: The Eclipse Tabbed Properties View - http://www.eclipse.org/articles/Article-Tabbed-Properties/tabbed_properties_view.html
  
