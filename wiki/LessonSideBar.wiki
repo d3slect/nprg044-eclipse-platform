@@ -13,8 +13,7 @@
       * [Tutorial03ViewsEditors#Actions_in_Views Actions in Views]
       * [Tutorial03ViewsEditors#Property_sheet Property sheet]
       * [Tutorial03ViewsEditors#Selection_service Selection service]
-    * Perspective
-    * Editors
+    * [Tutorial04Editors Editors]
     * Wizards    
     * Preferences
     * Resources
