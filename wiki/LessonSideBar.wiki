@@ -9,12 +9,12 @@
       * [Tutorial02EclipseBasics#Actions Actions]
     * [Tutorial03UIbasics UI basics]
       * [Tutorial03UIbasics#SWT_and_JFace SWT and JFace]
-    * [Tutorial03Views Views]
-      * [Tutorial03ViewsEditors#Views Views]
-      * [Tutorial03ViewsEditors#Actions_in_Views Actions in Views]
-      * [Tutorial03ViewsEditors#Property_sheet Property sheet]
-      * [Tutorial03ViewsEditors#Selection_service Selection service]
-    * [Tutorial04Editors Editors]
+    * [Tutorial04Views Views]
+      * [Tutorial04Views#Views Views]
+      * [Tutorial04Views#Actions_in_Views Actions in Views]
+      * [Tutorial04Views#Property_sheet Property sheet]
+      * [Tutorial04Views#Selection_service Selection service]
+    * [Tutorial05Editors Editors]
     * Wizards    
     * Preferences
     * Resources
