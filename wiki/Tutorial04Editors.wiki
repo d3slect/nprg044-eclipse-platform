@@ -477,4 +477,5 @@ Now it is necessary to associate command with key-binding:
    * http://wiki.eclipse.org/FAQ_How_do_I_use_a_model_reconciler%3F
    * http://wiki.eclipse.org/FAQ_How_do_I_insert_text_in_the_active_text_editor%3F
   * Simple form editor - Eclipse Examples http://help.eclipse.org/helios/nav/2_4
-
+  * Eclipse Article, Folding in Eclipse Text Editors - http://www.eclipse.org/articles/Article-Folding-in-Eclipse-Text-Editors/folding.html
+  * Eclipse Article, Adapters - http://www.eclipse.org/articles/article.php?file=Article-Adapters/index.html
