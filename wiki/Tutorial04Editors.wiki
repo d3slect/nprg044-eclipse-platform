@@ -36,8 +36,8 @@ The class `IEditorInput` represents the input which will be managed by the edito
   
   * create the editor implementation `SimpleMultiPageEditor` extending the class `MultiPageEditorPart`
    * the implementation should have 2 pages:
-     # classical editor - use `TextEditor` widget
-     # list of lines - use `ListViewer` widget
+     # page should contain classical editor - use `TextEditor` widget
+     # page should show list of lines - use `ListViewer` widget
    * the method `createPage` create two pages with mentioned controls:
      * the editor input is handled automatically by super class
      * to access parent SWT container use method `getContainer()`
@@ -111,11 +111,22 @@ protected void pageChange(int newPageIndex) {
 
 
 == Text Editor improvements ==
+The next step is to improve common implementation of `TextEditor` to support _markdown_ syntax.
 The _markdown_ syntax supports following marks: 
  * `= HEADING 1 =`
  * `== HEADING 2 ==`
  * `* bold text *`
  * `_ italics text _`
+
+For example:
+{{{
+= Heading 1=
+== Sub-heading ==
+This is a normal text followed by text in *bold*.
+
+_And this is a multiline
+italics text_.
+}}}
 
 In the following example, we will improve the text editor (`TextEditor` class) to support _markdown_ syntax.
 The class `TextEditor` is highly configurable and supports:
@@ -127,12 +138,10 @@ The class `TextEditor` is highly configurable and supports:
   * annotation
   * ...
 
-=== Text v. Model ===
-
 === Creating the editor ===
 
   * add extension `org.eclipse.ui.editors` and a new editor:
-    * _ID_ = `cz.cuni.mff.d3s.nprg044.twitter.editor.MarkdownTextEdito`
+    * _ID_ = `cz.cuni.mff.d3s.nprg044.twitter.editor.MarkdownTextEditor`
     * _extension_ = `markdown`
   * implements the class `cz.cuni.mff.d3s.nprg044.twitter.editor.text.MarkdownTextEditor` extending the class `TextEditor`
 {{{
@@ -163,12 +172,12 @@ public class MarkdownTextEditor extends TextEditor {
 }}}
 || _Re-use `ColorManager` class and `IMarkdownTextColorConstants` interface from given source code. The `ColorManager` manages creation of instance of the class `Color` according to given RGB value._||
 
-There are two important calls - `setDocumentProvider` and `setSourceViewerConfiguration` - configuring the `TextEditor` class.
+There are two important calls - `setDocumentProvider` and `setSourceViewerConfiguration`.
 
 === Document Provider ===
-The document provider implements the interface `IDocumentProvider` which provides a mapping between editor input (i.e., `IEditorInput`) and presentation model (what is shown in text editor) represented by the interface `IDocument`.
+The document provider implements the interface `IDocumentProvider` which provides a mapping between an editor input (i.e., `IEditorInput`) and a presentation model (what is shown in text editor) represented by the interface `IDocument`.
 
-The interface `IDocument` serves to maintain the text shown in editor control - to access lines, chars, update the given position, replace the text, etc.
+The interface `IDocument` serves to maintain the text shown in the editor control - to access lines, chars, update the given position, replace the text, etc.
 
 
 Document provider can also provide information about hidden annotations (i.e., _annotation model_). See http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/editors_annotations.htm
@@ -449,17 +458,15 @@ Now it is necessary to associate command with key-binding:
      * context activate key-binding only inside `TextEditor`
 
 
+|| _Interfaces `IDocumentProvider`, `IDocument`, `ISourceViewer` and other interfaces evolve during the development of Eclipse. Hence, they are often several extension of the base interface, e.g., `IDocumentProviderExtension2`. All of them are typically implemented by a common base class (e.g., `SourceViewer` in case of the interface `ISourceViewer` _||
+
 ===Outline page support===
-
-|| _Interfaces `IDocumentProvider`, `IDocument`, `ISourceViewer` and others evolves during the development of Eclipse. Hence, they are often several extension of the base interface, e.g., `IDocumentProviderExtension2`. _||
-
-------
-
-
-  || setup damagers: A standard implementation of a syntax driven presentation damager and presentation repairer. It uses a token scanner to scan the document and to determine its damage and new text presentation. The tokens returned by the scanner are supposed to return text attributes as their data.||
-
-== Simple Form Editor ==
-Examples http://help.eclipse.org/helios/nav/2_4
+ * implements adapter for the `IContentOutlinePage` interface
+ * extends class `ContentOutlinePage` and overrides the method `createControl`
+   * call super-method to create `TreeViewer`
+   * to access the tree viewer use `getTreeViewer()` method
+   * setup content and label providers via calling `TreeViewer.setContentProvider` and `TreeViewer.setLabelProvider`
+   * set input via `TreeViewer.setInput`
 
 == Recommended Reading & Links ==
   * Lars Vogella, Eclipse Editors Tutorial - http://www.vogella.de/articles/EclipseEditors/article.html
@@ -469,7 +476,5 @@ Examples http://help.eclipse.org/helios/nav/2_4
    * http://wiki.eclipse.org/FAQ_What_is_a_document_partition%3F
    * http://wiki.eclipse.org/FAQ_How_do_I_use_a_model_reconciler%3F
    * http://wiki.eclipse.org/FAQ_How_do_I_insert_text_in_the_active_text_editor%3F
+  * Simple form editor - Eclipse Examples http://help.eclipse.org/helios/nav/2_4
 
-
-
-HOOOO http://www.eclipsepluginsite.com/builders-natures-markers-2.html
