@@ -17,6 +17,14 @@
             id="cz.cuni.mff.d3s.nprg044.twitter.editors.SimpleMultiPageEditor"
             name="Multi editor">
       </editor>
+      <editor
+            class="cz.cuni.mff.d3s.nprg044.twitter.editor.forms.NewMessageFormEditor"
+            default="false"
+            extensions="markdown"
+            icon="icons/twitter.gif"
+            id="cz.cuni.mff.d3s.nprg044.twitter.editors.NewMessageEditor"
+            name="New Message">
+      </editor>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -39,6 +47,16 @@
             id="cz.cuni.mff.d3s.nprg044.twitter.editor.MarkdownTextEditorCategory"
             name="Markdown text editor">
       </category>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.jface.text.ITypedRegion"
+            class="cz.cuni.mff.d3s.nprg044.twitter.editors.adapters.EditorsAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+      </factory>
    </extension>
 
 </plugin>

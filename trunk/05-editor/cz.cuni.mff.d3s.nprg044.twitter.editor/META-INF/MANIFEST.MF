@@ -8,6 +8,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.editors;bundle-version="3.6.1",
  org.eclipse.jface.text;bundle-version="3.6.1",
- org.eclipse.ui.views;bundle-version="3.5.1"
+ org.eclipse.ui.views;bundle-version="3.5.1",
+ org.eclipse.ui.forms;bundle-version="3.5.2"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

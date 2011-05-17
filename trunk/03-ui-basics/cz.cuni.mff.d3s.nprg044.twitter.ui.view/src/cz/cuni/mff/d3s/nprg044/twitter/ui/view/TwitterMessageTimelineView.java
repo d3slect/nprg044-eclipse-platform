@@ -33,6 +33,8 @@ import cz.cuni.mff.d3s.nprg044.twitter.ui.view.internal.model.UserNode;
  */
 public class TwitterMessageTimelineView extends ViewPart implements ISelectionListener {
 	
+	public static final String ID = "cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView";
+	
 	private static final String[] COLUMN_NAMES = {"#", "username", "message"};
 	private static final int[] COLUMN_WIDTHS = {30, 100, 200};
 	private TableViewer viewer;
