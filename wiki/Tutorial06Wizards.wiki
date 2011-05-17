@@ -1,4 +1,4 @@
-#summary Advanced Eclipse concepts
+#summary Eclipse Perspectives, Wizards
 
 = Introduction =
 <wiki:toc max_depth="3" />
