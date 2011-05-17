@@ -1,5 +1,9 @@
 package cz.cuni.mff.d3s.nprg044.twitter.editor.text;
 
+import org.eclipse.jface.text.ITypedRegion;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
@@ -7,6 +11,8 @@ import cz.cuni.mff.d3s.nprg044.twitter.editor.text.colors.ColorManager;
 import cz.cuni.mff.d3s.nprg044.twitter.editor.text.outline.MarkdownTextOutlinePage;
 
 public class MarkdownTextEditor extends TextEditor {
+	
+	public static final String ID = "cz.cuni.mff.d3s.nprg044.twitter.editor.MarkdownTextEditor";
 	
 	private ColorManager colorManager;
 	
@@ -37,10 +43,27 @@ public class MarkdownTextEditor extends TextEditor {
 			if (outlinePage  == null) {
 				outlinePage = new MarkdownTextOutlinePage();
 				outlinePage.setInput(getDocumentProvider().getDocument(getEditorInput()));
+//				((ISelectionService)getSite().getService(ISelectionService.class)).addSelectionListener(outlinePage);
+				
+				// register listener on change of the input				
+				getSourceViewer().getTextWidget().addCaretListener(outlinePage);
+				outlinePage.addSelectionChangedListener(new ISelectionChangedListener() {
+					
+					@Override
+					public void selectionChanged(SelectionChangedEvent event) {
+						IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+						if (!selection.isEmpty()) {
+							ITypedRegion region = (ITypedRegion) selection.getFirstElement();
+//							selectAndReveal(region.getOffset(), region.getLength());
+							setHighlightRange(region.getOffset(), region.getLength(), true);
+						}						
+					}
+				});
 			}	
 			
 			return outlinePage;
-		}
+		} 
+		
 		return super.getAdapter(adapter);
 	}
 
