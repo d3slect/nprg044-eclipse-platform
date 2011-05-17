@@ -203,6 +203,8 @@ public class MessageWizardPage extends WizardPage {
 	}
 }
 }}}
+
+||Note: _To launch wizard programmaticaly, it is necessary to create an instance of wizard and pass it to the instance of the `WizardDialog` class which is responsible for presentation of the wizard_||
     
 
 = Resources =
