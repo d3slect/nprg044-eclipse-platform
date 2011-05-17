@@ -460,13 +460,357 @@ Now it is necessary to associate command with key-binding:
 
 || _Interfaces `IDocumentProvider`, `IDocument`, `ISourceViewer` and other interfaces evolve during the development of Eclipse. Hence, they are often several extension of the base interface, e.g., `IDocumentProviderExtension2`. All of them are typically implemented by a common base class (e.g., `SourceViewer` in case of the interface `ISourceViewer` _||
 
-===Outline page support===
- * implements adapter for the `IContentOutlinePage` interface
+=== Outline view support === 
+To show a structure of the text (e.g., structure of headings), the editor has to provide an implementation of the `IContentOutlinePage` interfaces which is then shown by the _Content Outline View_.
+Typical way of providing the implementation is via `IAdaptable` interface:
+
+ * text editor `MarkdownTextEditor` implements adapter for the `IContentOutlinePage` interface
+   * override method `getAdapter`:
+{{{
+	private MarkdownTextOutlinePage outlinePage;
+	
+	@Override
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+		if (IContentOutlinePage.class.equals(adapter)) {
+			if (outlinePage  == null) {
+				outlinePage = new MarkdownTextOutlinePage();
+				outlinePage.setInput(getDocumentProvider().getDocument(getEditorInput()));				
+			}	
+			
+			return outlinePage;
+		} 
+		
+		return super.getAdapter(adapter);
+	}
+}}}
+ * the class `MarkdownTextOutlinePage` implements the interface `IContentOutlinePage` via extending the support class `ContentOutlinePage`:
+   * override method `createControl` and provide appropriate content provider and label provider
+{{{
+public class MarkdownTextOutlinePage extends ContentOutlinePage  {
+
+	private IDocument input;
+	
+	private class SimpleLabelProvider extends LabelProvider {
+		@Override
+		public String getText(Object element) {			
+			if (element instanceof ITypedRegion) {
+				ITypedRegion region = (ITypedRegion) element;
+				
+				try {
+					return input.get(region.getOffset(), region.getLength());
+				} catch (BadLocationException e) {					
+				}
+			}
+			return super.getText(element);			
+		}
+	}
+	
+	@Override
+	public void createControl(Composite parent) {
+		super.createControl(parent);
+		TreeViewer treeViewer = getTreeViewer();
+		treeViewer.setContentProvider(new MarkdownSyntaxContentProvider());
+		treeViewer.setLabelProvider(new SimpleLabelProvider());
+		
+		treeViewer.setInput(this.input);
+		
+		getSite().setSelectionProvider(treeViewer);
+	}
+	
+	public void setInput(IDocument element) {
+		this.input = element;
+		if (getTreeViewer()!=null) {
+			getTreeViewer().setInput(element);		
+		}
+	}	
+}
+}}}
+ 
  * extends class `ContentOutlinePage` and overrides the method `createControl`
    * call super-method to create `TreeViewer`
    * to access the tree viewer use `getTreeViewer()` method
    * setup content and label providers via calling `TreeViewer.setContentProvider` and `TreeViewer.setLabelProvider`
    * set input via `TreeViewer.setInput`
+ * implements content provider `MarkdownSyntaxContentProvider` showing hierarchy of headings level1 and level2.
+{{{
+public class MarkdownSyntaxContentProvider implements ITreeContentProvider {
+
+	private static final Object[] EMPTY = {};
+	private TreeViewer viewer;
+	private IDocument document;
+	
+	private IDocumentListener documentListener = new IDocumentListener() {
+		
+		@Override
+		public void documentChanged(DocumentEvent event) {
+			if (!MarkdownSyntaxContentProvider.this.viewer.getControl().isDisposed()) {
+				MarkdownSyntaxContentProvider.this.viewer.refresh();
+			}
+		}
+		
+		@Override
+		public void documentAboutToBeChanged(DocumentEvent event) {					
+		}
+	};
+	
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		this.viewer = (TreeViewer) viewer;
+		
+		if (oldInput instanceof IDocument) {
+			document.removeDocumentListener(documentListener);
+		}
+		
+		if (newInput instanceof IDocument) {
+			document = (IDocument) newInput;
+			document.addDocumentListener(documentListener);
+		}		
+	}
+
+	@Override
+	public Object[] getElements(Object inputElement) {
+		IDocument document = getDocument(inputElement);
+		if (document != null) {
+			ArrayList<ITypedRegion> result = new ArrayList<ITypedRegion>();
+			try {
+				ITypedRegion[] regions = document.computePartitioning(0, document.getLength());
+				for(ITypedRegion region : regions) {
+					if (region.getType().equals(MarkdownTextPartitionScanner.MARKDOWN_H1)) {
+						result.add(region);
+					}
+				}
+			} catch (BadLocationException e) {						
+				e.printStackTrace();
+			}
+			return result.toArray();			
+		}
+		
+		return EMPTY;
+		
+	}
+
+	private IDocument getDocument(Object inputElement) {
+		if (inputElement instanceof IDocument) {
+			return (IDocument) inputElement;
+		}
+		
+		return null;
+	}
+
+	@Override
+	public Object[] getChildren(Object parentElement) {
+		if (parentElement instanceof ITypedRegion) {
+			ITypedRegion parentRegion = (ITypedRegion) parentElement;
+			ArrayList<ITypedRegion> result = new ArrayList<ITypedRegion>();
+			if (parentRegion.getType().equals(MarkdownTextPartitionScanner.MARKDOWN_H1)) {
+				ITypedRegion[] regions;
+				try {
+					regions = document.computePartitioning(parentRegion.getOffset()+parentRegion.getLength(), document.getLength()-parentRegion.getOffset()-parentRegion.getLength());
+				
+					for(ITypedRegion h2region : regions) {
+						if (h2region.getType().equals(MarkdownTextPartitionScanner.MARKDOWN_H2)) {
+							result.add(h2region);
+						}
+						if (h2region.getType().equals(MarkdownTextPartitionScanner.MARKDOWN_H1)) {
+							break;
+						}
+					}
+					
+					return result.toArray();
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
+			}
+		}		
+		return EMPTY;		
+	}
+
+	@Override
+	public Object getParent(Object element) {
+		return null;
+	}
+
+	@Override
+	public boolean hasChildren(Object element) {
+		if (element instanceof ITypedRegion) {
+			ITypedRegion region = (ITypedRegion) element;
+			if (region.getType().equals(MarkdownTextPartitionScanner.MARKDOWN_H1)) {
+				return true;
+			}			
+		}
+		return false;
+	}
+
+	@Override
+	public void dispose() {		
+	}
+}
+}}}
+
+==== Content outline selection ====
+If the node in content outline is selected the cursor should move to corresponding section in text editor.
+
+ * register a listener to a selection in content outline page implementation in the method `getAdapter`:
+{{{
+outlinePage.addSelectionChangedListener(new ISelectionChangedListener() {
+	  
+	  @Override
+	  public void selectionChanged(SelectionChangedEvent event) {
+		  IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+		  if (!selection.isEmpty()) {
+			  ITypedRegion region = (ITypedRegion) selection.getFirstElement();
+			  setHighlightRange(region.getOffset(), region.getLength(), true);
+		  }						
+	  }
+  });
+}}}
+
+==== Editor position in content outline ====
+We want to show the appropriate content outline node highlighted if the editor cursor is placed on heading location.
+The solution is to implement `CaretListener` (SWT listener) in `MarkdownTextOutlinePage`:
+{{{
+@Override
+public void caretMoved(CaretEvent event) {
+	try {
+		ITypedRegion region = input.getPartition(event.caretOffset);
+		
+		if (getTreeViewer()!=null) {
+			getTreeViewer().setSelection(new StructuredSelection(region));
+			getTreeViewer().reveal(region);
+			getTreeViewer().expandToLevel(region, TreeViewer.ALL_LEVELS);
+		}
+		
+	} catch (BadLocationException e) {		
+		e.printStackTrace();
+	}		
+}
+}}}
+
+The listener has to be registered during creation of `MarkdownTextOutlinePage`:
+{{{
+getSourceViewer().getTextWidget().addCaretListener(outlinePage);
+}}}
+
+||_Implementing only _ISelectionListener_ in `MarkdownTextOutlinePage` is not enough!_||
+
+
+==== Property sheet ====
+To show informations about current selection, the `Property View` is provided. If we want to show a property of the node (`ITypedRegion`) selected in content provider, the selection of the underlying tree viewer has to be propagated. 
+It means that in the method `createControl` of the content outline page implementation the selection provider has to be configured (it register the tree viewer as a selection produced in `ISelectionService`):
+{{{
+getSite().setSelectionProvider(treeViewer);
+}}}
+
+The _Property view_ shows an object implementing the _IPropertySource_ interface (provider information - key-value pairs - about selected object). 
+Similarly to previous examples, the selected node (type `ITypedRegion) has to be adapted to `IPropertySource`.
+
+There are two ways:
+  # changing implementation of `ITypedRegion` to implements the `IAdaptable` interface.
+  # providing adapter factory
+
+However, the first way is not possible because `ITypedRegion` implementation is a part of Eclipse base plugins. 
+Hence, it is necessary to  register an adapter factory for given type:
+ * open plugin.xml
+ * add a new extension org.eclipse.core.runtime.adapters
+   * add a new factory:
+     * _adaptableType_ = `ITypedRegion` (what is adapted)
+     * _class_ = `cz.cuni.mff.d3s.nprg044.twitter.editors.adapters.EditorsAdapterFactory.java` (adaptation factory)
+     * add a new sub-element adapter (what is a target of adaptation)
+      * _type_ = `org.eclipse.ui.views.properties.IPropertySource`
+  
+Implements the factory:
+{{{
+public class EditorsAdapterFactory implements IAdapterFactory {
+
+    private static final Class[] SUPPORTED_ADAPTERS = { IPropertySource.class };
+
+    @Override
+    public Object getAdapter(Object adaptableObject, Class adapterType) {
+            if  (IPropertySource.class.equals(adapterType)) {
+                    return new TypedRegionPropertySource((ITypedRegion) adaptableObject);
+            }
+            return null;
+    }
+
+    @Override
+    public Class[] getAdapterList() {
+            return SUPPORTED_ADAPTERS;
+    }
+
+}
+}}}
+
+and associated implementation of `IPropertySource` interface.
+{{{
+public class TypedRegionPropertySource implements IPropertySource {
+	
+    private static final String TYPED_REGION_VALUE_ID = "typedregion.value";
+    private static final String TYPED_REGION_OFFSET_ID = "typed.region.offset";
+    private static final String TYPED_REGION_LENGTH_ID = "typed.region.length";
+    
+    private ITypedRegion typedRegion;  
+    private IPropertyDescriptor[] propertyDescriptors;
+
+      public TypedRegionPropertySource(ITypedRegion adaptableObject) {
+	      this.typedRegion = adaptableObject;
+      }
+
+      @Override
+      public Object getEditableValue() {
+	      return null;
+      }
+
+      @Override
+      public IPropertyDescriptor[] getPropertyDescriptors() {
+	      if (propertyDescriptors == null) {
+		      IPropertyDescriptor value = new PropertyDescriptor(TYPED_REGION_VALUE_ID, "Region value");
+		      IPropertyDescriptor offset = new PropertyDescriptor(TYPED_REGION_OFFSET_ID, "Region offset");
+		      IPropertyDescriptor length = new PropertyDescriptor(TYPED_REGION_LENGTH_ID, "Region length");
+		      
+		      propertyDescriptors = new IPropertyDescriptor[] {value, offset, length};
+	      }
+	      
+	      return propertyDescriptors;
+      }
+
+      @Override
+      public Object getPropertyValue(Object id) {
+	      if (TYPED_REGION_VALUE_ID.equals(id)) {
+		      return "N/A";
+	      } else if (TYPED_REGION_OFFSET_ID.equals(id)) {
+		      return typedRegion.getOffset();
+	      } else if (TYPED_REGION_LENGTH_ID.equals(id)) {
+		      return typedRegion.getLength();					
+	      }
+	      return null;
+      }
+
+      @Override
+      public boolean isPropertySet(Object id) {
+	      return false;
+      }
+
+      @Override
+      public void resetPropertyValue(Object id) {
+      }
+
+      @Override
+      public void setPropertyValue(Object id, Object value) {	      
+      }
+
+}
+}}}
+
+
+== Form Editor ==
+
+Forms are used in views, editors. From the point of Eclipse consistency, it is not recommended to use them in dialogs and wizards.
+ 
+  * add a dependency on `org.eclipse.ui.forms`
+  * add a new editor extension
+   * implements class `` extending FormEditor (multi-page editor, each page has to implements IFormPage)
+  * table wrap layout
+
 
 == Recommended Reading & Links ==
   * Lars Vogella, Eclipse Editors Tutorial - http://www.vogella.de/articles/EclipseEditors/article.html
