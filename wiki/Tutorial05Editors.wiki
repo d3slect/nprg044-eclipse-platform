@@ -801,7 +801,7 @@ public class TypedRegionPropertySource implements IPropertySource {
 }
 }}}
 
-
+<wiki:comment>
 == Form Editor ==
 
 Forms are used in views, editors. From the point of Eclipse consistency, it is not recommended to use them in dialogs and wizards.
@@ -810,7 +810,7 @@ Forms are used in views, editors. From the point of Eclipse consistency, it is n
   * add a new editor extension
    * implements class `` extending FormEditor (multi-page editor, each page has to implements IFormPage)
   * table wrap layout
-
+</wiki:comment>
 
 == Recommended Reading & Links ==
   * Lars Vogella, Eclipse Editors Tutorial - http://www.vogella.de/articles/EclipseEditors/article.html
