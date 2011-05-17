@@ -6,21 +6,32 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 public class NewMessageWizard extends Wizard implements INewWizard {
+	
+	private MessageWizardPage messagePage;
 
 	public NewMessageWizard() {
-		// TODO Auto-generated constructor stub
+		setWindowTitle("Post a new message");
+		setNeedsProgressMonitor(true);
 	}
 
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		// TODO Auto-generated method stub
-
 	}
+	
+	@Override
+	public void addPages() {
+		messagePage = new MessageWizardPage("Message");
+		addPage(messagePage);
+	}	
 
 	@Override
-	public boolean performFinish() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean performFinish() {		
+		if (messagePage.canFlipToNextPage()) {
+			System.out.println("Message posted: " + messagePage.getMessageText());			
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
