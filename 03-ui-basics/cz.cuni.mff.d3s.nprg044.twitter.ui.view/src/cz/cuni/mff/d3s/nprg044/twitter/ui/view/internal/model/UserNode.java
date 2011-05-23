@@ -3,6 +3,8 @@
  */
 package cz.cuni.mff.d3s.nprg044.twitter.ui.view.internal.model;
 
+import org.eclipse.jface.viewers.TreeViewer;
+
 import twitter4j.Twitter;
 import twitter4j.User;
 
@@ -18,18 +20,13 @@ public class UserNode extends AbstractUserInfoViewNode {
 
 	public static final int CHILDREN_COUNT = 2;
 
-	public UserNode(User u, Twitter twitter) {
-		this(u, null, twitter);
-	}
-
-	public UserNode(User u, AbstractUserInfoViewNode parent, Twitter twitter) {
+	public UserNode(User u, AbstractUserInfoViewNode parent, Twitter twitter, TreeViewer treeViewer) {
 		this.user = u;
 		this.parent = parent;
 		setTwitter(twitter);
 
-		this.followersNode = new FollowersNode(this, twitter);		
-		this.followsNode = new FollowsNode(this, twitter);
-		
+		this.followersNode = new FollowersNode(this, twitter, treeViewer);		
+		this.followsNode = new FollowsNode(this, twitter, treeViewer);		
 	}
 	
 	public User getUser() {

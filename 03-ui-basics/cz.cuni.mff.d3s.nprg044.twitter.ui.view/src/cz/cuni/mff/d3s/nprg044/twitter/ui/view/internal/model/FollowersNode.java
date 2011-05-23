@@ -1,14 +1,19 @@
 package cz.cuni.mff.d3s.nprg044.twitter.ui.view.internal.model;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.TreeViewer;
+
 import twitter4j.Twitter;
 
-public class FollowersNode extends AbstractUserInfoViewNode {
+public class FollowersNode extends LazyNode {
 	
 	private UserNode user; 
 	
-	public FollowersNode(UserNode parent, Twitter twitter) {
+	public FollowersNode(UserNode parent, Twitter twitter, TreeViewer treeViewer) {
+		super(treeViewer);
+		
 		this.user = parent;
-		setTwitter(twitter);
+		setTwitter(twitter);		
 	}
 
 	@Override
@@ -22,18 +27,14 @@ public class FollowersNode extends AbstractUserInfoViewNode {
 	}
 
 	@Override
-	public int getNumberOfChildren() {
-		return -1;
+	protected AbstractUserInfoViewNode[] doQueryChildren(
+			IProgressMonitor monitor) {		
+		return EMPTY;
 	}
 
 	@Override
-	public AbstractUserInfoViewNode getChild(int index) {
-		return null;
-	}
-
-	@Override
-	public boolean hasChildren() {
-		return true;
+	protected String getPendingMessage() {	
+		return "Computing followers...";
 	}
 
 }

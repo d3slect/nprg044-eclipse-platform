@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="TwitterClientApplication"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="cz.cuni.mff.d3s.nprg044.twitter.application.TwitterClientApplication">
+         </run>
+      </application>
+   </extension>
+
+</plugin>

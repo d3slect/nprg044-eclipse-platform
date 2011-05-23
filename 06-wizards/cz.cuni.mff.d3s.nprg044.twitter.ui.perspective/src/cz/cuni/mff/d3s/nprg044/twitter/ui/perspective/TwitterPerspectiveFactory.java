@@ -5,6 +5,8 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterMessageTimelineView;
+import cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserViewPart;
+import cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard;
 
 public class TwitterPerspectiveFactory implements IPerspectiveFactory {
 
@@ -29,7 +31,7 @@ public class TwitterPerspectiveFactory implements IPerspectiveFactory {
      */
     private void addViews(IPageLayout layout) {
             // create left panel view area
-            IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.25f, layout.getEditorArea());
+            IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.35f, layout.getEditorArea());
             
             left.addView(TwitterMessageTimelineView.ID);
             left.addView(IPageLayout.ID_PROP_SHEET);
@@ -41,8 +43,8 @@ public class TwitterPerspectiveFactory implements IPerspectiveFactory {
             bottom.addView("org.eclipse.pde.runtime.LogView");
 
             // create right panel view area
-            IFolderLayout right = layout.createFolder("right", IPageLayout.RIGHT, 0.75f, layout.getEditorArea());
-            right.addView(IPageLayout.ID_OUTLINE);
+            IFolderLayout right = layout.createFolder("right", IPageLayout.RIGHT, 0.35f, layout.getEditorArea());
+            right.addView(UserViewPart.ID);
     }
 
     /**
@@ -63,13 +65,13 @@ public class TwitterPerspectiveFactory implements IPerspectiveFactory {
      * Adds the new wizard shortcuts.
      */
     private void addNewWizardShortcuts(IPageLayout layout) {            
-//            layout.addNewWizardShortcut(NewQAlternativeWizard.WIZARD_ID);
+            layout.addNewWizardShortcut(NewMessageWizard.ID);
     }
 
     /**
      * Adds the view shortcuts.
      */
     private void addViewShortcuts(IPageLayout layout) {
-            //layout.addShowViewShortcut(IConsoleConstants.ID_CONSOLE_VIEW);
+//    	layout.addShowViewShortcut(IConsoleConstants.ID_CONSOLE_VIEW);
     }
 }

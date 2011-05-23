@@ -52,7 +52,7 @@ public class UserInfoContentProvider implements ILazyTreeContentProvider {
 		String username = parent.getText();
 		User user = getUser(username);		
 		if (user != null) {
-			UserNode userNode = new UserNode(user, twitter);			
+			UserNode userNode = new UserNode(user, null, twitter, viewer);			
 			viewer.replace(parent, index, userNode);
 			viewer.setChildCount(userNode, UserNode.CHILDREN_COUNT);
 		} else {
@@ -67,12 +67,7 @@ public class UserInfoContentProvider implements ILazyTreeContentProvider {
 		if (node != null) {
 			viewer.replace(parent, index, node);
 			int numOfChildren = node.getNumberOfChildren();
-			if (numOfChildren > 0) {
-				viewer.setChildCount(node, numOfChildren);
-			} else {
-				viewer.setHasChildren(node, node.hasChildren());
-			}
-				
+			viewer.setChildCount(node, numOfChildren);							
 		}				
 	}
 
@@ -83,11 +78,7 @@ public class UserInfoContentProvider implements ILazyTreeContentProvider {
 		} else if (element instanceof AbstractUserInfoViewNode) {
 			AbstractUserInfoViewNode node = (AbstractUserInfoViewNode) element;
 			int numOfChildren = node.getNumberOfChildren();
-			if (numOfChildren > 0) {
-				viewer.setChildCount(node, numOfChildren);
-			} else {
-				viewer.setHasChildren(node, node.hasChildren());
-			}
+			viewer.setChildCount(node, numOfChildren);			
 		} 
 	}
 

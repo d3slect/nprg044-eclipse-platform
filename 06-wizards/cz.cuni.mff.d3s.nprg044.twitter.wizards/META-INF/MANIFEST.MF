@@ -10,3 +10,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text;bundle-version="3.6.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Export-Package: cz.cuni.mff.d3s.nprg044.twitter.wizards

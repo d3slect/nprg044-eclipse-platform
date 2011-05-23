@@ -7,6 +7,8 @@ import org.eclipse.ui.IWorkbench;
 
 public class NewMessageWizard extends Wizard implements INewWizard {
 	
+	public static final String ID = "cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard";
+	
 	private MessageWizardPage messagePage;
 
 	public NewMessageWizard() {
