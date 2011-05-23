@@ -11,7 +11,7 @@
             allowMultiple="true"
             category="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterCategory"
             class="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterMessageTimelineView"
-            fastViewWidthRatio="0.3"
+            fastViewWidthRatio="0.4"
             icon="icons/twitter2.png"
             id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView"
             name="Twitter Timeline"
@@ -21,7 +21,8 @@
             allowMultiple="true"
             category="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterCategory"
             class="cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserViewPart"
-            fastViewWidthRatio="0.3"
+            fastViewWidthRatio="0.4"
+            icon="icons/twitter.gif"
             id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserInfoView"
             name="User view"
             restorable="true">
@@ -41,6 +42,22 @@
          <viewShortcut
                id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView">
          </viewShortcut>
+         <view
+               id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserInfoView"
+               minimized="false"
+               ratio="0.3"
+               relationship="left"
+               visible="true">
+         </view>
+         <viewShortcut
+               id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserInfoView">
+         </viewShortcut>
+         <perspectiveShortcut
+               id="cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective">
+         </perspectiveShortcut>
+         <newWizardShortcut
+               id="cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard">
+         </newWizardShortcut>
       </perspectiveExtension>
    </extension>
    <extension

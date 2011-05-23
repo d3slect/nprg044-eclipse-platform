@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="TwitterClient"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ui.ide.workbench"
+            name="Twitter Client">
+         <property
+               name="appName"
+               value="Twitter Client">
+         </property>
+         <property
+               name="aboutText"
+               value="Hello! This is a simple Twitter plugin.">
+         </property>
+         <property
+               name="windowImages"
+               value="icons/twitter.gif">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="7,252,445,20">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="5,275,445,15">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/about.png">
+         </property>
+      </product>
+   </extension>
+
+</plugin>

@@ -6,4 +6,5 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: D3S MFF CUNI
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.ui;bundle-version="3.6.2",
- cz.cuni.mff.d3s.nprg044.twitter.ui.view;bundle-version="1.0.0"
+ cz.cuni.mff.d3s.nprg044.twitter.ui.view;bundle-version="1.0.0",
+ cz.cuni.mff.d3s.nprg044.twitter.ui.wizards;bundle-version="1.0.0"

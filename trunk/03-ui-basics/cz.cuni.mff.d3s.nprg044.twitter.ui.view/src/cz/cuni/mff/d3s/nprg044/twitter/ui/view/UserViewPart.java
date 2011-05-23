@@ -40,7 +40,9 @@ public class UserViewPart extends ViewPart {
 		searchBox.setText("vtipy");		
 				
 		viewer = new TreeViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.VIRTUAL);		
-		viewer.setContentProvider(new UserInfoContentProvider());
+		viewer.setContentProvider(new UserInfoContentProvider());		
+		viewer.setLabelProvider(new UserInfoLabelProvider());
+		
 		// the input for the content provider
 		viewer.setInput(searchBox);		
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));

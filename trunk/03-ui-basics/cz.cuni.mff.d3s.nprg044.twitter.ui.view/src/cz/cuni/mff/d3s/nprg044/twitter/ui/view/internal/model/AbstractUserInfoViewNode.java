@@ -12,9 +12,9 @@ abstract public class AbstractUserInfoViewNode {
 			
 	public abstract int getNumberOfChildren();
 	
-	public abstract AbstractUserInfoViewNode getChild(int index);
+	public abstract AbstractUserInfoViewNode getChild(int index); 
 
-	public boolean hasChildren() {
+	public final boolean hasChildren() {
 		int count = getNumberOfChildren();
 		
 		if (count > 0 || count < 0) {
