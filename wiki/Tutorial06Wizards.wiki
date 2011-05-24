@@ -51,7 +51,7 @@ public class TwitterPerspectiveFactory implements IPerspectiveFactory {
      */
     private void addActionSets(IPageLayout layout) {
 //            layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
-    }
+    }	
 
     /**
      * Adds the perspective shortcuts.
@@ -64,14 +64,14 @@ public class TwitterPerspectiveFactory implements IPerspectiveFactory {
      * Adds the new wizard shortcuts.
      */
     private void addNewWizardShortcuts(IPageLayout layout) {            
-//            layout.addNewWizardShortcut(NewQAlternativeWizard.WIZARD_ID);
+//            layout.addNewWizardShortcut(NewMessageWizard.ID);
     }
 
     /**
      * Adds the view shortcuts.
      */
     private void addViewShortcuts(IPageLayout layout) {
-            //layout.addShowViewShortcut(IConsoleConstants.ID_CONSOLE_VIEW);
+            right.addView(UserViewPart.ID);
     }
 }
 }}}
@@ -87,7 +87,7 @@ It is possible to modify existing perspectives via extension point `org.eclipse.
    * add view shortcuts
    * hide items
 
-||_To reflect the changes it is necessary to reset the perspective._||
+||_To reflect the changes it is often necessary to reset the perspective._||
 
 
 = Wizards =
@@ -205,10 +205,40 @@ public class MessageWizardPage extends WizardPage {
 }}}
 
 ||Note: _To launch wizard programmaticaly, it is necessary to create an instance of wizard and pass it to the instance of the `WizardDialog` class which is responsible for presentation of the wizard_||
-    
+
+= Jobs =    
+The `Job` class allows execution of user code in a separate thread.
+
+`Job` includes following methods:
+ * `run()` - user has to override the method to implement a logic of job
+ * `schedule()` - schedule the job
+ * `join()` - wait for job to finish
+ * `cancel()` - cancel the job, only setup the flag published via method `isCanceled()`
+
+{{{
+if (!job.cancel())
+      job.join();
+}}}
+
+Job result signaled via `IStatus` (`IStatus.OK`, `IStatus.ERROR`)
+  
+
+Job types. 
+  * user - modal dialog is shown, can be put intp background. Configured via calling `setUser(true)`.
+  * system - no contribution into UI. E.g., jobs which are NOT initiated by an user. Configured via `setSystem(true)` before job scheduling.
+
+== Periodic jobs == 
+The job implementation has to reschedule itself - i.e., it needs to call `schedule(num)`.
+
+== Reporting progress ==
+Progress monitor is represented by the `IProgressMonitor` interface:
+  * `monitor.beginTask("Getting follows", numberOfFollows);` - start a monitor for a given units of work
+  * `monitor.worked(1)` - 1 unit of work processed
+  * `monitor.done()` - computation is finished
 
 = Resources =
   * Eclipse Help - Wizards - http://help.eclipse.org/help33/topic/org.eclipse.platform.doc.isv/guide/dialogs.htm
   * Eclipse Help - Perspective - http://help.eclipse.org/help33/topic/org.eclipse.platform.doc.isv/guide/workbench_perspectives.htm
   * Eclipse Article - JFace Wizards - http://www.eclipse.org/articles/article.php?file=Article-JFaceWizards/index.html
+  * Eclipse Atticle - On the Job: The Eclipse Jobs API - http://www.eclipse.org/articles/Article-Concurrency/jobs-api.html
   

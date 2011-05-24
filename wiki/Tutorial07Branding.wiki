@@ -1,0 +1,71 @@
+#summary Eclipse Bundling, Branding and Updating
+
+= Introduction =
+<wiki:toc max_depth="3" />
+
+= Feature =
+Set of plugins with defined meta-information.
+
+  * new _Feature project_
+  * call a new feature `cz.cuni.mff.d3s.nprg044.twitter.feature`
+  * initialize a feature with the plugins `cz.cuni.mff.d3s.nprg044.twitter.*`
+  * it is possible to specify
+    * feature description
+    * licencing
+    * included plugins/features
+      * it is possible to specify if the plugin should be unpacked or not (important for included libraries)
+    * dependencies
+      * can be computed automatically on included plugins
+    * dedicated installation  
+     * case of binary plugins
+
+= Product =
+
+An Eclipse based _product_ is a stand-alone program built with the Eclipse platform. It can bundle multiple features and plugins.
+
+  * create a new plugin `cz.cuni.mff.d3s.nprg044.twitter.branding`
+  * create a new product configuration called `twitter.product`
+    * it is used to configure properties of `org.eclipse.core.runtime.products` extension point
+    * do not forget to click on _Synchronize_ link
+    * _ID_ = `cz.cuni.mff.d3s.nprg044.twitter.branding.TwitterClient`
+    * _Name_ = `Twitter Client`
+    * the product is based on _features_
+    * define a new product definition:
+      * _Product ID_ = `TwitterClient`
+        * product identification is composed of _Product ID_ and defining plugin's ID
+      * _Application_ = `org.eclipse.ui.ide.workbench` 
+      * synchronize and look into `plugin.xml` that extension point `org.eclipse.core.runtime.products` is configured
+        * there are various properties which are defined in `IWorkbenchPreferenceConstants`, `IProductConstants`
+
+    * add `cz.cuni.mff.d3s.nprg044.twitter.feature` to _Dependencies_
+    * change launcher name on _Launch_ tab
+
+||The location, size, and color of the progress bar and progress message shown in the splash screen during startup can be configured using the properties startupProgressRect, startupMessageRect, and startupForegroundColor. See IProductConstants for more information about these properties. Note that by default, no progress will be reported at startup. To enable startup progress reporting, set the following preference to true, for example in the preference customization file: IWorkbenchPreferenceConstants.SHOW_PROGRESS_ON_STARTUP||
+
+A product has to be associated with an _application_. It represents the default entry point for theh product when it is running.
+Eclipse platform is represented by `org.eclipse.ui.ide.workbench`. However, it is possible to create a new application. See example.
+
+==== Splash screen ====
+Normally, `splash.bmp` figure is shown if it is located in the root of product's plugin. However, splash can be hooked via extension point `org.eclipse.ui.splashHandlers`.
+
+== Update site ==
+  * create a new project `cz.cuni.mff.d3s.nprg044.twitter.update-site`
+  * setup the update site
+   * included features
+   * titles
+  * build update site
+  * try to install the feature from update site
+
+== Headless build ==
+TODO
+
+== P2 ==
+TODO
+
+= Resources =
+  * Eclipse Help - Product customization - http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/product_configproduct.htm
+  * Eclipse Article - Branding your Application - http://www.eclipse.org/articles/Article-Branding/branding-your-application.html
+  * IBM developerworks - * http://www.ibm.com/developerworks/opensource/library/os-ecfeat/index.html
+  * Lars Vogella - RCP Tutorial - http://www.vogella.de/articles/EclipseRCP/article.html
+
+  
