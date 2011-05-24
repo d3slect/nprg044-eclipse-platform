@@ -45,22 +45,16 @@ An Eclipse based _product_ is a stand-alone program built with the Eclipse platf
 A product has to be associated with an _application_. It represents the default entry point for theh product when it is running.
 Eclipse platform is represented by `org.eclipse.ui.ide.workbench`. However, it is possible to create a new application. See example.
 
-==== Splash screen ====
+== Splash screen ==
 Normally, `splash.bmp` figure is shown if it is located in the root of product's plugin. However, splash can be hooked via extension point `org.eclipse.ui.splashHandlers`.
 
-== Update site ==
+= Update site =
   * create a new project `cz.cuni.mff.d3s.nprg044.twitter.update-site`
   * setup the update site
    * included features
    * titles
   * build update site
   * try to install the feature from update site
-
-== Headless build ==
-TODO
-
-== P2 ==
-TODO
 
 = Resources =
   * Eclipse Help - Product customization - http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/product_configproduct.htm
