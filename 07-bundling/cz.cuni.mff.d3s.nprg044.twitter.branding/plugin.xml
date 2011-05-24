@@ -40,6 +40,10 @@
                name="aboutImage"
                value="icons/about.png">
          </property>
+         <property
+               name="featureImage"
+               value="icons/featureImg.png">
+         </property>
       </product>
    </extension>
 
