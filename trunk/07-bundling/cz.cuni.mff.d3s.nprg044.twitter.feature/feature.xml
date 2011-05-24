@@ -17,10 +17,13 @@
       [Enter License Description here.]
    </license>
 
+   <url>
+      <update label="Update Site" url="http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/trunk/07-bundling/cz.cuni.mff.d3s.nprg044.twitter.update-site/"/>
+      <discovery label="Twitter Client Update Site" url="http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/trunk/07-bundling/cz.cuni.mff.d3s.nprg044.twitter.update-site/"/>
+   </url>
+
    <requires>
-      <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.commands" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui"/>
       <import plugin="cz.cuni.mff.d3s.nprg044.twitter.api" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.editors" version="3.6.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jface.text" version="3.6.1" match="greaterOrEqual"/>
@@ -28,6 +31,7 @@
       <import plugin="org.eclipse.ui.forms" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui" version="3.6.2" match="greaterOrEqual"/>
       <import plugin="cz.cuni.mff.d3s.nprg044.twitter.ui.view" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="cz.cuni.mff.d3s.nprg044.twitter.ui.wizards" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.expressions" version="3.4.200" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.platform" version="3.6.2" match="greaterOrEqual"/>
