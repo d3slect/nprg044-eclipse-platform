@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Log_service_test_bundle Plug-in
+Bundle-SymbolicName: cz.cuni.mff.dsrg.log_service_test_bundle
+Bundle-Version: 1.0.0
+Bundle-Activator: cz.cuni.mff.dsrg.log.tests.ServiceTestActivator
+Import-Package: cz.cuni.mff.dsrg.log.api,
+ org.osgi.framework;version="1.3.0",
+ org.osgi.util.tracker;version="1.3.3"
