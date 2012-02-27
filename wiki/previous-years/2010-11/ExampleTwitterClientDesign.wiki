@@ -1,5 +1,6 @@
 #summary Twitter client example design
 #labels examples
+#sidebar previous-years/2010-11/LessonSideBar
 
 = Example: Twitter client =
 <wiki:toc max_depth="2" />
