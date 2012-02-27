@@ -1,6 +1,6 @@
-#summary One-sentence summary of this page.
+#summary Content outline of Eclipse Platform Classes 2011/12.
 
-= Eclipse Platform Classes 2010-11 =
+= Eclipse Platform Classes 2011-12 =
 
 This is a tutorial for the Eclipse-related part of the course [http://is.cuni.cz/studium/eng/predmety/index.php?do=predmet&kod=NPRG044 Netbeans and Eclipse platforms - NPRG044].
 
