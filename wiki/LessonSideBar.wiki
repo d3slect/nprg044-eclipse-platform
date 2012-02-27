@@ -1,6 +1,7 @@
 #summary SideBar
 #labels sidebar
 
+  * [Intro Introduction]
   * Tutorial structure
     * [Tutorial01OSGiBasics OSGi basics]
     * [Tutorial02EclipseBasics Eclipse basics]
