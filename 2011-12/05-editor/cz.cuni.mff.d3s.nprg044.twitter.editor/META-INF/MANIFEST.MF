@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Twitter Editor
+Bundle-SymbolicName: cz.cuni.mff.d3s.nprg044.twitter.editors;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: cz.cuni.mff.d3s.nprg044.twitter.editor.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.editors;bundle-version="3.6.1",
+ org.eclipse.jface.text;bundle-version="3.6.1",
+ org.eclipse.ui.views;bundle-version="3.5.1",
+ org.eclipse.ui.forms;bundle-version="3.5.2"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
