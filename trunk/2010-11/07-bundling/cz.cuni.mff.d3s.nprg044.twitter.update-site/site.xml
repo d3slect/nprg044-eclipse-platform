@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="Twitter Client Update Site" url="http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/trunk/update-site">
+      This is an update site for Twitter Client.
+   </description>
+   <feature url="features/cz.cuni.mff.d3s.nprg044.twitter.feature_1.0.0.201105232255.jar" id="cz.cuni.mff.d3s.nprg044.twitter.feature" version="1.0.0.201105232255">
+      <category name="cz.cuni.mff.d3s.nprg044.twitter"/>
+   </feature>
+   <category-def name="cz.cuni.mff.d3s.nprg044.twitter" label="Twitter Client Category">
+      <description>
+         This category brings the NPRG044 lecture&apos;s features.
+      </description>
+   </category-def>
+</site>
