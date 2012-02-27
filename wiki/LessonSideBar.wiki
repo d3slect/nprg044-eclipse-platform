@@ -31,5 +31,4 @@
   * Examples
     * [ExampleTwitterClientDesign Twitter Client]
 
-  * Previous years
-    * [http://code.google.com/a/eclipselabs.org/p/nprg044-eclipse-platform/wiki/previous-years/2010-11/Intro 2010-11]
+  * [Previous years Previous years]
