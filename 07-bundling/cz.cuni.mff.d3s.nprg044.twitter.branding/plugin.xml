@@ -6,7 +6,7 @@
          id="TwitterClient"
          point="org.eclipse.core.runtime.products">
       <product
-            application="org.eclipse.ui.ide.workbench"
+            application="cz.cuni.mff.d3s.nprg044.twitter.application.TwitterClientApplication"
             name="Twitter Client">
          <property
                name="appName"

@@ -44,7 +44,7 @@ public abstract class LazyNode extends AbstractUserInfoViewNode {
 		};
 		// uncomment to show progress bar
 //		workingJob.setUser(true);
-		workingJob.schedule();
+				workingJob.schedule();
 		
 		return new PendingNode(getPendingMessage(), this);		
 	}
