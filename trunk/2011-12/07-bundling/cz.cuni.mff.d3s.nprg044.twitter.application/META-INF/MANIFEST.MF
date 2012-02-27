@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Twitter Client RCP Application
+Bundle-SymbolicName: cz.cuni.mff.d3s.nprg044.twitter.application; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: D3S MFF CUNI
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
