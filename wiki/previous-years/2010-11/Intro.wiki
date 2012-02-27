@@ -1,0 +1,15 @@
+#summary One-sentence summary of this page.
+
+= Eclipse Platform Classes 2010-11 =
+
+This is a tutorial for the Eclipse-related part of the course [http://is.cuni.cz/studium/eng/predmety/index.php?do=predmet&kod=NPRG044 Netbeans and Eclipse platforms - NPRG044].
+
+==Outline==
+
+ # [Tutorial01OSGiBasics OSGi basics]
+ # [Tutorial02EclipseBasics Eclipse basics]
+ # [Tutorial03UIbasics Eclipse UI basics]
+ # [Tutorial04Views Views]
+ # [Tutorial05Editors Editors]
+ # [Tutorial06Wizards Perspective and wizards]
+ # [Tutorial07Branding  Product branding, updating]
