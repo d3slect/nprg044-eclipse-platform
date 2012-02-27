@@ -1,0 +1,825 @@
+#summary Introduction of Eclipse editors
+
+= Introduction =
+<wiki:toc max_depth="3" />
+
+= Eclipse Editors =
+Editors share the same concepts as views, however, they are primary intended for maintaining data.
+{{{
+IWorkbenchPart
+ |
+ +- IEditorPart
+  |
+  +- EditorPart
+   |
+   +- MultiPageEditorPart
+   +- TextEditor
+}}}
+
+Editor implements `IEditorPart` interface. From implementation perspective, it is better to inherit from the class `EditorPart` serving basic infrastructure. It is necessary to implement:
+  * `init(IEditorSite site, IEditorInput input)` - checks supported input, registers listeners, etc.
+  * override `createPartControl(Composite parent)` - creates editor control (e.g., SWT widget `Text`, `TextViewer`, `SourceViewer`), 
+  
+Similarly to views, the class `IEditorSite` serves as a communication channel between editor and underlying Eclipse workbench to register action bars and context menu (see previous lecture about views). 
+
+The class `IEditorInput` represents the input which will be managed by the editor. It can be a file (`IFileEditorInput`), URI (`IURIEditorInput`), Eclipse path (`IPathEditorInput`), or user defined input element.
+
+== Simple multi-page editor example ==
+  
+  * create a new plug-in `cz.cuni.mff.d3s.nprg044.twitter.editors`
+  * add the following plug-ins into _Dependencies_:
+    * `org.eclipse.ui.editors`
+    * `org.eclipse.jface.text`
+  * add _Extension_ `org.eclipse.ui.editors` and add a new editors  
+    * _ID_ = `cz.cuni.mff.d3s.nprg044.twitter.editors.SimpleMultiPageEditor`
+    * _extension_ = `markdown`
+  
+  * create the editor implementation `SimpleMultiPageEditor` extending the class `MultiPageEditorPart`
+   * the implementation should have 2 pages:
+     # page should contain classical editor - use `TextEditor` widget
+     # page should show list of lines - use `ListViewer` widget
+   * the method `createPage` create two pages with mentioned controls:
+     * the editor input is handled automatically by super class
+     * to access parent SWT container use method `getContainer()`
+     * numbering of pages is 0-based
+{{{
+private TextEditor textEditor;
+private ListViewer listViewer;
+
+@Override
+protected void createPages() {
+	createPage0();
+	createPage1();
+}
+
+private void createPage0() {		
+	try {
+		textEditor = new TextEditor();
+		int index = addPage(textEditor, getEditorInput()) ;
+		setPageText(index, "Editor");
+	} catch (PartInitException e) {
+		e.printStackTrace();
+	}
+}
+
+private void createPage1() {
+	Composite composite = new Composite(getContainer(), SWT.NONE);
+	FillLayout layout = new FillLayout();
+	composite.setLayout(layout);
+	
+	listViewer = new ListViewer(composite);
+	int index = addPage(composite);
+	setPageText(index, "Preview");		
+}
+}}}
+
+   * implements save methods by delegating them on the `textEditor` widget
+{{{
+@Override
+public void doSave(IProgressMonitor monitor) {
+	textEditor.doSave(monitor);
+}
+
+@Override
+public void doSaveAs() {
+	textEditor.doSaveAs();
+}
+
+@Override
+public boolean isSaveAsAllowed() {
+	return true;
+}
+}}}
+   * fill the `listViewer` widget only if it is shown:
+{{{
+@Override
+protected void pageChange(int newPageIndex) {
+	super.pageChange(newPageIndex);
+	if (newPageIndex == 1) {
+		String editorText = textEditor.getDocumentProvider().getDocument(getEditorInput()).get();
+		StringTokenizer tokenizer = new StringTokenizer(editorText, "\t\n\r\f");
+					
+		listViewer.getList().removeAll();
+		int i = 0;
+		while (tokenizer.hasMoreTokens()) {
+			listViewer.add(i+ ": " +tokenizer.nextToken());
+			i++;
+		}
+	}
+}
+}}}
+
+
+== Text Editor improvements ==
+The next step is to improve common implementation of `TextEditor` to support _markdown_ syntax.
+The _markdown_ syntax supports following marks: 
+ * `= HEADING 1 =`
+ * `== HEADING 2 ==`
+ * `* bold text *`
+ * `_ italics text _`
+
+For example:
+{{{
+= Heading 1=
+== Sub-heading ==
+This is a normal text followed by text in *bold*.
+
+_And this is a multiline
+italics text_.
+}}}
+
+In the following example, we will improve the text editor (`TextEditor` class) to support _markdown_ syntax.
+The class `TextEditor` is highly configurable and supports:
+  * syntax highlight
+  * text partitioning
+  * hover
+  * content assist
+  * separation between text in editor and edited model
+  * annotation
+  * ...
+
+=== Creating the editor ===
+
+  * add extension `org.eclipse.ui.editors` and a new editor:
+    * _ID_ = `cz.cuni.mff.d3s.nprg044.twitter.editor.MarkdownTextEditor`
+    * _extension_ = `markdown`
+  * implements the class `cz.cuni.mff.d3s.nprg044.twitter.editor.text.MarkdownTextEditor` extending the class `TextEditor`
+{{{
+public class MarkdownTextEditor extends TextEditor {
+	
+	private ColorManager colorManager;
+	
+	@Override
+	protected void initializeEditor() {
+		super.initializeEditor();
+		
+		colorManager = new ColorManager();
+		
+		// setup TextEditor
+		setSourceViewerConfiguration(new MarkdownTextEditorConfiguration(colorManager));
+		// setup document provider
+		setDocumentProvider(new MarkdownTextDocumentProvider());
+	}	
+	
+	@Override
+	public void dispose() {
+		colorManager.dispose();
+		
+		super.dispose();
+	}
+
+}
+}}}
+|| _Re-use `ColorManager` class and `IMarkdownTextColorConstants` interface from given source code. The `ColorManager` manages creation of instance of the class `Color` according to given RGB value._||
+
+There are two important calls - `setDocumentProvider` and `setSourceViewerConfiguration`.
+
+=== Document Provider ===
+The document provider implements the interface `IDocumentProvider` which provides a mapping between an editor input (i.e., `IEditorInput`) and a presentation model (what is shown in text editor) represented by the interface `IDocument`.
+
+The interface `IDocument` serves to maintain the text shown in the editor control - to access lines, chars, update the given position, replace the text, etc.
+
+
+Document provider can also provide information about hidden annotations (i.e., _annotation model_). See http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/editors_annotations.htm
+
+|| _The document provider can be also registered via extension point `org.eclipse.ui.editors.documentProviders`_||
+
+Implements the class `MarkdownTextDocumentProvider`:
+{{{
+public class MarkdownTextDocumentProvider extends FileDocumentProvider {
+	
+	@Override
+	protected IDocument createDocument(Object element) throws CoreException {		
+		IDocument document = super.createDocument(element);
+		
+		// register document partitioner
+		if (document != null) {
+			IDocumentPartitioner partitioner = 
+				new FastPartitioner(
+						new MarkdownTextPartitionScanner(), 
+						MarkdownTextPartitionScanner.LEGAL_CONTENT_TYPES);
+			
+			// connect it with document
+			partitioner.connect(document);
+			document.setDocumentPartitioner(partitioner);
+		}
+				
+		return document;
+	}
+
+}
+}}}
+
+==== Partitions ====
+The partitioner (`IDocumentPartitioner`) is responsible for dividing the document into non-overlapping regions called partitions.  Partitions (represented by `ITypedRegion`) are useful for treating different sections of the document differently with respect to features like syntax highlighting or formatting. Each region has associated _content type_.
+There can be registered multiple partitioning strategies (see interface `IDocumentExtension3`).
+
+It is recommended to use rule-based partitioning via `FastPartitioner` which needs a scanner recognizing the partitions. 
+In our case, the partitions are four following the markdown syntax rules (heading1, heading2, bold, italics):
+{{{
+public class MarkdownTextPartitionScanner extends RuleBasedPartitionScanner {
+	public final static String MARKDOWN_H1 = "__markdown_h1";
+	public final static String MARKDOWN_H2 = "__markdown_h2";
+	public final static String MARKDOWN_BOLD = "__markdown_bold";
+	public final static String MARKDOWN_ITALICS = "__markdown_italics";
+	
+	public final static String[] LEGAL_CONTENT_TYPES = {MARKDOWN_H1, MARKDOWN_H2, MARKDOWN_BOLD, MARKDOWN_ITALICS};
+	
+	public final static int NUMBER_OF_RULES = 4;
+	
+	public MarkdownTextPartitionScanner() {
+		IToken heading1 = new Token(MARKDOWN_H1);
+		IToken heading2 = new Token(MARKDOWN_H2);
+		IToken bold = new Token(MARKDOWN_BOLD);
+		IToken italics = new Token(MARKDOWN_ITALICS);
+		
+		// ORDER is important - try to switch order of '=' and '==' !
+		IPredicateRule[] rules = new IPredicateRule[NUMBER_OF_RULES];
+		rules[0] = new PatternRule("==", "==", heading2, (char) 0, false);
+		rules[1] = new PatternRule("=", "=", heading1, (char) 0, false);		
+		rules[2] = new MultiLineRule("*", "*", bold);			
+		rules[3] = new MultiLineRule("_", "_", italics);
+		
+		setPredicateRules(rules);
+	}	
+}
+}}}
+  * `IToken` represents a token returned by a parser if the given rule match.
+  * There are various types of rules which matches whitespaces, number, words, patterns, ...
+  * In this example the rule order is important, because the scanner return the first successful match. Hence, the rule for `==` has to registered before the rule for recognizing `=`
+   * Try to change the order.
+   
+||_Open question is if the partitions can be nested or recursively defined. It seems that they cannot be nested_||
+
+=== Source Viewer Configuration ===
+The class `TextEditor` uses internaly the `SourceViewer` JFace widget (see interface `ISourceViewer`). It can be configured via calling `setSourceViewerConfiguration` which accepts an instance of the class `SourceViewerConfiguration`.
+
+  * create the class `MarkdownTextEditorConfiguration` extending `SourceViewerConfiguration`
+  * register supported content types
+    * there are 4 content types from partitioner
+    * the rest of text is represented by IDocument.DEFAULT_CONTENT_TYPE
+{{{
+public class MarkdownTextEditorConfiguration extends SourceViewerConfiguration {
+
+	@Override
+	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
+		return new String[] { IDocument.DEFAULT_CONTENT_TYPE,
+				MarkdownTextPartitionScanner.MARKDOWN_H1,
+				MarkdownTextPartitionScanner.MARKDOWN_H2,
+				MarkdownTextPartitionScanner.MARKDOWN_BOLD,
+				MarkdownTextPartitionScanner.MARKDOWN_ITALICS };
+	}
+}
+}}}
+
+==== Syntax coloring ====
+It is necessary to define scanners which return tokens containing text attributes - see class `TextAttribute`.
+The coloring itself is based on reconciler (`PresentationReconciler`) which detects damaged text (`IPresentationDamager`) and repair it (`IPresentationRepairer`). 
+
+||Eclipse Help: Damagers (`IPresentationDamager`) determine the region of a document's presentation which must be rebuilt because of a document change. A presentation damager is assumed to be specific to a particular document content type (or region). It must be able to return a damage region that is valid input for a presentation repairer (`IPresentationRepairer`).  A repairer must be able to derive all of the information it needs from a damage region in order to successfully describe the repairs that are needed for a particular content type. Reconciling describes the overall process of maintaining the presentation of a document as changes are made in the editor.  A presentation reconciler (IPresentationReconciler) monitors changes to the text through its associated viewer.  It uses the document's regions to determine the content types affected by the change and notifies a damager that is appropriate for the affected content type.  Once the damage is computed, it is passed to the appropriate repairer which will construct repair descriptions that are applied to the viewer to put it back in sync with the underlying content.||
+
+In our example we use `DefaultDamagerRepairer` which is based on a scanner returning tokens with text attributes for given content type region to be repaired.
+{{{
+@Override
+public IPresentationReconciler getPresentationReconciler(
+		ISourceViewer sourceViewer) {
+	PresentationReconciler reconciler = new PresentationReconciler();
+	DefaultDamagerRepairer dr = null;
+
+	dr = new DefaultDamagerRepairer(
+			getMarkdownH1Scanner());
+	reconciler.setDamager(dr, MarkdownTextPartitionScanner.MARKDOWN_H1);
+	reconciler.setRepairer(dr, MarkdownTextPartitionScanner.MARKDOWN_H1);
+
+        /* ... */
+        return reconciler;
+}
+private RuleBasedScanner markdownH1Scanner;
+
+private ITokenScanner getMarkdownH1Scanner() {
+  if (markdownH1Scanner == null) {
+	  markdownH1Scanner = new RuleBasedScanner() {
+		  {
+			  setDefaultReturnToken(new Token(new TextAttribute(
+					  colorManager.getColor(IMarkdownTextColorConstants.H1),
+					  colorManager.getColor(IMarkdownTextColorConstants.H1_BG),
+					  TextAttribute.UNDERLINE
+					  )));
+		  }
+	  };
+  }
+  return markdownH1Scanner;
+}
+}}}
+
+====Hover support====
+To support hovers in the text, add a following method to the implementation of `MarkdownTextEditorConfiguration`:
+{{{
+@Override
+public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType) {
+	return new MarkdownTextHover();
+}
+
+public class MarkdownTextHover implements ITextHover, ITextHoverExtension2 {
+
+	@Override
+	public Object getHoverInfo2(ITextViewer textViewer, IRegion hoverRegion) {
+		try {
+			return textViewer.getDocument().getPartition(hoverRegion.getOffset()).toString();
+		} catch (BadLocationException e) {
+			return "No info because of " + e.getMessage();			
+		}
+	}
+
+	@Override
+	public String getHoverInfo(ITextViewer textViewer, IRegion hoverRegion) {		
+		return getHoverInfo2(textViewer, hoverRegion).toString();
+	}
+
+	@Override
+	public IRegion getHoverRegion(ITextViewer textViewer, int offset) {
+		Point selection= textViewer.getSelectedRange();
+	  if (selection.x <= offset && offset < selection.x + selection.y)
+                return new Region(selection.x, selection.y);
+	  return new Region(offset, 0);
+	}
+}
+}}}
+
+====Content assist support===
+Different content assistant can be register for each partition content-type:
+{{{
+@Override
+public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+	ContentAssistant assistant = new ContentAssistant();
+	IContentAssistProcessor sharedProcessor = new MarkdownContentAssistProcessor();
+	assistant.setContentAssistProcessor(sharedProcessor, IDocument.DEFAULT_CONTENT_TYPE);
+	assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_H1);
+	assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_H2);
+	assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_BOLD);
+	assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_ITALICS);		
+	
+	assistant.setEmptyMessage("Sorry, no hint for you :-/");
+	assistant.enableAutoActivation(true);
+	assistant.setAutoActivationDelay(500);
+	
+	return assistant;
+}
+}}}
+
+ * It is recommended to use default implementation `ContentAssistant` and specify various `IContentAssistProcessor`:
+{{{
+public class MarkdownContentAssistProcessor implements IContentAssistProcessor {
+	
+	private final static String[] PROPOSALS = { "=", "==", "*", "_" };
+
+	@Override
+	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,
+			int offset) {
+		List<ICompletionProposal> result = new ArrayList<ICompletionProposal>();
+		for (int i = 0; i < PROPOSALS.length; i++) {
+			result.add(new CompletionProposal(PROPOSALS[i], offset, 0, PROPOSALS[i].length()));			
+		}
+		
+		return result.toArray(new ICompletionProposal[result.size()]);
+	}
+
+	@Override
+	public IContextInformation[] computeContextInformation(ITextViewer viewer,
+			int offset) {
+		return null;
+	}
+
+	@Override
+	public char[] getCompletionProposalAutoActivationCharacters() {
+		return new char[] { '=' };
+	}
+
+	@Override
+	public char[] getContextInformationAutoActivationCharacters() {
+		return null;
+	}
+
+	@Override
+	public String getErrorMessage() {
+		return null;
+	}
+
+	@Override
+	public IContextInformationValidator getContextInformationValidator() {
+		return null;
+	}
+}
+}}}
+
+==== Text manipulation ====
+We want to support _Ctrl+B_ shortcut to mark bold text in the editor:
+
+  * add extension `org.eclipse.ui.commands`
+   * add a new command `cz.cuni.mff.d3s.nprg044.twitter.editor.MarkBoldCommand`
+    * implements _default handler_ `cz.cuni.mff.d3s.nprg044.twitter.editor.text.commands.MarkBoldHandler`
+      * recognize selection and encapsulates it with `*` marks:
+{{{
+public class MarkBoldHandler extends AbstractHandler {
+
+  @Override
+  public Object execute(ExecutionEvent event) throws ExecutionException {
+	  
+	  IEditorPart editorPart = HandlerUtil.getActiveEditor(event);
+	  if (editorPart instanceof TextEditor) {			
+		  ISelection selection = HandlerUtil.getCurrentSelection(event);
+		  if (selection instanceof TextSelection) {
+			  System.out.println("MarkBoldHandler.execute()");
+			  
+			  TextEditor editor = (TextEditor) editorPart;
+			  IDocument document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
+			  
+			  TextSelection textSelection = (TextSelection) selection;
+			  try {
+				  document.replace(textSelection.getOffset(), textSelection.getLength(), "*" + textSelection.getText()+ "*");
+			  } catch (BadLocationException e) {
+				  e.printStackTrace();
+			  }
+							  
+		  }
+	  }
+	  
+	  return null;
+  }
+}
+}}}
+
+Now it is necessary to associate command with key-binding:
+  * add extension `org.eclipse.ui.bindings`
+   * _commandId_ = `cz.cuni.mff.d3s.nprg044.twitter.editor.MarkBoldCommand`
+   * _sequence_ = `M1+B`
+   * _schemeId_ = `org.eclipse.ui.defaultAcceleratorConfiguration`
+   * _contextId_ =`org.eclipse.ui.textEditorScope`
+     * context activate key-binding only inside `TextEditor`
+
+
+|| _Interfaces `IDocumentProvider`, `IDocument`, `ISourceViewer` and other interfaces evolve during the development of Eclipse. Hence, they are often several extension of the base interface, e.g., `IDocumentProviderExtension2`. All of them are typically implemented by a common base class (e.g., `SourceViewer` in case of the interface `ISourceViewer` _||
+
+=== Outline view support === 
+To show a structure of the text (e.g., structure of headings), the editor has to provide an implementation of the `IContentOutlinePage` interfaces which is then shown by the _Content Outline View_.
+Typical way of providing the implementation is via `IAdaptable` interface:
+
+ * text editor `MarkdownTextEditor` implements adapter for the `IContentOutlinePage` interface
+   * override method `getAdapter`:
+{{{
+	private MarkdownTextOutlinePage outlinePage;
+	
+	@Override
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+		if (IContentOutlinePage.class.equals(adapter)) {
+			if (outlinePage  == null) {
+				outlinePage = new MarkdownTextOutlinePage();
+				outlinePage.setInput(getDocumentProvider().getDocument(getEditorInput()));				
+			}	
+			
+			return outlinePage;
+		} 
+		
+		return super.getAdapter(adapter);
+	}
+}}}
+ * the class `MarkdownTextOutlinePage` implements the interface `IContentOutlinePage` via extending the support class `ContentOutlinePage`:
+   * override method `createControl` and provide appropriate content provider and label provider
+{{{
+public class MarkdownTextOutlinePage extends ContentOutlinePage  {
+
+	private IDocument input;
+	
+	private class SimpleLabelProvider extends LabelProvider {
+		@Override
+		public String getText(Object element) {			
+			if (element instanceof ITypedRegion) {
+				ITypedRegion region = (ITypedRegion) element;
+				
+				try {
+					return input.get(region.getOffset(), region.getLength());
+				} catch (BadLocationException e) {					
+				}
+			}
+			return super.getText(element);			
+		}
+	}
+	
+	@Override
+	public void createControl(Composite parent) {
+		super.createControl(parent);
+		TreeViewer treeViewer = getTreeViewer();
+		treeViewer.setContentProvider(new MarkdownSyntaxContentProvider());
+		treeViewer.setLabelProvider(new SimpleLabelProvider());
+		
+		treeViewer.setInput(this.input);
+		
+		getSite().setSelectionProvider(treeViewer);
+	}
+	
+	public void setInput(IDocument element) {
+		this.input = element;
+		if (getTreeViewer()!=null) {
+			getTreeViewer().setInput(element);		
+		}
+	}	
+}
+}}}
+ 
+ * extends class `ContentOutlinePage` and overrides the method `createControl`
+   * call super-method to create `TreeViewer`
+   * to access the tree viewer use `getTreeViewer()` method
+   * setup content and label providers via calling `TreeViewer.setContentProvider` and `TreeViewer.setLabelProvider`
+   * set input via `TreeViewer.setInput`
+ * implements content provider `MarkdownSyntaxContentProvider` showing hierarchy of headings level1 and level2.
+{{{
+public class MarkdownSyntaxContentProvider implements ITreeContentProvider {
+
+	private static final Object[] EMPTY = {};
+	private TreeViewer viewer;
+	private IDocument document;
+	
+	private IDocumentListener documentListener = new IDocumentListener() {
+		
+		@Override
+		public void documentChanged(DocumentEvent event) {
+			if (!MarkdownSyntaxContentProvider.this.viewer.getControl().isDisposed()) {
+				MarkdownSyntaxContentProvider.this.viewer.refresh();
+			}
+		}
+		
+		@Override
+		public void documentAboutToBeChanged(DocumentEvent event) {					
+		}
+	};
+	
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		this.viewer = (TreeViewer) viewer;
+		
+		if (oldInput instanceof IDocument) {
+			document.removeDocumentListener(documentListener);
+		}
+		
+		if (newInput instanceof IDocument) {
+			document = (IDocument) newInput;
+			document.addDocumentListener(documentListener);
+		}		
+	}
+
+	@Override
+	public Object[] getElements(Object inputElement) {
+		IDocument document = getDocument(inputElement);
+		if (document != null) {
+			ArrayList<ITypedRegion> result = new ArrayList<ITypedRegion>();
+			try {
+				ITypedRegion[] regions = document.computePartitioning(0, document.getLength());
+				for(ITypedRegion region : regions) {
+					if (region.getType().equals(MarkdownTextPartitionScanner.MARKDOWN_H1)) {
+						result.add(region);
+					}
+				}
+			} catch (BadLocationException e) {						
+				e.printStackTrace();
+			}
+			return result.toArray();			
+		}
+		
+		return EMPTY;
+		
+	}
+
+	private IDocument getDocument(Object inputElement) {
+		if (inputElement instanceof IDocument) {
+			return (IDocument) inputElement;
+		}
+		
+		return null;
+	}
+
+	@Override
+	public Object[] getChildren(Object parentElement) {
+		if (parentElement instanceof ITypedRegion) {
+			ITypedRegion parentRegion = (ITypedRegion) parentElement;
+			ArrayList<ITypedRegion> result = new ArrayList<ITypedRegion>();
+			if (parentRegion.getType().equals(MarkdownTextPartitionScanner.MARKDOWN_H1)) {
+				ITypedRegion[] regions;
+				try {
+					regions = document.computePartitioning(parentRegion.getOffset()+parentRegion.getLength(), document.getLength()-parentRegion.getOffset()-parentRegion.getLength());
+				
+					for(ITypedRegion h2region : regions) {
+						if (h2region.getType().equals(MarkdownTextPartitionScanner.MARKDOWN_H2)) {
+							result.add(h2region);
+						}
+						if (h2region.getType().equals(MarkdownTextPartitionScanner.MARKDOWN_H1)) {
+							break;
+						}
+					}
+					
+					return result.toArray();
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				}
+			}
+		}		
+		return EMPTY;		
+	}
+
+	@Override
+	public Object getParent(Object element) {
+		return null;
+	}
+
+	@Override
+	public boolean hasChildren(Object element) {
+		if (element instanceof ITypedRegion) {
+			ITypedRegion region = (ITypedRegion) element;
+			if (region.getType().equals(MarkdownTextPartitionScanner.MARKDOWN_H1)) {
+				return true;
+			}			
+		}
+		return false;
+	}
+
+	@Override
+	public void dispose() {		
+	}
+}
+}}}
+
+==== Content outline selection ====
+If the node in content outline is selected the cursor should move to corresponding section in text editor.
+
+ * register a listener to a selection in content outline page implementation in the method `getAdapter`:
+{{{
+outlinePage.addSelectionChangedListener(new ISelectionChangedListener() {
+	  
+	  @Override
+	  public void selectionChanged(SelectionChangedEvent event) {
+		  IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+		  if (!selection.isEmpty()) {
+			  ITypedRegion region = (ITypedRegion) selection.getFirstElement();
+			  setHighlightRange(region.getOffset(), region.getLength(), true);
+		  }						
+	  }
+  });
+}}}
+
+==== Editor position in content outline ====
+We want to show the appropriate content outline node highlighted if the editor cursor is placed on heading location.
+The solution is to implement `CaretListener` (SWT listener) in `MarkdownTextOutlinePage`:
+{{{
+@Override
+public void caretMoved(CaretEvent event) {
+	try {
+		ITypedRegion region = input.getPartition(event.caretOffset);
+		
+		if (getTreeViewer()!=null) {
+			getTreeViewer().setSelection(new StructuredSelection(region));
+			getTreeViewer().reveal(region);
+			getTreeViewer().expandToLevel(region, TreeViewer.ALL_LEVELS);
+		}
+		
+	} catch (BadLocationException e) {		
+		e.printStackTrace();
+	}		
+}
+}}}
+
+The listener has to be registered during creation of `MarkdownTextOutlinePage`:
+{{{
+getSourceViewer().getTextWidget().addCaretListener(outlinePage);
+}}}
+
+||_Implementing only _ISelectionListener_ in `MarkdownTextOutlinePage` is not enough!_||
+
+
+==== Property sheet ====
+To show informations about current selection, the `Property View` is provided. If we want to show a property of the node (`ITypedRegion`) selected in content provider, the selection of the underlying tree viewer has to be propagated. 
+It means that in the method `createControl` of the content outline page implementation the selection provider has to be configured (it register the tree viewer as a selection produced in `ISelectionService`):
+{{{
+getSite().setSelectionProvider(treeViewer);
+}}}
+
+The _Property view_ shows an object implementing the _IPropertySource_ interface (provider information - key-value pairs - about selected object). 
+Similarly to previous examples, the selected node (type `ITypedRegion) has to be adapted to `IPropertySource`.
+
+There are two ways:
+  # changing implementation of `ITypedRegion` to implements the `IAdaptable` interface.
+  # providing adapter factory
+
+However, the first way is not possible because `ITypedRegion` implementation is a part of Eclipse base plugins. 
+Hence, it is necessary to  register an adapter factory for given type:
+ * open plugin.xml
+ * add a new extension org.eclipse.core.runtime.adapters
+   * add a new factory:
+     * _adaptableType_ = `ITypedRegion` (what is adapted)
+     * _class_ = `cz.cuni.mff.d3s.nprg044.twitter.editors.adapters.EditorsAdapterFactory.java` (adaptation factory)
+     * add a new sub-element adapter (what is a target of adaptation)
+      * _type_ = `org.eclipse.ui.views.properties.IPropertySource`
+  
+Implements the factory:
+{{{
+public class EditorsAdapterFactory implements IAdapterFactory {
+
+    private static final Class[] SUPPORTED_ADAPTERS = { IPropertySource.class };
+
+    @Override
+    public Object getAdapter(Object adaptableObject, Class adapterType) {
+            if  (IPropertySource.class.equals(adapterType)) {
+                    return new TypedRegionPropertySource((ITypedRegion) adaptableObject);
+            }
+            return null;
+    }
+
+    @Override
+    public Class[] getAdapterList() {
+            return SUPPORTED_ADAPTERS;
+    }
+
+}
+}}}
+
+and associated implementation of `IPropertySource` interface.
+{{{
+public class TypedRegionPropertySource implements IPropertySource {
+	
+    private static final String TYPED_REGION_VALUE_ID = "typedregion.value";
+    private static final String TYPED_REGION_OFFSET_ID = "typed.region.offset";
+    private static final String TYPED_REGION_LENGTH_ID = "typed.region.length";
+    
+    private ITypedRegion typedRegion;  
+    private IPropertyDescriptor[] propertyDescriptors;
+
+      public TypedRegionPropertySource(ITypedRegion adaptableObject) {
+	      this.typedRegion = adaptableObject;
+      }
+
+      @Override
+      public Object getEditableValue() {
+	      return null;
+      }
+
+      @Override
+      public IPropertyDescriptor[] getPropertyDescriptors() {
+	      if (propertyDescriptors == null) {
+		      IPropertyDescriptor value = new PropertyDescriptor(TYPED_REGION_VALUE_ID, "Region value");
+		      IPropertyDescriptor offset = new PropertyDescriptor(TYPED_REGION_OFFSET_ID, "Region offset");
+		      IPropertyDescriptor length = new PropertyDescriptor(TYPED_REGION_LENGTH_ID, "Region length");
+		      
+		      propertyDescriptors = new IPropertyDescriptor[] {value, offset, length};
+	      }
+	      
+	      return propertyDescriptors;
+      }
+
+      @Override
+      public Object getPropertyValue(Object id) {
+	      if (TYPED_REGION_VALUE_ID.equals(id)) {
+		      return "N/A";
+	      } else if (TYPED_REGION_OFFSET_ID.equals(id)) {
+		      return typedRegion.getOffset();
+	      } else if (TYPED_REGION_LENGTH_ID.equals(id)) {
+		      return typedRegion.getLength();					
+	      }
+	      return null;
+      }
+
+      @Override
+      public boolean isPropertySet(Object id) {
+	      return false;
+      }
+
+      @Override
+      public void resetPropertyValue(Object id) {
+      }
+
+      @Override
+      public void setPropertyValue(Object id, Object value) {	      
+      }
+
+}
+}}}
+
+<wiki:comment>
+== Form Editor ==
+
+Forms are used in views, editors. From the point of Eclipse consistency, it is not recommended to use them in dialogs and wizards.
+ 
+  * add a dependency on `org.eclipse.ui.forms`
+  * add a new editor extension
+   * implements class `` extending FormEditor (multi-page editor, each page has to implements IFormPage)
+  * table wrap layout
+</wiki:comment>
+
+== Recommended Reading & Links ==
+  * Lars Vogella, Eclipse Editors Tutorial - http://www.vogella.de/articles/EclipseEditors/article.html
+  * Lars Vogella, Eclipse Forms API Tutorial - http://www.vogella.de/articles/EclipseForms/article.html
+  * Eclipse RCP How-to - http://wiki.eclipse.org/Eclipse_RCP_How-to
+  * Eclipse FAQ
+   * http://wiki.eclipse.org/FAQ_What_is_a_document_partition%3F
+   * http://wiki.eclipse.org/FAQ_How_do_I_use_a_model_reconciler%3F
+   * http://wiki.eclipse.org/FAQ_How_do_I_insert_text_in_the_active_text_editor%3F
+  * Simple form editor - Eclipse Examples http://help.eclipse.org/helios/nav/2_4
+  * Eclipse Article, Folding in Eclipse Text Editors - http://www.eclipse.org/articles/Article-Folding-in-Eclipse-Text-Editors/folding.html
+  * Eclipse Article, Adapters - http://www.eclipse.org/articles/article.php?file=Article-Adapters/index.html

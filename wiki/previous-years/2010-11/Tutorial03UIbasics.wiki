@@ -1,0 +1,162 @@
+#summary UI Basics and Views
+
+=Eclipse UI basics=
+<wiki:toc max_depth="2" />
+
+= SWT and JFace =
+== SWT ==
+SWT is a widget toolkit providing API built on top of native OS GUI platform. It is part of Eclipse platform, but you can use it in standalone applications. It is event driven. The events are handled by UI thread (the thread which creates `Display` object).
+
+You never know if you are running in UI or non-UI thread. Hence, applications that wish to call UI code from a non-UI thread must provide a Runnable that calls the UI code. The methods syncExec(Runnable) and asyncExec(Runnable) in the Display class are used to execute these runnables in the UI thread during the event loop. See http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_threading.htm. 
+
+  * Class `Display` - The `Display` represents the connection between SWT and the underlying platform's GUI system. Displays are primarily used to manage the platform event loop and control communication between the UI thread and other threads. You must create a display before creating any windows, and you must dispose of the display when your shell is closed. This is typically done by Eclipse workbench. 
+
+  * Class `Shell` is a _window_ managed by the OS platform window manager. Top level shells are those that are created as a child of the display. These windows are the windows that users move, resize, minimize, and maximize while using the application. Secondary shells are those that are created as a child of another shell. These windows are typically used as dialog windows or other transient windows that only exist in the context of another window (so called _composite widgets_).
+
+ * Class `SWT` - contains definition of style bits. E.g., SWT.YES, SWT.NO, SWT.VERTICAL, SWT.BORDER. Intepretation depends on control (e.g., SWT.SINGLE - single selection, single line)
+
+Typical structure of standalone SWT application implementation:
+{{{
+  public static void main (String [] args) {
+      Display display = new Display();
+      Shell shell = new Shell(display);
+      Label label = new Label(shell, SWT.CENTER);
+      label.setText("Hello_world");
+      label.setBounds(shell.getClientArea ());
+      shell.open();
+      while (!shell.isDisposed()) {
+         if (!display.readAndDispatch()) display.sleep();
+      }
+      display.dispose();
+   }
+}}}
+
+ * Class `Widget` represents a handle of OS resource. Needs to be disposed explicitely!
+
+||Note: _SWT requires that the user has to explicitelly free any OS resources which were allocated. In SWT, `Widget.dispose()` method is used for freeying resources associated with a widget.||
+
+There are several simple rules for disposing widgets:
+  * if the user creates a widget using constructor, it has to also dispose it.
+  * When `Composite` widget is diposed, also its children are recursively disposed.
+  * If the user gets a widget without using ctor, he/she cannot dispose it.
+  * If the user passes a reference of widget, he/she cannot dispose it until the widget is still in use._ ||
+
+
+There are three basic types of widgets - _Control, Layout, Event_.
+=== SWT Controls ===
+Package `org.eclipse.swt.widgets` provides Label, Tree, Table, Text, List, Button, Canvas - see [http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm Eclipse Help SWT] for the full list.
+You can fully control these widgets - configure fonts, colors, dimension.
+
+===SWT Layouts ===
+Package `org.eclipse.swt.layout` provides:
+  * `FillLayout` 
+   * Lays out controls in a single row or column, forcing them to be the same size.
+  * `FormLayout` 
+   *Positions the children by using FormAttachments to optionally configure the left, top, right and bottom edges of each child.
+  * `GridLayout`
+   * Positions the children by rows and columns.
+  * `RowLayout`
+    * Places the children either in horizontal rows or vertical columns.
+
+
+=== SWT Events ===
+SWT is event driven. Package `org.eclipse.swt.events` provides various kinds of events - modify, verify, key, move, drag (see http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm). 
+The `Control` class has methods to register listeners for various kinds of events.
+
+===SWT graphics===
+Class `GC` (graphical context) to draw customized widgets. See http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
+
+=== Example of SWT ===
+
+ * create a new plug-in project `swt.examples`
+  * this is little bit tricky, however, we do need to care about dependencies due to classpath is automatically resolved.
+ * add `org.eclipse.ui` plug-in into dependencies
+ * create a new class `swt.examples.Example01` with a main method 
+{{{
+// based on SWT code snippets http://www.eclipse.org/swt/snippets/
+public class Example01 {
+	
+	public static void main(String[] args) {
+		// create display
+		Display display = new Display();
+		// top-level widget is shell
+		final Shell shell = new Shell(display);
+
+		// create a GridLayout
+		shell.setLayout(new GridLayout());
+		final Composite c = new Composite(shell, SWT.NONE);
+		GridLayout layout = new GridLayout(3, true);
+		c.setLayout(layout);
+
+		for (int i = 0; i < 5; i++) {
+			Button b = new Button(c, SWT.PUSH | SWT.FLAT);
+			b.setText("Button " + i);
+		}
+
+		Button b = new Button(shell, SWT.PUSH);
+		b.setText("add a new button at row 2 column 1");
+		final int[] index = new int[1];
+		b.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				Button s = new Button(c, SWT.PUSH);
+				s.setText("Special " + index[0]);
+				index[0]++;
+				Control[] children = c.getChildren();
+				s.moveAbove(children[3]);
+				shell.layout(new Control[] { s });
+			}
+		});
+
+		shell.open();
+		shell.pack();
+		// main event loop
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
+		}
+		// dispose widgets
+		display.dispose();
+	}
+} 
+}}}
+ * run the class `swt.examples.Example01` as _Java Application_ !
+
+  ||_Note: for more SWT code snippets please visit http://www.eclipse.org/swt/snippets/._||
+== JFace ==
+Packages `org.eclipse.jface.*` provides implementation of JFace UI toolkit on top of SWT toolkit. The purpose is just to simplify implementation of UI. It handles:
+  * viewers
+  * actions
+  * images and fonts registeries
+  * dialogs and wizards
+
+Notes:   
+  * Method `getControl()` of JFace widgets serves to get associated SWT control.
+  * JFace also provides a way how to automatically bind widget with data.
+
+===Viewers===
+JFace widget which display a structured data - list, tree, tables (encapsulates native SWT widgets) - `ListViewer`, `TreeViewer` and `TableViewer`. It further allows data sorting, filtering, selection and visualization.
+
+The basic concepts for viewers are:
+  * _input element_  - the main object that the viewer is displaying (editing). It can be anything (table, JSON object, file, URI).
+  * _content provider_ - returns data which will be shown by viewer. The provider takes the input element and returns an array of data. See interface `IContentProvider` or `IStructuredContentProvider` which is used to obtain structured data. They can be also lazy in case when the viewer specifies SWT.VIRTUAL flag. Then content provider has to implement `ILazyContentProvider` which produces data on demand.
+  * _label provider_ - defines how the data returned by content provider are shown (image, text in colors). See interface `ILabelProvider`.
+    * if the label provider also implements a dedicated interface (e.g., `IColorProvider`,`IFontProvider`, `ILabelDecorator`) it can be handled by the viewer in its specific way.
+
+The shared implementation is provided by `ContentViewer` class:
+  * method `void setInput(Object o)`
+  * method `void setContentProvider(IContentProvider contentProvider)`
+  * method `void setLabelProvider(IBaseLabelProvider labelProvider)` 
+
+  ||Note: _Instances of particular content and label providers are not intended to be shared across multiple viewers. Even if all your viewers use the same type of content or label provider, each viewer should be initialized with its own instance of the provider class. The provider life cycle protocol is designed for a 1-to-1 relationship between a provider and its viewer._||
+   
+
+= Links =
+ * Eclipse help: JFace - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/jface.htm
+ * Eclipse help: SWT - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm 
+ * SWT: Standard Widget Toolkit - http://www.eclipse.org/resources/resource.php?id=241 
+ * SWT code snippets - http://www.eclipse.org/swt/snippets/
+ * JFace code snippets - http://wiki.eclipse.org/index.php/JFaceSnippets
+ * Lars Vogel: JFace tutorial - http://www.vogella.de/articles/EclipseJFaceTable/article.html
+ * Eclipse tutorial: Creating Your Own Widgets using SWT - http://www.eclipse.org/articles/Article-Writing%20Your%20Own%20Widget/Writing%20Your%20Own%20Widget.htm
+ * Eclipse tutorial: Understanding Layouts in SWT - http://www.eclipse.org/articles/article.php?file=Article-Understanding-Layouts/index.html
+ 

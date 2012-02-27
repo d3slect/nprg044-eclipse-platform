@@ -1,0 +1,27 @@
+#summary Tutorial about OSGi basics
+
+= Tutorial #1 - OSGi basics =
+
+== Requirements ==
+
+Eclipse installation
+
+== OSGi Basics==
+
+=== Bundles ===
+
+=== OSGi console ===
+
+=== Services ===
+
+
+=== Declarative services ===
+
+== Resources ==
+OSGi tutorial for beginners - http://www.javaworld.com/javaworld/jw-03-2008/jw-03-osgi1.html
+
+OSGi tooling - http://en.wikipedia.org/wiki/OSGi-Tooling
+
+OSGi best practices - https://cwiki.apache.org/FELIX/presentations.data/best-practices-apachecon-20060628.pdf
+
+OSGi at IBM - 
