@@ -6,6 +6,6 @@ The _Eclipse Platform_ classes are taught since 2010. Here is a list of previous
 
 == 2010-11 ==
 
-The content of wiki is located in SVN (http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/previous-years/2010-11/)
+The content of wiki is located in SVN (http://code.google.com/a/eclipselabs.org/p/nprg044-eclipse-platform/source/browse/wiki/previous-years/2010-11/)
 
-Corresponding source code is located also in SVN (http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/trunk/2010-11/)
+Corresponding source code is located also in SVN (http://code.google.com/a/eclipselabs.org/p/nprg044-eclipse-platform/source/browse/trunk/2010-11)
