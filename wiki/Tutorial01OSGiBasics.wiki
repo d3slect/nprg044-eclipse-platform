@@ -11,12 +11,21 @@ Eclipse installation
 
 === Bundles ===
 
-=== OSGi console ===
+=== MANIFEST.MF ===
+
+=== Dependencies ===
+=== Lifecycle ===
+  * register service
+  * instal/uninstall
+  * start/stop
 
 === Services ===
 
-
 === Declarative services ===
+
+=== OSGi console ===
+
+---
 
 == Resources ==
 OSGi tutorial for beginners - http://www.javaworld.com/javaworld/jw-03-2008/jw-03-osgi1.html
