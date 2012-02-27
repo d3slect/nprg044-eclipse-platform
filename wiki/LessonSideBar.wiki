@@ -32,4 +32,4 @@
     * [ExampleTwitterClientDesign Twitter Client]
 
   * Previous years
-    * [/previous-years/2010-11/Intro 2010-11]
+    * [http://code.google.com/a/eclipselabs.org/p/nprg044-eclipse-platform/wiki/previous-years/2010-11/Intro 2010-11]
