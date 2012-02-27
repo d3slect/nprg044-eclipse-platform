@@ -2,7 +2,7 @@
 
 = Previous years =
 
-The classes are taught since 2010. Here is a list of previous years.
+The _Eclipse Platform_ classes are taught since 2010. Here is a list of previous years.
 
 == 2010-11 ==
 
