@@ -11,6 +11,7 @@ public class ServiceTestActivator implements BundleActivator, Runnable {
 	private Thread testThread;
 	
 	public void start(BundleContext context) throws Exception {
+		System.out.println("ServiceTestActivator.start()");
 		tracker = new ServiceTracker(context, ILogger.class.getName(), null);
 		
 		tracker.open();
@@ -20,6 +21,7 @@ public class ServiceTestActivator implements BundleActivator, Runnable {
 	}
 
 	public void stop(BundleContext context) throws Exception {
+		System.out.println("ServiceTestActivator.stop()");
 		tracker.close();
 		
 		testThread = null;
