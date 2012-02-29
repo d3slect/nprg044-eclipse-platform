@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" name="cz.cuni.mff.d3s.web-log-target-bundle">
+   <implementation class="cz.cuni.mff.d3s.log.impl.WebLogTarget"/>
+   <reference bind="bindHttpService" cardinality="1..1" interface="org.osgi.service.http.HttpService" name="HttpService" policy="static" unbind="unbindHttpService"/>
+   <service>
+      <provide interface="cz.cuni.mff.dsrg.log.api.ILogTarget"/>
+   </service>
+</scr:component>

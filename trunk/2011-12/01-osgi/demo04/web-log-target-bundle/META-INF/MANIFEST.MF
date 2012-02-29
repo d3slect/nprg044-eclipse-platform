@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Web log target
+Bundle-SymbolicName: cz.cuni.mff.d3s.web-log-target-bundle
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: D3S MFF CUNI CZ
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Service-Component: OSGI-INF/web-log-target-component.xml
+Import-Package: cz.cuni.mff.dsrg.log.api,
+ javax.servlet;version="2.5.0",
+ javax.servlet.http;version="2.5.0",
+ org.osgi.service.http;version="1.2.1"
