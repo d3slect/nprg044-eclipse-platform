@@ -6,6 +6,8 @@
 == Overal Plan ==
 The overal plan of Eclipse lessons is to shows basics of Eclipse RCP development on a simple example of [ExampleTwitterClientDesign Twitter client]. 
 The tutorial and source code are published at http://code.google.com/a/eclipselabs.org/p/nprg044-eclipse-platform/. 
+
+This text serves as an outline for classes.
  
 == Basic concepts of Eclipse Workbench ==
 
