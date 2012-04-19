@@ -26,8 +26,8 @@ http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/t
     * attaching the photo
     * URL shorter 
       * edit box which will contact URL shorter services
-  * preferences to setup
-    * font in view?
+  * Preferences to setup
+    * Authentication token?
     * URL shorter service 
       * predefined providers via extension points
     * image post service
