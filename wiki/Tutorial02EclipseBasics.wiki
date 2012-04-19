@@ -318,7 +318,7 @@ public class ShowUserStatusHandler extends AbstractHandler {
           * add new _command_ subelement for command `cz.cuni.mff.d3s.nprg044.twitter.commands.command.showUserStatus`
             * define its icon and tool-tip
 
-  ||Note: _Good practice is to define elements' IDs hierarchically with meaningful parts, e.g., `cz.cuni.mff.d3s.nprg044.twitter.commands.AuthorizeUser`.||
+  ||Note: _Good practice is to define elements' IDs hierarchically with meaningful parts, e.g., `cz.cuni.mff.d3s.nprg044.twitter.commands.AuthorizeUser`._||
 
 ===Assignments===
 
