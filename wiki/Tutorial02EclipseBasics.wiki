@@ -121,7 +121,7 @@ How?
    * can be downloaded from http://twitter4j.org/
  * create new plug-in project
    * menu _New > Project > Plug-in from existing JAR_:
-    # select JAR `twitter4j-core-2.2.1.jar`
+    # select JAR `twitter4j-core-2.2.5.jar`
     # fill name project, name plug-in, plug-in ID (must be unique), uncheck option 'Unzip JAR archives into project'
  * wizard will create a new project and setup its MANIFEST.MF
  * revisit MANIFEST.MF
@@ -195,10 +195,13 @@ Launch configuration can be used in two modes:
         * only your plug-in and its dependencies will create a _target platform_ of new Eclipse
  * click on _Run_
 
- ||Hint \#1: If your plug-in is not started look at the status of plug-in in _Plug-in Registry_ view. To start the stopped plug-in, it is necessary to enable advanced properties in the context menu of the view.||
- ||Hint \#2: If your plug-in is nto started, look at _Error View_ (_Window > Show View > Error Log_)|| 
- ||Hint \#3: You can also use OSGi console, to observe a state of the running Eclipse platform. See _Console View_, select _Open Console_ icon, option _Host OSGi Console_.||
- ||Hint \#4: For tracking plug-ins dependencies, it is possible to use views _Plug-ins_ or _Target Platform State_.||
+ ||Hint #1: If your plug-in is not started look at the status of plug-in in _Plug-in Registry_ view. To start the stopped plug-in, it is necessary to enable advanced properties in the context menu of the view.||
+ 
+ ||Hint #2: If your plug-in is nto started, look at _Error View_ (_Window > Show View > Error Log_)|| 
+ 
+ ||Hint #3: You can also use OSGi console, to observe a state of the running Eclipse platform. See _Console View_, select _Open Console_ icon, option _Host OSGi Console_.||
+
+ ||Hint #4: For tracking plug-ins dependencies, it is possible to use views _Plug-ins_ or _Target Platform State_.||
      
 ===Debugging===
  * _Toolbar >  Debug > Launch configurations_
@@ -315,7 +318,13 @@ public class ShowUserStatusHandler extends AbstractHandler {
           * add new _command_ subelement for command `cz.cuni.mff.d3s.nprg044.twitter.commands.command.showUserStatus`
             * define its icon and tool-tip
 
-  ||Note: _Good practice is to define elements' IDs hierarchicaly with meaningfull parts, e.g., `cz.cuni.mff.d3s.nprg044.twitter.commands.AuthorizeUser`.||
+  ||Note: _Good practice is to define elements' IDs hierarchically with meaningful parts, e.g., `cz.cuni.mff.d3s.nprg044.twitter.commands.AuthorizeUser`.||
+
+  ===Assignments===
+
+  # Try to add new sub-menus for timeline management and user-management
+  # Add an _About action_ into the main _Help_ menu.
+  # Add an _About action_ into all pop-up menus
 
 ==Actions==
 Another way (originaly intended to be deprecated) of adding various actions to workbench. It defines directly action and its handler.
@@ -324,8 +333,11 @@ Extension points:
  * `org.eclipse.ui.actionSet` - to add actions into menus and toolbars and also to define new menus. The action has to implement `org.eclipse.ui.IWorkbenchWindowActionDelegate` interface.
  * `org.eclipse.ui.editorActions` - to add an action to editor's context pop-up menu, toolbars.
  * `org.eclipse.ui.viewActions` - to add an action into view's toolbar.
+ * `org.eclipse.ui.popupMenus` - to add an object contribution into pop-up menu
 
 ===Example of actions: plug-in `cz.cuni.mff.d3s.nprg044.twitter.actions`===
+The class `GetTimelineAction` implementing the interface `IWorkbenchWindowActionDelegate`:
+
 {{{
     public void run(IAction action) {
 		InputDialog inDialog = new InputDialog(this.window.getShell(), "Twitter status", "Type Twitter username:", "vtipy", null);
@@ -355,6 +367,79 @@ Extension points:
     }
 }}}
 
+===Assignments===
+
+  # Add a new submenu into Twitter top-level menu
+  # Add a new action into all pop-up menus enabled for 4 selected objects
+
+{{{
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Twitter action set"
+            visible="true"
+            id="cz.cuni.mff.d3s.nprg044.twitter.actions.actionSet">
+         <menu
+               id="cz.cuni.mff.d3s.nprg044.twitter.actions.timelineMenu"
+               label="Timeline"
+              
+path="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/timeline">
+            <groupMarker
+                  name="edit">
+            </groupMarker>
+            <separator
+                  name="additions">
+            </separator>
+         </menu>
+         <action
+               class="cz.cuni.mff.d3s.nprg044.twitter.actions.AboutAction"
+               id="cz.cuni.mff.d3s.nprg044.twitter.actions.aboutAction"
+               label="About"
+              
+menubarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/cz.cuni.
+mff.d3s.nprg044.twitter.actions.timelineMenu/edit"
+               style="push">
+         </action>
+         <action
+              
+class="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction"
+               icon="icons/sample.gif"
+              
+id="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction"
+               label="&amp;Show user timeline via Action"
+              
+menubarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/
+timeline"
+              
+toolbarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.toolbars.twitterToolbar/
+additions"
+               tooltip="Show timeline">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+           
+id="cz.cuni.mff.d3s.nprg044.twitter.actions.simpleObjectContribution"
+            objectClass="java.lang.Object">
+         <action
+               class="cz.cuni.mff.d3s.nprg044.twitter.actions.AboutAction"
+               enablesFor="4"
+              
+id="cz.cuni.mff.d3s.nprg044.twitter.actions.AboutActionForObjects"
+               label="About for 4 selected items"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>
+}}}
+
 == Useful Hints ===
 It is useful to learn basic shortcuts to speed up Eclipse development:
   * Open type - _Ctrl+Shift+T_
@@ -376,3 +461,4 @@ Useful views:
   * Lars Vogel: _Eclipse IDE  Tutorial_, http://www.vogella.de/articles/Eclipse/article.html
   * Lars Vogel: _Eclipse Shortcuts_, http://www.vogella.de/articles/EclipseShortcuts/article.html
   * Eclipse Wiki: Menu contributions (location URI),  http://wiki.eclipse.org/Menu_Contributions
+
