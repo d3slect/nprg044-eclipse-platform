@@ -67,6 +67,10 @@ The active Eclipse window. It is also referred as _desktop development environme
 ====Perspective====
 Eclipse IDE provides multiple workbench configurations, called _perspectives_. The perspective defines the organization of workbench - layout of _views_, _editors_, _menus_, toolbars and their items. 
 
+
+====Page====
+Defines mechanism of grouping included parts - views and editors.
+
 ====Menus and toolbars====
 
 ====Views====
@@ -84,6 +88,8 @@ Project is a directory containing _.project_ file describing project's metadata 
 
 http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/screens/eclipse-terminology.png
 
+====Resources====
+A resource represents an entity inside the project - it can be mapped to existing entity (e.g., file, folder, server) or can be virtual (e.g., ). The Eclipse platform introduces its own resource model and management.
 
 === Eclipse Plug-in ===
 Eclipse plug-in is an OSGi bundle with additional meta-information stored in plugin.xml (e.g., extension point definitions). It also brings additional MANIFEST.MF headers (e.g., `Eclipse-BundleShape` for controlling if the plugin should be deployed as jar or unpacked) .
