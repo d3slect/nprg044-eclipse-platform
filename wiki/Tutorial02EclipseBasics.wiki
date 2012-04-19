@@ -320,7 +320,7 @@ public class ShowUserStatusHandler extends AbstractHandler {
 
   ||Note: _Good practice is to define elements' IDs hierarchically with meaningful parts, e.g., `cz.cuni.mff.d3s.nprg044.twitter.commands.AuthorizeUser`.||
 
-  ===Assignments===
+===Assignments===
 
   # Try to add new sub-menus for timeline management and user-management
   # Add an _About action_ into the main _Help_ menu.
