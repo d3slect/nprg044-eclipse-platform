@@ -1,4 +1,4 @@
-#summary Eclipse basics
+#summary Eclipse Platform Basics
 
 = Tutorial #2: Eclipse basics =
 <wiki:toc max_depth="3" />
@@ -9,12 +9,15 @@ The tutorial and source code are published at http://code.google.com/a/eclipsela
 
 This text serves as an outline for classes.
  
+== Eclipse installation ==
+Go to http://www.eclipse.org/downloads/ and download _Eclipse for RCP and RAP developers_. 
+Unpack the downloaded archive and run command `eclipse`.
+
 == Basic concepts of Eclipse Workbench ==
 
 ====Eclipse platform design====
 Eclipse IDE is a Java application running on the top of extended OSGi Equinox runtime. It is composed of OSGi bundles called Eclipse plugins.
-  
-TODO picture of architecture
+http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/eclipse-architecture.jpg 
 
 ====Eclipse installation====
 Important files and directories
@@ -95,13 +98,13 @@ For example, definition of new views, editors, actions, jobs, early startup init
 -----
 
 == Plug-in project from existing JAR: `cz.cuni.mff.d3s.nprg044.twitter.api` ==
-  Goal: _Create an Eclipse plug-in from existing JAR_
+  ||Goal: _Create an Eclipse plug-in from existing JAR_||
 
 Why?
 If you need to bundle 3rd party library as a OSGi/Eclipse bundle
 
 How?
- * unpack `twitter4j-2.2.1.zip`
+ * unpack `twitter4j-2.2.5.zip`
    * can be downloaded from http://twitter4j.org/
  * create new plug-in project
    * menu _New > Project > Plug-in from existing JAR_:
@@ -117,7 +120,7 @@ How?
 -----
 
 == Simple plug-in project: `cz.cuni.mff.d3s.nprg044.twitter.api.test`==
-  Goal: _Create a simple plug-in with activator and log a message from activator. Launch the plugin and try to debug it._
+  ||Goal: _Create a simple plug-in with activator and log a message from activator. Launch the plugin and try to debug it._||
 
  * Create new plugin-project
   * menu _New > Project > Plug-in Project_:
@@ -133,8 +136,8 @@ How?
             * see [http://wiki.eclipse.org/Lazy_Start_Bundles Bundle Activation]
  * Edit MANIFEST.MF and put plug-in `cz.cuni.mff.d3s.nprg044.twitter.api` to Dependencies
  * Edit code of `TwitterTestActivator` and put `System.out.println` calls into constructor, start and stop methods.
-   * Hint: start typing `sys` and then press _Ctrl+space_, the template dialog will be shown and you can select demanded option (e.g., `System.out.println`)
- * Append method showUserStatus() 
+   * ||Hint: start typing `sys` and then press _Ctrl+space_, the template dialog will be shown and you can select demanded option (e.g., `System.out.println`)||
+ * Append method `showUserStatus()`
 {{{
 protected void showUserStatus(String username) {
 		try {
@@ -178,6 +181,11 @@ Launch configuration can be used in two modes:
       * Click on _Add required plug-ins only_
         * only your plug-in and its dependencies will create a _target platform_ of new Eclipse
  * click on _Run_
+
+ ||Hint \#1: If your plug-in is not started look at the status of plug-in in _Plug-in Registry_ view. To start the stopped plug-in, it is necessary to enable advanced properties in the context menu of the view.||
+ ||Hint \#2: If your plug-in is nto started, look at _Error View_ (_Window > Show View > Error Log_)|| 
+ ||Hint \#3: You can also use OSGi console, to observe a state of the running Eclipse platform. See _Console View_, select _Open Console_ icon, option _Host OSGi Console_.||
+ ||Hint \#4: For tracking plug-ins dependencies, it is possible to use views _Plug-ins_ or _Target Platform State_.||
      
 ===Debugging===
  * _Toolbar >  Debug > Launch configurations_
@@ -218,7 +226,7 @@ There are constants which represents views' toolbars, editors' context menu - se
 Placement-modifiers represents a position in given menu/toolbar/popup - for example, `after=additions`, `before=window`.
 
 ==Plug-in defining commands: `cz.cuni.mff.d3s.nprg044.twitter.commands`==
-  Goal: _Define a plug-in which will provide an action showing user status_
+  ||Goal: _Define a plug-in which will provide an action showing user status_||
 
   * create a new plug-in project `cz.cuni.mff.d3s.nprg044.twitter.commands`
   * tab _Dependencies_:
