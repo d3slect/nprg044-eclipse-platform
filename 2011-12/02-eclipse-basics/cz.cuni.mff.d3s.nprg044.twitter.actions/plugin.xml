@@ -32,7 +32,7 @@
                id="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction"
                label="&amp;Show user timeline via Action"
                menubarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/timeline"
-               toolbarPath="sampleGroup"
+               toolbarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.toolbars.twitterToolbar/additions"
                tooltip="Show timeline">
          </action>
       </actionSet>
