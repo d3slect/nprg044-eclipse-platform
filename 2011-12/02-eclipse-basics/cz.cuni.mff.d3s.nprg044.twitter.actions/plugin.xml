@@ -8,27 +8,49 @@
             label="Twitter action set"
             visible="true"
             id="cz.cuni.mff.d3s.nprg044.twitter.actions.actionSet">
-         <action
-               label="&amp;Show user timelinetion"
-               icon="icons/sample.gif"
-               class="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction"
-               tooltip="Show timeline"
-               menubarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/additions"
-               toolbarPath="sampleGroup"
-               id="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction">
-         </action>
          <menu
                id="cz.cuni.mff.d3s.nprg044.twitter.actions.timelineMenu"
                label="Timeline"
-               path="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/additions">
+               path="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/timeline">
+            <groupMarker
+                  name="edit">
+            </groupMarker>
+            <separator
+                  name="additions">
+            </separator>
          </menu>
          <action
-               id="cz.cuni.mff.d3s.nprg044.twitter.actions.action1"
-               label="Test"
-               menubarPath="cz.cuni.mff.d3s.nprg044.twitter.actions.timelineMenu/additions"
+               class="cz.cuni.mff.d3s.nprg044.twitter.actions.AboutAction"
+               id="cz.cuni.mff.d3s.nprg044.twitter.actions.aboutAction"
+               label="About"
+               menubarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/cz.cuni.mff.d3s.nprg044.twitter.actions.timelineMenu/edit"
                style="push">
          </action>
+         <action
+               class="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction"
+               icon="icons/sample.gif"
+               id="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction"
+               label="&amp;Show user timeline via Action"
+               menubarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/timeline"
+               toolbarPath="sampleGroup"
+               tooltip="Show timeline">
+         </action>
       </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="cz.cuni.mff.d3s.nprg044.twitter.actions.objectContribution1"
+            objectClass="java.lang.Object">
+         <action
+               class="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.AboutAction"
+               enablesFor="4"
+               id="cz.cuni.mff.d3s.nprg044.twitter.actions.action1"
+               label="About for 4 selected items"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
    </extension>
 
 </plugin>

@@ -19,6 +19,23 @@
             id="cz.cuni.mff.d3s.nprg044.twitter.commands.CreateNewMessage"
             name="Create new message">
       </command>
+      <command
+            categoryId="cz.cuni.mff.d3s.nprg044.twitter.commands.category"
+            description="Login into Twitter"
+            id="cz.cuni.mff.d3s.nprg044.twitter.commands.Login"
+            name="Login">
+      </command>
+      <command
+            categoryId="cz.cuni.mff.d3s.nprg044.twitter.commands.category"
+            description="Logout the user."
+            id="cz.cuni.mff.d3s.nprg044.twitter.commands.Logout"
+            name="Logout">
+      </command>
+      <command
+            categoryId="cz.cuni.mff.d3s.nprg044.twitter.commands.category"
+            id="cz.cuni.mff.d3s.nprg044.twitter.commands.About"
+            name="About">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -50,19 +67,31 @@
                id="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu"
                label="Twitter"
                mnemonic="T">
+            <separator
+                  name="beginning"
+                  visible="false">
+            </separator>
+            <separator
+                  name="management"
+                  visible="false">
+            </separator>
             <command
                   commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.command.showUserStatus"
                   id="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu.showUserStatusmmand"
                   mnemonic="S">
             </command>
             <separator
-                  name="cz.cuni.mff.d3s.nprg044.twitter.commands.separator2"
+                  name="timeline"
+                  visible="true">
+            </separator>
+            <separator
+                  name="usermanagement"
                   visible="true">
             </separator>
          </menu>
          <separator
                name="cz.cuni.mff.d3s.nprg044.twitter.commands.separator1"
-               visible="true">
+               visible="false">
          </separator>
       </menuContribution>
       <menuContribution
@@ -76,6 +105,56 @@
                   tooltip="Show user status">
             </command>
          </toolbar>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu?after=userManagement">
+         <menu
+               id="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu.userMenu"
+               label="User"
+               mnemonic="U"
+               tooltip="User management">
+            <separator
+                  name="login"
+                  visible="false">
+            </separator>
+            <separator
+                  name="logout"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.About"
+                  label="About T4Eclipse"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu?after=timeline">
+         <menu
+               id="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu.timelineMenu"
+               label="Timeline"
+               tooltip="T">
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:help?after=additions">
+         <command
+               commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.About"
+               label="About T4Eclipse"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.About"
+               label="About T4Eclipse"
+               style="push">
+         </command>
       </menuContribution>
    </extension>
 
