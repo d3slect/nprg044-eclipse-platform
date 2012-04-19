@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Twitter API
 Bundle-SymbolicName: cz.cuni.mff.d3s.nprg044.twitter.api
 Bundle-Version: 1.0.0
-Bundle-ClassPath: lib/twitter4j-core-2.2.1.jar
+Bundle-ClassPath: lib/twitter4j-core-2.2.5.jar
 Export-Package: twitter4j,
  twitter4j.api,
  twitter4j.auth,
