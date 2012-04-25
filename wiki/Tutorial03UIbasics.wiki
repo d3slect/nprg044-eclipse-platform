@@ -7,9 +7,20 @@
 == SWT ==
 SWT is a widget toolkit providing API built on top of native OS GUI platform. It is part of Eclipse platform, but you can use it in standalone applications. It is event driven. The events are handled by UI thread (the thread which creates `Display` object).
 
-You never know if you are running in UI or non-UI thread. Hence, applications that wish to call UI code from a non-UI thread must provide a Runnable that calls the UI code. The methods syncExec(Runnable) and asyncExec(Runnable) in the Display class are used to execute these runnables in the UI thread during the event loop. See http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_threading.htm. 
+You never know if you are running in UI or non-UI thread. Hence, applications
+that wish to call UI code from a non-UI thread must provide a Runnable that
+calls the UI code. The methods syncExec(Runnable) and asyncExec(Runnable) in the
+Display class are used to execute these runnables in the UI thread during the
+event loop. See
+http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/
+swt_threading .htm. 
 
-  * Class `Display` - The `Display` represents the connection between SWT and the underlying platform's GUI system. Displays are primarily used to manage the platform event loop and control communication between the UI thread and other threads. You must create a display before creating any windows, and you must dispose of the display when your shell is closed. This is typically done by Eclipse workbench. 
+  * Class `Display` - The `Display` represents the connection between SWT and
+the underlying platform's GUI system. Displays are primarily used to manage the
+platform event loop and control communication between the UI thread and other
+threads. You must create a display before creating any windows, and you must
+dispose the display when your shell is closed. This is typically done by Eclipse
+workbench. 
 
   * Class `Shell` is a _window_ managed by the OS platform window manager. Top level shells are those that are created as a child of the display. These windows are the windows that users move, resize, minimize, and maximize while using the application. Secondary shells are those that are created as a child of another shell. These windows are typically used as dialog windows or other transient windows that only exist in the context of another window (so called _composite widgets_).
 
@@ -36,16 +47,23 @@ Typical structure of standalone SWT application implementation:
 ||Note: _SWT requires that the user has to explicitelly free any OS resources which were allocated. In SWT, `Widget.dispose()` method is used for freeying resources associated with a widget.||
 
 There are several simple rules for disposing widgets:
-  * if the user creates a widget using constructor, it has to also dispose it.
-  * When `Composite` widget is diposed, also its children are recursively disposed.
-  * If the user gets a widget without using ctor, he/she cannot dispose it.
-  * If the user passes a reference of widget, he/she cannot dispose it until the widget is still in use._ ||
+  * If the user creates a widget using constructor, it has to also dispose it.
+  * When `Composite` widget is disposed, also its children are recursively
+disposed.
+  * If the user gets a widget without using constructor, she cannot dispose
+it.
+  * If the user passes a reference of widget, she cannot dispose it until the
+widget is still in use._ ||
 
 
 There are three basic types of widgets - _Control, Layout, Event_.
+
 === SWT Controls ===
-Package `org.eclipse.swt.widgets` provides Label, Tree, Table, Text, List, Button, Canvas - see [http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm Eclipse Help SWT] for the full list.
-You can fully control these widgets - configure fonts, colors, dimension.
+Package `org.eclipse.swt.widgets` provides Label, Tree, Table, Text, List,
+Button, Canvas - see
+[http://help.eclipse.org/indigo/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm Eclipse Help SWT] for the full list.
+You can fully control these widgets - configure fonts, colors, dimension,
+borders.
 
 ===SWT Layouts ===
 Package `org.eclipse.swt.layout` provides:
@@ -60,16 +78,19 @@ Package `org.eclipse.swt.layout` provides:
 
 
 === SWT Events ===
-SWT is event driven. Package `org.eclipse.swt.events` provides various kinds of events - modify, verify, key, move, drag (see http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm). 
+SWT is event driven. Package `org.eclipse.swt.events` provides various kinds of
+events - modify, verify, key, move, drag (see
+http://help.eclipse.org/indigo/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm). 
 The `Control` class has methods to register listeners for various kinds of events.
 
 ===SWT graphics===
-Class `GC` (graphical context) to draw customized widgets. See http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
+Class `GC` (graphical context) to draw customized widgets. See
+http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
 
 === Example of SWT ===
 
  * create a new plug-in project `swt.examples`
-  * this is little bit tricky, however, we do need to care about dependencies due to classpath is automatically resolved.
+  * this is little bit tricky, however, we do need to care about dependencies due to the classpath is automatically resolved.
  * add `org.eclipse.ui` plug-in into dependencies
  * create a new class `swt.examples.Example01` with a main method 
 {{{
@@ -122,16 +143,19 @@ public class Example01 {
  * run the class `swt.examples.Example01` as _Java Application_ !
 
   ||_Note: for more SWT code snippets please visit http://www.eclipse.org/swt/snippets/._||
+
 == JFace ==
-Packages `org.eclipse.jface.*` provides implementation of JFace UI toolkit on top of SWT toolkit. The purpose is just to simplify implementation of UI. It handles:
+Packages `org.eclipse.jface.*` provides implementation of JFace UI toolkit on top of the SWT toolkit. Its purpose is to simplify implementation of UI. It handles:
   * viewers
   * actions
   * images and fonts registeries
   * dialogs and wizards
 
-Notes:   
+||
+ Notes:   
   * Method `getControl()` of JFace widgets serves to get associated SWT control.
   * JFace also provides a way how to automatically bind widget with data.
+||
 
 ===Viewers===
 JFace widget which display a structured data - list, tree, tables (encapsulates native SWT widgets) - `ListViewer`, `TreeViewer` and `TableViewer`. It further allows data sorting, filtering, selection and visualization.
