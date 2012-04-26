@@ -3,12 +3,20 @@
  */
 package swt.examples;
 
-import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.layout.*;
-import org.eclipse.swt.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 
 /**
- * @author michal
+ * A simple example of using SWT.
+ *  
+ * @author Michal Malohlava
  * 
  */
 public class Example01 {
@@ -36,11 +44,26 @@ public class Example01 {
 		b.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				Button s = new Button(c, SWT.PUSH);
-				s.setText("Special " + index[0]);
+				s.setText("By click " + index[0]);
 				index[0]++;
 				Control[] children = c.getChildren();
 				s.moveAbove(children[3]);
-				shell.layout(new Control[] { s });
+				shell.layout(new Control[] { s });				
+			}
+		});
+		
+		// define a global key listener
+		display.addFilter(SWT.KeyDown, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if(event.character == 'a' || event.character == 'A') {
+					Button s = new Button(c, SWT.PUSH);
+					s.setText("By button " + index[0]);
+					index[0]++;
+					Control[] children = c.getChildren();
+					s.moveAbove(children[3]);
+					shell.layout(new Control[] { s });					
+				}				
 			}
 		});
 

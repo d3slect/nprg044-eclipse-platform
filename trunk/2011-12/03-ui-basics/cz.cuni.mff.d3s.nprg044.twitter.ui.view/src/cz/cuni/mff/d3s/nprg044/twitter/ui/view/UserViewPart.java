@@ -12,7 +12,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
 /**
- * @author michal
+ * User information view.
+ * 
+ * @author Michal Malohlava
  *
  */
 public class UserViewPart extends ViewPart {
@@ -21,10 +23,7 @@ public class UserViewPart extends ViewPart {
 
 	private Text searchBox;
 	private TreeViewer viewer;
-
-	/**
-	 * 
-	 */
+	
 	public UserViewPart() {		
 	}
 
