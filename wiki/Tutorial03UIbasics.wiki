@@ -46,16 +46,13 @@ Typical structure of standalone SWT application implementation:
  * A new widget always requires its parent.
  * Class `Widget` represents a handle of OS resource. Needs to be disposed explicitely!
 
-||Note: _SWT requires that the user has to explicitelly free any OS resources which were allocated. In SWT, `Widget.dispose()` method is used for freeying resources associated with a widget.||
+||Note: _SWT requires that the user has to explicitelly free any OS resources which were allocated. In SWT, `Widget.dispose()` method is used for freeying resources associated with a widget.
 
-There are several simple rules for disposing widgets:
+||There are several simple rules for disposing widgets:
   * If the user creates a widget using constructor, it has to also dispose it.
-  * When `Composite` widget is disposed, also its children are recursively
-disposed.
-  * If the user gets a widget without using constructor, she cannot dispose
-it.
-  * If the user passes a reference of widget, she cannot dispose it until the
-widget is still in use._ ||
+  * When `Composite` widget is disposed, also its children are recursively disposed.
+  * If the user gets a widget without using constructor, she cannot dispose it.
+  * If the user passes a reference of widget, she cannot dispose it until the widget is still in use._ ||
 
 
 There are three basic types of widgets - _Control, Layout, Event_.
