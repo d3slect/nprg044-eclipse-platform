@@ -20,7 +20,7 @@ import twitter4j.TwitterFactory;
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.internal.model.UserNode;
 
 /**
- * @author michal
+ * @author Michal Malohlava
  *
  */
 public class MessageTimelineContentProvider implements
