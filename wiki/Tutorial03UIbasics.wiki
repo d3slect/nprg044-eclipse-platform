@@ -35,6 +35,8 @@ Typical structure of standalone SWT application implementation:
       Label label = new Label(shell, SWT.CENTER);
       label.setText("Hello_world");
       label.setBounds(shell.getClientArea ());
+      /* ... */
+
       shell.open();
       while (!shell.isDisposed()) {
          if (!display.readAndDispatch()) display.sleep();
@@ -42,7 +44,10 @@ Typical structure of standalone SWT application implementation:
       display.dispose();
    }
 }}}
- 
+
+http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/swt-example01.png
+
+Observations:
  * A new widget always requires its parent.
  * Class `Widget` represents a handle of OS resource. Needs to be disposed explicitely!
 
@@ -139,7 +144,14 @@ public class Example01 {
 }}}
  * run the class `swt.examples.Example01` as _Java Application_ !
 
+http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/swt-example01.png
+
   ||_Note: for more SWT code snippets please visit http://www.eclipse.org/swt/snippets/._||
+
+==== Form layout example ====
+See 
+
+http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/swt-form-layout-example.png
 
 == JFace ==
 Packages `org.eclipse.jface.*` provides implementation of JFace UI toolkit on top of the SWT toolkit. Its purpose is to simplify implementation of UI. It handles:
@@ -169,6 +181,7 @@ The shared implementation is provided by `ContentViewer` class:
 
   ||Note: _Instances of particular content and label providers are not intended to be shared across multiple viewers. Even if all your viewers use the same type of content or label provider, each viewer should be initialized with its own instance of the provider class. The provider life cycle protocol is designed for a 1-to-1 relationship between a provider and its viewer._||
    
+http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/jface-table-viewer-example.png
 
 = Links =
  * Eclipse help: JFace - http://help.eclipse.org/helios/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/jface.htm
