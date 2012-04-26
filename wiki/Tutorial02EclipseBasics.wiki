@@ -1,4 +1,5 @@
 #summary Eclipse Platform Basics
+#labels Featured
 
 = Tutorial #2: Eclipse basics =
 <wiki:toc max_depth="3" />
@@ -461,4 +462,3 @@ Useful views:
   * Lars Vogel: _Eclipse IDE  Tutorial_, http://www.vogella.de/articles/Eclipse/article.html
   * Lars Vogel: _Eclipse Shortcuts_, http://www.vogella.de/articles/EclipseShortcuts/article.html
   * Eclipse Wiki: Menu contributions (location URI),  http://wiki.eclipse.org/Menu_Contributions
-
