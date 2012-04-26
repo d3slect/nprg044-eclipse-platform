@@ -35,7 +35,8 @@ Typical structure of standalone SWT application implementation:
       Label label = new Label(shell, SWT.CENTER);
       label.setText("Hello_world");
       label.setBounds(shell.getClientArea ());
-      /* ... */
+
+      /* Assignment: use more widgets here */
 
       shell.open();
       while (!shell.isDisposed()) {
@@ -45,7 +46,7 @@ Typical structure of standalone SWT application implementation:
    }
 }}}
 
-http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/swt-example01.png
+http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/swt-example00.png
 
 Observations:
  * A new widget always requires its parent.
