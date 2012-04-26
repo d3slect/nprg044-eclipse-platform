@@ -150,7 +150,7 @@ http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/s
   ||_Note: for more SWT code snippets please visit http://www.eclipse.org/swt/snippets/._||
 
 ==== Form layout example ====
-See 
+See [http://code.google.com/a/eclipselabs.org/p/nprg044-eclipse-platform/source/browse/trunk/2011-12/03-ui-basics/swt.examples/src/swt/examples/Example02.java swt.examples.Example02].
 
 http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/swt-form-layout-example.png
 
@@ -181,7 +181,12 @@ The shared implementation is provided by `ContentViewer` class:
   * method `void setLabelProvider(IBaseLabelProvider labelProvider)` 
 
   ||Note: _Instances of particular content and label providers are not intended to be shared across multiple viewers. Even if all your viewers use the same type of content or label provider, each viewer should be initialized with its own instance of the provider class. The provider life cycle protocol is designed for a 1-to-1 relationship between a provider and its viewer._||
-   
+ 
+====Table viewer example====
+||_Goal: create a simple application showing a list of followers for a given user._||
+
+See [http://code.google.com/a/eclipselabs.org/p/nprg044-eclipse-platform/source/browse/trunk/2011-12/03-ui-basics/jface.examples/src/jface/examples/Example01.java jface.examples.Example01].
+
 http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/jface-table-viewer-example.png
 
 = Links =
