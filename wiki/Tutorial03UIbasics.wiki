@@ -82,8 +82,7 @@ http://help.eclipse.org/indigo/index.jsp?topic=/org.eclipse.platform.doc.isv/gui
 The `Control` class has methods to register listeners for various kinds of events.
 
 ===SWT graphics===
-Class `GC` (graphical context) to draw customized widgets. See
-http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
+Class `GC` (graphical context) to draw customized widgets. See http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/swt_graphics.htm
 
 === Example of SWT ===
 
