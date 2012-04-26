@@ -41,7 +41,8 @@ Typical structure of standalone SWT application implementation:
       display.dispose();
    }
 }}}
-
+ 
+ * A new widget always requires its parent.
  * Class `Widget` represents a handle of OS resource. Needs to be disposed explicitely!
 
 ||Note: _SWT requires that the user has to explicitelly free any OS resources which were allocated. In SWT, `Widget.dispose()` method is used for freeying resources associated with a widget.||
@@ -59,11 +60,10 @@ widget is still in use._ ||
 There are three basic types of widgets - _Control, Layout, Event_.
 
 === SWT Controls ===
-Package `org.eclipse.swt.widgets` provides Label, Tree, Table, Text, List,
+Package `org.eclipse.swt.widgets` provides `Label`, `Tree`, `Table`, `Text`, `List`,
 Button, Canvas - see
 [http://help.eclipse.org/indigo/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt.htm Eclipse Help SWT] for the full list.
-You can fully control these widgets - configure fonts, colors, dimension,
-borders.
+You can fully control these widgets - configure fonts, colors, dimension, borders.
 
 ===SWT Layouts ===
 Package `org.eclipse.swt.layout` provides:
@@ -148,14 +148,13 @@ public class Example01 {
 Packages `org.eclipse.jface.*` provides implementation of JFace UI toolkit on top of the SWT toolkit. Its purpose is to simplify implementation of UI. It handles:
   * viewers
   * actions
-  * images and fonts registeries
+  * images and fonts registers
   * dialogs and wizards
 
-||
- Notes:   
+
+Notes:   
   * Method `getControl()` of JFace widgets serves to get associated SWT control.
   * JFace also provides a way how to automatically bind widget with data.
-||
 
 ===Viewers===
 JFace widget which display a structured data - list, tree, tables (encapsulates native SWT widgets) - `ListViewer`, `TreeViewer` and `TableViewer`. It further allows data sorting, filtering, selection and visualization.
