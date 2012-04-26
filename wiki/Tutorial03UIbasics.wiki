@@ -1,4 +1,5 @@
 #summary UI Basics and Views
+#labels Featured
 
 =Eclipse UI basics=
 <wiki:toc max_depth="2" />
