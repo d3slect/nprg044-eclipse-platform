@@ -1,7 +1,7 @@
 #summary Eclipse Platform Basics
 #labels Featured
 
-= Tutorial #2: Eclipse basics =
+= Eclipse basics =
 <wiki:toc max_depth="3" />
 
 == Overal Plan ==
