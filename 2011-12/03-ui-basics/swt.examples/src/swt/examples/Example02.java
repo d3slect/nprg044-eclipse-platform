@@ -25,6 +25,7 @@ public class Example02 {
 		Display display = new Display();
 		// top-level widget is shell
 		final Shell shell = new Shell(display);
+		shell.setText("Form layout example");
 		shell.setBounds(100,100, 220, 180);
 		shell.setLayout(new FormLayout());	
 		
