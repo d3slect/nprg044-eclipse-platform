@@ -27,6 +27,7 @@ public class Example00 {
 		final Display display = new Display();
 		final Shell shell = new Shell(display);
 		shell.setLayout (new FillLayout());
+		shell.setText("SWT API Example");
 		shell.setBounds(100, 100, 340, 300);
 		
 		final Group group = new Group(shell, SWT.SHADOW_ETCHED_IN);
