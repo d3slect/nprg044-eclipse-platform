@@ -11,6 +11,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
+import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.UserInfoContentProvider;
+import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.UserInfoLabelProvider;
+
 /**
  * User information view.
  * 

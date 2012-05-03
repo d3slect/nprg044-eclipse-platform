@@ -1,4 +1,4 @@
-package cz.cuni.mff.d3s.nprg044.twitter.ui.view;
+package cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
