@@ -37,7 +37,7 @@ public class MessageTimelineContentProvider implements
 	private KeyListener keyListener = new KeyAdapter() {
 		private String username;
 		
-		public void keyReleased(KeyEvent e) {
+		/*public void keyReleased(KeyEvent e) {
 			if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
 				if (e.widget instanceof Text) {
 					String newUsername = ((Text) e.widget).getText();
@@ -56,7 +56,7 @@ public class MessageTimelineContentProvider implements
 					}
 				}
 			}
-		};
+		};*/
 	};
 	
 	public MessageTimelineContentProvider() {
@@ -128,9 +128,9 @@ public class MessageTimelineContentProvider implements
 	private String getUsername(Object inputElement) {
 		if (inputElement instanceof Text) {
 			return ((Text) inputElement).getText();
-		} else if (inputElement instanceof UserNode) {
+		} /* else if (inputElement instanceof UserNode) {
 			return ((UserNode) inputElement).getScreenName();			
-		}
+		} */
 		
 		return null;
 	}

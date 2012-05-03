@@ -34,7 +34,7 @@ import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.MessageTimelineLabelPro
  * @author Michal Malohlava
  *
  */
-public class TwitterMessageTimelineView extends ViewPart implements ISelectionListener {
+public class TwitterMessageTimelineView extends ViewPart /* implements ISelectionListener */ {
 	
 	public static final String ID = "cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView";
 	
@@ -77,7 +77,7 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 		createColumns(viewer);
 		viewer.setContentProvider(new MessageTimelineContentProvider(progressBar));
 		viewer.setLabelProvider(new MessageTimelineLabelProvider());
-//		viewer.setSorter(new NameSorter());
+
 		// the input for the content provider
 		viewer.setInput(searchBox);		
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -87,15 +87,13 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 		viewer.getTable().setHeaderVisible(true);
 		
 		// make selection available to others
-		getSite().setSelectionProvider(viewer);
+		// TODO: getSite().setSelectionProvider(viewer);
 		
-		// register this class as a selection consumer
-//		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(this);
 		// register this class as a selection consumer on a given widget
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(UserViewPart.ID, this);
+		// TODO: getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(UserViewPart.ID, this);
 		
 		// we need to register context menu first to allow contribution via extension points
-		createContextMenu();
+		//createContextMenu();
 	}
 	
 	private void createContextMenu() {
@@ -131,13 +129,15 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+	 * TODO: uncomment
 	 */
 	@Override
 	public void setFocus() {
-		this.searchBox.setFocus();
+		// TODO: this.searchBox.setFocus();
 	}
 
-	@Override
+	// TODO: shows a listener
+/*	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
 			Object o = ((IStructuredSelection) selection).getFirstElement();
@@ -151,12 +151,12 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 			viewer.setInput(searchBox);
 		}				
 	}
-	
+*/	
 	@Override
 	public void dispose() {		
 		super.dispose();
 		// unregister the listeners
-		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
+		// TODO: getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
 	}
 	
 	public void cleanTimeline() {

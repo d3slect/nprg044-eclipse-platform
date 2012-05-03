@@ -11,12 +11,14 @@ public class ShowMessageDetails extends AbstractHandler implements IHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		/*
 		try {
 			HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().showView("org.eclipse.ui.views.PropertySheet");
 		} catch (PartInitException e) {
 			throw new ExecutionException(e.getMessage(), e);
-		}		
-		return null;
+		}
+		*/		
+		return null;		
 	}
 
 }
