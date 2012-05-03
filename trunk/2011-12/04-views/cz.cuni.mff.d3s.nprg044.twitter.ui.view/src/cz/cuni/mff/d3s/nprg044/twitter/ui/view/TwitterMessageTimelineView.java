@@ -26,6 +26,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.internal.model.UserNode;
+import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.MessageTimelineContentProvider;
+import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.MessageTimelineLabelProvider;
 
 /**
  * @author michal
@@ -83,6 +85,7 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 		
 		// register this class as a selection consumer
 //		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(this);
+		// register this class as a selection consumer on a given widget
 		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(UserViewPart.ID, this);
 		
 		// we need to register context menu first to allow contribution via extension points

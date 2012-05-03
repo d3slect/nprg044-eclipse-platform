@@ -85,9 +85,18 @@
                   visible="true">
             </separator>
             <separator
-                  name="usermanagement"
+                  name="user"
                   visible="true">
             </separator>
+            <separator
+                  name="additions"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.About"
+                  label="About T4Eclipse"
+                  style="push">
+            </command>
          </menu>
          <separator
                name="cz.cuni.mff.d3s.nprg044.twitter.commands.separator1"
@@ -104,11 +113,23 @@
                   id="cz.cuni.mff.d3s.nprg044.twitter.commands.toolbars.showUserStatus"
                   tooltip="Show user status">
             </command>
+            <separator
+                  name="beginning">
+            </separator>
+            <separator
+                  name="timeline">
+            </separator>
+            <separator
+                  name="user">
+            </separator>
+            <separator
+                  name="additions">
+            </separator>
          </toolbar>
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="menu:cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu?after=userManagement">
+            locationURI="menu:cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu?after=user">
          <menu
                id="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu.userMenu"
                label="User"
@@ -118,14 +139,21 @@
                   name="login"
                   visible="false">
             </separator>
+            <command
+                  commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.Login"
+                  label="Login"
+                  style="push"
+                  tooltip="Login">
+            </command>
             <separator
                   name="logout"
                   visible="true">
             </separator>
             <command
-                  commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.About"
-                  label="About T4Eclipse"
-                  style="push">
+                  commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.Logout"
+                  label="Logout"
+                  style="push"
+                  tooltip="Logout the user">
             </command>
          </menu>
       </menuContribution>
@@ -136,6 +164,12 @@
                id="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu.timelineMenu"
                label="Timeline"
                tooltip="T">
+            <command
+                  commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.CreateNewMessage"
+                  label="New message"
+                  mnemonic="N"
+                  style="push">
+            </command>
          </menu>
       </menuContribution>
       <menuContribution

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cz.cuni.mff.d3s.nprg044.twitter.ui.view;
+package cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers;
 
 import java.util.List;
 
