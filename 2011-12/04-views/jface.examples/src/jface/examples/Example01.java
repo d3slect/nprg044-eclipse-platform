@@ -182,7 +182,6 @@ public class Example01 {
 	        	progressBar.setSelection(++counter);
 	        }
 //	        result.add(twitter.showUser("sofaproject"));
-//	        result.add(twitter.showUser("mmalohlava"));
 	        
 	        return result.toArray(new User[result.size()]);
 	        

@@ -7,6 +7,7 @@
             id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterCategory"
             name="Twitter">
       </category>
+      <!--
       <view
             allowMultiple="true"
             category="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterCategory"
@@ -16,7 +17,7 @@
             id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView"
             name="Twitter Timeline"
             restorable="true">
-      </view>
+      </view> -->
       <view
             allowMultiple="true"
             category="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterCategory"
@@ -93,7 +94,7 @@
             locationURI="toolbar:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView">
          <command
                commandId="org.eclipse.ui.edit.delete"
-               label="Delete"
+               label="Clear"
                style="push">
          </command>
       </menuContribution>
@@ -110,6 +111,7 @@
             locationURI="popup:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView?after=additions">
          <command
                commandId="org.eclipse.ui.edit.delete"
+               label="Clear"
                style="push">
          </command>
          <command
@@ -127,6 +129,8 @@
             name="Show message details">
       </command>
    </extension>
+   
+   <!--
    <extension
          point="org.eclipse.core.runtime.adapters">
       <factory
@@ -136,6 +140,6 @@
                type="org.eclipse.ui.views.properties.IPropertySource">
          </adapter>
       </factory>
-   </extension>
+   </extension> -->
 
 </plugin>

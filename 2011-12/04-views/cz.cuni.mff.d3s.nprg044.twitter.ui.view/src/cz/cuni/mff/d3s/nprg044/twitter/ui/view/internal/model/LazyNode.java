@@ -54,8 +54,7 @@ public abstract class LazyNode extends AbstractUserInfoViewNode {
 			
 			@Override
 			public void run() {
-				viewer.refresh(LazyNode.this, true);
-				
+				viewer.refresh(LazyNode.this, true);				
 			}
 		});		
 	}
