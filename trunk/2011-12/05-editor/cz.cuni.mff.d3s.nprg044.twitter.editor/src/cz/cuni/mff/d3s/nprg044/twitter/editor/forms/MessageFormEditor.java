@@ -10,7 +10,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 
 import cz.cuni.mff.d3s.nprg044.twitter.editor.forms.pages.CreateMessageForm;
 
-public class NewMessageFormEditor extends FormEditor {
+public class MessageFormEditor extends FormEditor {
 	private static final int NEW_MESSAGE_PAGE_INDEX = 0;
 	private static final int MESSAGE_SOURCE_VIEWER_PAGE_INDEX = 1;
 	
@@ -45,7 +45,8 @@ public class NewMessageFormEditor extends FormEditor {
 	
 
 	@Override
-	public void doSave(IProgressMonitor monitor) {		
+	public void doSave(IProgressMonitor monitor) {
+		// save message locally and then use Twitter API to send
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package cz.cuni.mff.d3s.nprg044.twitter.editors.adapters;
+package cz.cuni.mff.d3s.nprg044.twitter.editor.adapters;
 
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
