@@ -5,7 +5,7 @@
 <wiki:toc max_depth="3" />
 
 = Eclipse Editors =
-Editors share the same concepts as views, however, they are primary intended for maintaining data.
+Editors share the same concepts as views, however, they are primary intended for data manipulation and maintaining.
 {{{
 IWorkbenchPart
  |
@@ -17,7 +17,7 @@ IWorkbenchPart
    +- TextEditor
 }}}
 
-Editor implements `IEditorPart` interface. From implementation perspective, it is better to inherit from the class `EditorPart` serving basic infrastructure. It is necessary to implement:
+Editor implements `IEditorPart` interface. From implementation perspective, it is better to inherit from the class `EditorPart` serving a basic infrastructure. It is necessary to implement:
   * `init(IEditorSite site, IEditorInput input)` - checks supported input, registers listeners, etc.
   * override `createPartControl(Composite parent)` - creates editor control (e.g., SWT widget `Text`, `TextViewer`, `SourceViewer`), 
   
@@ -181,7 +181,7 @@ The document provider implements the interface `IDocumentProvider` which provide
 The interface `IDocument` serves to maintain the text shown in the editor control - to access lines, chars, update the given position, replace the text, etc.
 
 
-Document provider can also provide information about hidden annotations (i.e., _annotation model_). See http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/guide/editors_annotations.htm
+Document provider can also provide information about hidden annotations (i.e., _annotation model_). See http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/editors_annotations.htm
 
 || _The document provider can be also registered via extension point `org.eclipse.ui.editors.documentProviders`_||
 
