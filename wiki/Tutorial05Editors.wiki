@@ -1,4 +1,5 @@
 #summary Introduction of Eclipse editors
+#labels Featured
 
 = Introduction =
 <wiki:toc max_depth="3" />
