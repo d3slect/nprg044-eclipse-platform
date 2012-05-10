@@ -66,8 +66,7 @@ public class MarkdownTextEditorConfiguration extends SourceViewerConfiguration {
 	}
 
 	@Override
-	public IPresentationReconciler getPresentationReconciler(
-			ISourceViewer sourceViewer) {
+	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 		PresentationReconciler reconciler = new PresentationReconciler();
 		DefaultDamagerRepairer dr = null;
 

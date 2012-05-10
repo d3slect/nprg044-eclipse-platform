@@ -1,61 +1,117 @@
 package cz.cuni.mff.d3s.nprg044.twitter.editor.forms;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.text.TextViewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.forms.editor.FormEditor;
 
+import cz.cuni.mff.d3s.nprg044.twitter.editor.TwitterEditorsPlugin;
 import cz.cuni.mff.d3s.nprg044.twitter.editor.forms.pages.CreateMessageForm;
+import cz.cuni.mff.d3s.nprg044.twitter.editor.model.TwitterMessage;
 
 public class MessageFormEditor extends FormEditor {
-	private static final int NEW_MESSAGE_PAGE_INDEX = 0;
+	private static final int MESSAGE_EDIT_PAGE_INDEX = 0;
 	private static final int MESSAGE_SOURCE_VIEWER_PAGE_INDEX = 1;
 	
-	private CreateMessageForm newMessageForm;
-	private TextViewer messageSourceTextViewer;
-
+	private CreateMessageForm messageEditPage;	
+	private TextEditor textEditor;
+	
 	@Override
-	protected void addPages() {
+	protected void addPages() {		
+		// edit
 		addPage0();
+		// source code
 		addPage1();
+		
+		// fill page 0
+		setInitialMessage(); 
 	}
 	
 	private void addPage0() {
 		try {
-			newMessageForm = new CreateMessageForm(this, "cz.cuni.mff.d3s.nprg044.twitter.editor.forms", "Message");
-			addPage(NEW_MESSAGE_PAGE_INDEX, newMessageForm);
+			messageEditPage = new CreateMessageForm(this);			
+			addPage(MESSAGE_EDIT_PAGE_INDEX, messageEditPage);			
 		} catch (PartInitException e) {
-			e.printStackTrace();
+			TwitterEditorsPlugin.logException(e);
 		}		
 	}
 	
-	private void addPage1() {
-		Composite composite = new Composite(getContainer(), SWT.NONE);
-		FillLayout fillLayout = new FillLayout();
-		composite.setLayout(fillLayout);
+	private void addPage1() {				
+		textEditor = new TextEditor();	
 		
-		messageSourceTextViewer = new TextViewer(composite, SWT.BORDER | SWT.FLAT | SWT.READ_ONLY);
-		
-		addPage(MESSAGE_SOURCE_VIEWER_PAGE_INDEX, composite);
-		setPageText(MESSAGE_SOURCE_VIEWER_PAGE_INDEX, "Source");		
+		try {
+			addPage(MESSAGE_SOURCE_VIEWER_PAGE_INDEX, textEditor, getEditorInput());
+			setPageText(MESSAGE_SOURCE_VIEWER_PAGE_INDEX, "Source");
+		} catch (PartInitException e) {
+			TwitterEditorsPlugin.logException(e);
+		}				
 	}
 	
-
+	protected String[] getDocument() throws BadLocationException {
+		IDocument document = textEditor.getDocumentProvider().getDocument(getEditorInput());
+		int numOfLines = document.getNumberOfLines();
+		String[] lines = new String[numOfLines];
+		for (int i = 0; i < numOfLines; i++) {
+			lines[i] = document.get(document.getLineOffset(i), document.getLineLength(i));
+		}
+								
+		return lines;  				
+	}
+		
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// save message locally and then use Twitter API to send
+		commitPages(true);		
+		textEditor.doSave(monitor);
+		editorDirtyStateChanged();
 	}
 
 	@Override
-	public void doSaveAs() {		
+	public void doSaveAs() {
+		// nothing
 	}
 
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
+	}
+	
+	@Override
+	protected void pageChange(int newPageIndex) {
+		int oldIndex = getCurrentPage();
+		
+		if (oldIndex == MESSAGE_EDIT_PAGE_INDEX) {
+			fillTextEditor();			
+		} else if (oldIndex == MESSAGE_SOURCE_VIEWER_PAGE_INDEX) {
+			fillMessageEditPage();
+		}		
+		
+		super.pageChange(newPageIndex);
+	}
+	
+	protected void fillTextEditor() {
+		TwitterMessage msg = messageEditPage.getTwitterMessage();
+		IDocument document = textEditor.getDocumentProvider().getDocument(getEditorInput());
+		document.set(msg.toString());		
+	}
+	
+	protected void fillMessageEditPage() {
+		try {
+			TwitterMessage msg = new TwitterMessage(getDocument());
+			messageEditPage.fill(msg);
+		} catch (BadLocationException e) {
+			TwitterEditorsPlugin.logException(e);
+		}
+	}
+	
+	protected void setInitialMessage() {
+		try {
+			TwitterMessage msg = new TwitterMessage(getDocument());
+			messageEditPage.setInitialMessage(msg);
+		} catch (BadLocationException e) {
+			TwitterEditorsPlugin.logException(e);
+		}
 	}
 
 }
