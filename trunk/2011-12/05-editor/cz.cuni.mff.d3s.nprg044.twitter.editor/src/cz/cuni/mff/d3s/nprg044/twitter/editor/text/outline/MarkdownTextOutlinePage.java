@@ -69,7 +69,7 @@ public class MarkdownTextOutlinePage extends ContentOutlinePage  implements ITex
 			
 			if (getTreeViewer()!=null) {
 				getTreeViewer().setSelection(new StructuredSelection(region));
-//				getTreeViewer().reveal(region);
+				getTreeViewer().reveal(region);
 				getTreeViewer().expandToLevel(region, TreeViewer.ALL_LEVELS);
 			}
 			

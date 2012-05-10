@@ -18,9 +18,9 @@
             name="Multi editor">
       </editor>
       <editor
-            class="cz.cuni.mff.d3s.nprg044.twitter.editor.forms.NewMessageFormEditor"
+            class="cz.cuni.mff.d3s.nprg044.twitter.editor.forms.MessageFormEditor"
             default="false"
-            extensions="markdown"
+            extensions="message"
             icon="icons/twitter.gif"
             id="cz.cuni.mff.d3s.nprg044.twitter.editors.NewMessageEditor"
             name="New Message">
@@ -52,7 +52,7 @@
          point="org.eclipse.core.runtime.adapters">
       <factory
             adaptableType="org.eclipse.jface.text.ITypedRegion"
-            class="cz.cuni.mff.d3s.nprg044.twitter.editors.adapters.EditorsAdapterFactory">
+            class="cz.cuni.mff.d3s.nprg044.twitter.editor.adapters.EditorsAdapterFactory">
          <adapter
                type="org.eclipse.ui.views.properties.IPropertySource">
          </adapter>

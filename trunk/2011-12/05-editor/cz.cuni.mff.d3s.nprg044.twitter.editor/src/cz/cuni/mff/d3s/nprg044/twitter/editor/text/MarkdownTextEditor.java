@@ -22,9 +22,10 @@ public class MarkdownTextEditor extends TextEditor {
 		
 		colorManager = new ColorManager();
 		
-		// setup TextEditor
+		// setup TextEditor 
 		setSourceViewerConfiguration(new MarkdownTextEditorConfiguration(colorManager));
-		// setup document provider
+
+		// setup document provider - or use IDocumentSetupParticipant and register an extension  
 		setDocumentProvider(new MarkdownTextDocumentProvider());
 	}	
 	
@@ -43,7 +44,7 @@ public class MarkdownTextEditor extends TextEditor {
 			if (outlinePage  == null) {
 				outlinePage = new MarkdownTextOutlinePage();
 				outlinePage.setInput(getDocumentProvider().getDocument(getEditorInput()));
-//				((ISelectionService)getSite().getService(ISelectionService.class)).addSelectionListener(outlinePage);
+//				((ISelectionService) getSite().getService(ISelectionService.class)).addSelectionListener(outlinePage);
 				
 				// register listener on change of the input				
 				getSourceViewer().getTextWidget().addCaretListener(outlinePage);

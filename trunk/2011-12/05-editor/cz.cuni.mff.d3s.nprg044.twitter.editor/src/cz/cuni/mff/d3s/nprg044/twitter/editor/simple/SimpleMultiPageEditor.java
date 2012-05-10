@@ -44,12 +44,12 @@ public class SimpleMultiPageEditor extends MultiPageEditorPart {
 	}
 
 	@Override
-	public void doSave(IProgressMonitor monitor) {
+	public void doSave(IProgressMonitor monitor) {		
 		textEditor.doSave(monitor);
 	}
 
 	@Override
-	public void doSaveAs() {
+	public void doSaveAs() {		
 		textEditor.doSaveAs();
 	}
 
