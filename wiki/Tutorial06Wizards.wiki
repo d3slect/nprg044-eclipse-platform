@@ -237,6 +237,12 @@ Progress monitor is represented by the `IProgressMonitor` interface:
   * `monitor.worked(1)` - 1 unit of work processed
   * `monitor.done()` - computation is finished
 
+== Early startup of Eclipse ==
+Define the extension point `org.eclipse.ui.startup` and implements the interface `IStartup`.
+
+= Eclipse Resources =
+
+
 = Resources =
   * Eclipse Help - Wizards - http://help.eclipse.org/help33/topic/org.eclipse.platform.doc.isv/guide/dialogs.htm
   * Eclipse Help - Perspective - http://help.eclipse.org/help33/topic/org.eclipse.platform.doc.isv/guide/workbench_perspectives.htm
