@@ -5,6 +5,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspectiveFactory"
+            icon="icons/twitter.gif"
             id="cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective"
             name="Twitter">
       </perspective>
@@ -22,6 +23,9 @@
          <viewShortcut
                id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView">
          </viewShortcut>
+         <newWizardShortcut
+               id="cz.cuni.mff.d3s.nprg044.twitter.ui.wizards.LoginWizard">
+         </newWizardShortcut>
       </perspectiveExtension>
    </extension>
 
