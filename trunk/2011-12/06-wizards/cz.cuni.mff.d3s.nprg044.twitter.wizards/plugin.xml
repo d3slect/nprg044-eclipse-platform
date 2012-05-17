@@ -13,8 +13,19 @@
             class="cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard"
             finalPerspective="cz.cuni.mff.d3s.nprg044.twitter.perspectives.TwitterPerspective"
             hasPages="true"
+            icon="icons/twitter.gif"
             id="cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard"
             name="New message">
+      </wizard>
+      <wizard
+            canFinishEarly="false"
+            category="cz.cuni.mff.d3s.nprg044.twitter.wizards.Twitter"
+            class="cz.cuni.mff.d3s.nprg044.twitter.ui.wizards.LoginWizard"
+            finalPerspective="cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective"
+            hasPages="true"
+            icon="icons/twitter.gif"
+            id="cz.cuni.mff.d3s.nprg044.twitter.ui.wizards.LoginWizard"
+            name="Twitter Login">
       </wizard>
    </extension>
 

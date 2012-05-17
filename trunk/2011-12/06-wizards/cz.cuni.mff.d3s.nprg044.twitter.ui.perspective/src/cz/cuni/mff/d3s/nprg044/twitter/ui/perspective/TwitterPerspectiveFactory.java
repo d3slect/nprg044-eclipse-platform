@@ -6,6 +6,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterMessageTimelineView;
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserViewPart;
+import cz.cuni.mff.d3s.nprg044.twitter.ui.wizards.LoginWizard;
 import cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard;
 
 public class TwitterPerspectiveFactory implements IPerspectiveFactory {
@@ -64,7 +65,8 @@ public class TwitterPerspectiveFactory implements IPerspectiveFactory {
     /**
      * Adds the new wizard shortcuts.
      */
-    private void addNewWizardShortcuts(IPageLayout layout) {            
+    private void addNewWizardShortcuts(IPageLayout layout) { 
+    		layout.addNewWizardShortcut(LoginWizard.ID);
             layout.addNewWizardShortcut(NewMessageWizard.ID);
     }
 
