@@ -12,7 +12,7 @@ This is a tutorial for the Eclipse-related part of the course [http://is.cuni.cz
  # [Tutorial03UIbasics Eclipse UI basics]
  # [Tutorial04Views Views]
  # [Tutorial05Editors Editors]
- # [Tutorial06Wizards Perspective and wizards]
+ # [Tutorial06Wizards Preferences, perspectives, and wizards]
  # [Tutorial07Branding  Product branding, updating]
 
 ==Source code==
