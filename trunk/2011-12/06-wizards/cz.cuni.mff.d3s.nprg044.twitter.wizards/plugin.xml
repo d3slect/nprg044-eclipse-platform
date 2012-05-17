@@ -28,5 +28,12 @@
             name="Twitter Login">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="cz.cuni.mff.d3s.nprg044.twitter.ui.wizards.handlers.LoginHandler"
+            commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.Login">
+      </handler>
+   </extension>
 
 </plugin>
