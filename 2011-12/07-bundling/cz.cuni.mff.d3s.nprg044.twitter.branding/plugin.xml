@@ -7,10 +7,11 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="cz.cuni.mff.d3s.nprg044.twitter.application.TwitterClientApplication"
-            name="Twitter Client">
+            description="A simple Twitter client for Eclipse"
+            name="T4Eclipse">
          <property
                name="appName"
-               value="Twitter Client">
+               value="T4Eclipse">
          </property>
          <property
                name="aboutText"

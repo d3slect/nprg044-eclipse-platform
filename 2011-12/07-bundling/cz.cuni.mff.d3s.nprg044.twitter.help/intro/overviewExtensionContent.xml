@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<introContent>
+	<!-- Extension to the SDK Overview Page. -->
+	<extensionContent id="cz.cuni.mff.d3s.nprg044.twitter"
+		name="T4Eclipse" alt-style="swt/overview.properties" style="css/overview.css"
+		path="overview/@">
+		<group id="t4eclipse-introLink-group" style-id="content-group">
+			<link label="T4Eclipse"
+				url="http://org.eclipse.ui.intro/showPage?id=t4eclipseoverview" id="t4eclipse-introLink"
+				style-id="content-link">
+
+				<text>Get familiar with T4Eclipse !</text>
+			</link>
+
+		</group>
+	</extensionContent>
+
+	<page id="t4eclipseoverview" style="$theme$/html/overview.css,css/overview.css"
+		alt-stype="$theme$/swt/overview.properties" style-id="page">
+
+		<anchor id="head-anchor" />
+		<title style-id="intro-header">T4Eclipse</title>
+		<group id="extra-group1" filteredFrom="swt" />
+		<!-- navigation -->
+		<group id="navigation-links" filteredFrom="swt">
+			<group id="page-links" computed="true">
+			</group>
+			<group id="action-links">
+				<link url="http://org.eclipse.ui.intro/switchToLaunchBar"
+					label="Workbench" id="workbench" style-id="$high-contrast$">
+					<text>Go to the workbench</text>
+				</link>
+			</group>
+		</group>
+
+		<!-- content -->
+		<group id="page-content">
+
+			<group id="content-header" label="T4Eclipse" filteredFrom="swt">
+			</group>
+			<text style-id="page-title" id="page-title" filteredFrom="html">
+				T4Eclipse
+			</text>
+
+			<text style-id="page-description" id="page-description">
+				T4Eclipse is a simple
+				Twitter plugin.
+			</text>
+			<!-- panes -->
+			
+			<!-- === -->
+			<!-- Doc -->
+			<group style-id="content-group" id="t4eclipse-doc-group">
+
+				<link style-id="content-link" label="T4Eclipse User Guide"
+					url="http://org.eclipse.ui.intro/showHelpTopic?id=/cz.cuni.mff.d3s.nprg044.twitter.help/help/user/overview.html"					
+					id="t4eclipse">
+					<text>Get familiar with T4Eclipse client</text>
+				</link>
+
+				<link style-id="content-link" label="T4Eclipse Developer Guide"
+					url="http://org.eclipse.ui.intro/showHelpTopic?id=/cz.cuni.mff.d3s.nprg044.twitter.help/help/devel/overview.html"					
+					id="t4eclipse">
+					<text>Extend T4Eclipse client</text>
+				</link>
+				
+				<link style-id="content-link" label="Twitter homepage"
+					url="http://twitter.com/"
+					id="t4eclipse">
+					<text>Twitter home page</text>
+				</link>
+			</group>
+			
+			<!-- ========= -->
+			<!-- Tutorials -->
+			
+			<group style-id="content-group" id="t4eclipse-tutorial-group">
+				<link style-id="content-link" label="T4Eclipse Tutorials"
+					url="http://org.eclipse.ui.intro/runAction=?class=XXX&amp;pluginId="					
+					id="t4eclipse">
+					<text>Login</text>
+				</link>
+			
+			</group>
+
+			<group style-id="content-group" id="t4eclipse-tutorial-group">
+				
+				<link style-id="content-link" label="T4Eclipse Tutorials"
+					url="http://org.eclipse.ui.intro/showPage?id=tutorials"					
+					id="t4eclipse">
+					<text>T4Eclipse tutorials</text>
+				</link>
+
+
+				<link label="Quick tour"
+					url="http://org.eclipse.ui.intro/showStandby?partId=org.eclipse.platform.cheatsheet&amp;input=cz.cuni.mff.d3s.nprg044.twitter.help.cheatsheets.Login"
+					id="t4eclipse" style-id="content-link">
+					<text>
+						Learn how to install and start a demo of the Rich Ajax
+						Platform.
+					</text>
+				</link>
+			</group>			
+		</group>
+
+	</page>
+</introContent>
+

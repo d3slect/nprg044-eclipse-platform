@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Twitter Client" uid="cz.cuni.mff.d3s.nprg044.twitter.branding.TwitterClient" id="cz.cuni.mff.d3s.nprg044.twitter.branding.TwitterClient" application="cz.cuni.mff.d3s.nprg044.twitter.application.TwitterClientApplication" useFeatures="true" includeLaunchers="true">
+<product name="T4Eclipse" uid="cz.cuni.mff.d3s.nprg044.twitter.branding.TwitterClient" id="cz.cuni.mff.d3s.nprg044.twitter.branding.TwitterClient" application="cz.cuni.mff.d3s.nprg044.twitter.application.TwitterClientApplication" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/cz.cuni.mff.d3s.nprg044.twitter.branding/icons/about.png"/>
@@ -30,6 +30,7 @@
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>

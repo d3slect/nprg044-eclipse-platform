@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<introContent>
+  <!-- Extension to the SDK Tutorials Page. -->
+  <extensionContent id="cz.cuni.mff.d3s.nprg044.twitter" name="T4Eclipse" alt-style="css/tutorials.properties" style="css/tutorials.css" path="tutorials/@">
+    <group label="T4Eclipse" id="t4eclipse" style-id="content-group">
+    
+      <link url="http://org.eclipse.ui.intro/showStandby?partId=org.eclipse.platform.cheatsheet&amp;input=cz.cuni.mff.d3s.nprg044.twitter.help.cheatsheets.Login" label="Login" id="login" style-id="content-link">
+        <text>Learn how to login</text>
+      </link>
+
+      <link url="http://org.eclipse.ui.intro/showStandby?partId=org.eclipse.platform.cheatsheet&amp;input=cz.cuni.mff.d3s.nprg044.twitter.help.cheatsheets.NewMessage" label="Post a new message" id="new-message" style-id="content-link">
+        <text>Learn how to post a new message</text>
+      </link>
+
+    </group>
+  </extensionContent>
+</introContent>
