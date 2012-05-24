@@ -11,5 +11,4 @@ Export-Package: twitter4j,
  twitter4j.json,
  twitter4j.management,
  twitter4j.util
-Require-Bundle: org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
