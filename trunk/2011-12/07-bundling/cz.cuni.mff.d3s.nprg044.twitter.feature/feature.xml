@@ -24,18 +24,21 @@
 
    <requires>
       <import plugin="org.eclipse.core.commands" version="3.6.0" match="greaterOrEqual"/>
-      <import plugin="cz.cuni.mff.d3s.nprg044.twitter.api" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.editors" version="3.6.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jface.text" version="3.6.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.views" version="3.5.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.ui.forms" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui" version="3.6.2" match="greaterOrEqual"/>
+      <import plugin="cz.cuni.mff.d3s.nprg044.twitter.api" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="cz.cuni.mff.d3s.nprg044.twitter.ui.view" version="1.0.0" match="greaterOrEqual"/>
       <import plugin="cz.cuni.mff.d3s.nprg044.twitter.ui.wizards" version="1.0.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.expressions" version="3.4.200" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.runtime" version="3.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.expressions" version="3.4.200" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.views" version="3.5.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface.text" version="3.6.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.platform" version="3.6.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui.ide.application" version="1.0.201" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.ide" version="3.6.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.help"/>
+      <import plugin="org.eclipse.ui.intro"/>
+      <import plugin="org.eclipse.ui.cheatsheets" version="3.4.100" match="greaterOrEqual"/>
+      <import plugin="cz.cuni.mff.d3s.nprg044.twitter.application"/>
    </requires>
 
    <plugin
@@ -46,13 +49,6 @@
 
    <plugin
          id="cz.cuni.mff.d3s.nprg044.twitter.commands"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="cz.cuni.mff.d3s.nprg044.twitter.editors"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -81,6 +77,20 @@
 
    <plugin
          id="cz.cuni.mff.d3s.nprg044.twitter.branding"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="cz.cuni.mff.d3s.nprg044.twitter.help"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="cz.cuni.mff.d3s.nprg044.twitter.ui.preferences"
          download-size="0"
          install-size="0"
          version="0.0.0"

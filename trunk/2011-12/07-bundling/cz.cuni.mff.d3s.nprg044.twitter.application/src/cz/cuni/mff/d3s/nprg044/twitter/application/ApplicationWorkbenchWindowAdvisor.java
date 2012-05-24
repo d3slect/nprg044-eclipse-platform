@@ -1,6 +1,7 @@
 package cz.cuni.mff.d3s.nprg044.twitter.application;
 
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
@@ -18,8 +19,20 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
     
     public void preWindowOpen() {
         IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-        configurer.setInitialSize(new Point(400, 300));
+        configurer.setInitialSize(new Point(600, 500));
         configurer.setShowCoolBar(false);
-        configurer.setShowStatusLine(false);
+        configurer.setShowStatusLine(false);        
+    }
+    
+    @Override
+    public void openIntro() {    	
+    	super.openIntro();
+    }
+    
+    @Override
+    public void postWindowRestore() throws WorkbenchException {    	
+    	super.postWindowRestore();
+    	
+    	cleanUpEditorArea();
     }
 }

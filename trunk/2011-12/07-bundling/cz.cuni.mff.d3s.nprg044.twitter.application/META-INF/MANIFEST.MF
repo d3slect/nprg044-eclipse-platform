@@ -5,5 +5,13 @@ Bundle-SymbolicName: cz.cuni.mff.d3s.nprg044.twitter.application; singleton:=tru
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: D3S MFF CUNI
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui
+ org.eclipse.ui,
+ cz.cuni.mff.d3s.nprg044.twitter.api;bundle-version="1.0.0",
+ cz.cuni.mff.d3s.nprg044.twitter.branding;bundle-version="1.0.0",
+ cz.cuni.mff.d3s.nprg044.twitter.commands;bundle-version="1.0.0",
+ cz.cuni.mff.d3s.nprg044.twitter.help;bundle-version="1.0.0",
+ cz.cuni.mff.d3s.nprg044.twitter.ui.perspective;bundle-version="1.0.0",
+ cz.cuni.mff.d3s.nprg044.twitter.ui.preferences;bundle-version="1.0.0",
+ cz.cuni.mff.d3s.nprg044.twitter.ui.view;bundle-version="1.0.0",
+ cz.cuni.mff.d3s.nprg044.twitter.ui.wizards;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

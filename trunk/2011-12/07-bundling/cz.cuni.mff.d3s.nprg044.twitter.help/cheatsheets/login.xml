@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<cheatsheet title="T4Eclipse Login Cheat Sheet">
+  <intro>
+    <description>A cheat sheet which navigates through T4Eclipse login</description>
+  </intro>
+  
+  <item title="Switch to T4Eclipse perspective">
+     <description>Select the T4Eclipse perspective as active.</description>
+     <command
+           required="false"
+           serialization="org.eclipse.ui.perspectives.showPerspective(org.eclipse.ui.perspectives.showPerspective.perspectiveId=cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective)"/>     		
+  </item> 
+  <item title="Launch login wizard">
+     <description>Launch T4Eclipse login wizard.</description>
+     <command
+           required="true"
+           serialization="cz.cuni.mff.d3s.nprg044.twitter.commands.Login"/>
+  </item> 
+    
+  <item
+        skip="false"
+        title="Open the timeline view">
+     <description>Open the message view.</description>
+     <command
+           required="true"
+           serialization="org.eclipse.ui.views.showView(org.eclipse.ui.views.showView.viewId=cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView)"/> 
+   </item>
+ 
+  
+</cheatsheet>
