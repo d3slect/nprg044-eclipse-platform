@@ -22,13 +22,10 @@
       * [Tutorial06Wizards#Perspective Perspectives]   
       * [Tutorial06Wizards#Wizards Wizards]
     * [Tutorial07Branding  Product branding and updating]
-    * Preferences
     * Resources
     * Help
     * Concurrency
-      * Progress bars
     * Testing bundles
-    * Standalone RCP application
   * Examples
     * [ExampleTwitterClientDesign Twitter Client]
 
