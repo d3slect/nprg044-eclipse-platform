@@ -3,6 +3,14 @@
 = Introduction =
 <wiki:toc max_depth="3" />
 
+= Help =
+
+== Help TOC ==
+
+== Cheat sheets ==
+
+== Welcome page ==
+
 = Feature =
 Set of plugins with defined meta-information.
 
