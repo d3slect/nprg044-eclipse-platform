@@ -1,5 +1,4 @@
 #summary Eclipse Platform Basics
-#labels Featured
 
 = Eclipse basics =
 <wiki:toc max_depth="3" />
