@@ -1,7 +1,7 @@
 #summary Content outline of Eclipse Platform Classes 2012/13.
 #labels Featured
 
-= Eclipse Platform Classes 2012-11 =
+= Eclipse Platform Classes 2012-13 =
 
 This is a tutorial for the Eclipse-related part of the course [http://is.cuni.cz/studium/eng/predmety/index.php?do=predmet&kod=NPRG044 Netbeans and Eclipse platforms - NPRG044].
 
