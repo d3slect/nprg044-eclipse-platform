@@ -1,5 +1,4 @@
 #summary Eclipse views introduction
-#labels Featured
 
 = Introduction =
 <wiki:toc max_depth="2" />
