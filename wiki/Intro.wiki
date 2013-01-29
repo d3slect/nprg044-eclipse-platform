@@ -1,5 +1,4 @@
 #summary Content outline of Eclipse Platform Classes 2012/13.
-#labels Featured
 
 = Eclipse Platform Classes 2012-13 =
 
