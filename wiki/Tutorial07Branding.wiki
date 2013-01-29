@@ -1,5 +1,4 @@
 #summary Eclipse Bundling, Branding and Updating
-#labels Featured
 
 = Introduction =
 <wiki:toc max_depth="3" />
