@@ -1,5 +1,4 @@
 #summary Tutorial about OSGi basics
-#labels Featured
 
 = Tutorial #1 - OSGi basics =
 
