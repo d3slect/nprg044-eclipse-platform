@@ -1,0 +1,464 @@
+#summary Eclipse Platform Basics
+#labels Featured
+
+= Eclipse basics =
+<wiki:toc max_depth="3" />
+
+== Overal Plan ==
+The overal plan of Eclipse lessons is to shows basics of Eclipse RCP development on a simple example of [ExampleTwitterClientDesign Twitter client]. 
+The tutorial and source code are published at http://code.google.com/a/eclipselabs.org/p/nprg044-eclipse-platform/. 
+
+This text serves as an outline for classes.
+ 
+== Eclipse installation ==
+Go to http://www.eclipse.org/downloads/ and download _Eclipse for RCP and RAP developers_. 
+Unpack the downloaded archive and run command `eclipse`.
+
+== Basic concepts of Eclipse Workbench ==
+
+====Eclipse platform design====
+Eclipse IDE is a Java application running on the top of extended OSGi Equinox runtime. It is composed of OSGi bundles called Eclipse plugins.
+http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/images/eclipse-architecture.jpg 
+
+
+  * _Platform runtime_ - Defines the extension point and plug-in model. It dynamically discovers plug-ins and maintains information about the plug-ins and their extension points in a platform registry. Plug-ins are started up when required according to user operation of the platform. The runtime is implemented using the OSGi framework. The runtime kernel is constituted by plugins `org.eclipse.core. runtime` and `org.eclipse.osgi`.
+    * _Plugin_ - extended OSGi bundle. Defines `MANIFEST.MF` (bundle metadata) and `plugin.xml` (plugin metadata).
+  * _Workbench UI_ - View of the platform. Defines extension points to inject new views and editors.
+
+====Eclipse installation====
+Important files and directories
+{{{
+eclipse/
+ |-configuration/
+  * config.ini
+ |-features/
+ |-plugins/
+ * artifacts.xml
+ * eclipse
+ * eclipse.ini
+}}}
+
+====Eclipse launcher====
+Launch of Eclipse is provided by a binary launcher which detects a provided Java platform and launch Eclipse Java application:
+Parameters of Eclipse Java application are stored in file `eclipse.ini`:
+{{{
+-startup plugins/org.eclipse.equinox.launcher_1.1.1.R36x_v20101122_1400.jar
+--launcher.library plugins/org.eclipse.equinox.launcher.gtk.linux.x86_64_1.1.2.R36x_v20101019_1345
+-product org.eclipse.epp.package.cpp.product
+--launcher.defaultAction openFile
+-showsplash org.eclipse.platform
+--launcher.XXMaxPermSize 256m
+--launcher.defaultAction openFile
+-vmargs -Dosgi.requiredJavaVersion=1.5 -XX:MaxPermSize=256m -Xms40m -Xmx384m
+}}}
+
+Other useful arguments are (see also [http://help.eclipse.org/indigo/index.jsp?topic=/org.eclipse.platform.doc.user/tasks/running_eclipse.htm Running Eclipse help page]):
+  * `-consoleLog` : shows a messages from Eclipse Java application
+  * `-clean` : clean cached data, bundles, services information
+
+  ||Note: _Sometimes it is recommended to increase the parameter XX:MaxPermSize._||
+
+  ||Note: _Product defines an application to be run. Default Eclipse installation run `org.eclipse.ui.ide.workbench`. However, it can be changed. See OSGi specification - `org.osgi.service.application` and Eclipse extension point [http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/reference/extension-points/org_eclipse_core_runtime_applications.html `org.eclipse.core.runtime.applications`] and product definition._||
+
+
+===Basic terminology of Eclipse workbench===
+====Workbench====
+The active Eclipse window. It is also referred as _desktop development environment_. It contains _workbench page_ composed of views and editors.
+
+====Perspective====
+Eclipse IDE provides multiple workbench configurations, called _perspectives_. The perspective defines the organization of workbench - layout of _views_, _editors_, _menus_, toolbars and their items. 
+
+
+====Page====
+Defines mechanism of grouping included parts - views and editors.
+
+====Menus and toolbars====
+
+====Views====
+A view typically shows a structural information, properties or additional information about edited document.
+
+====Editors====
+An editors is used to edit, view or browse a document (e.g., file, virtual node).
+
+====Workspace====
+It is a core working area (i.e., directory) where your instance of Eclipse is running. It can be changed. It contains a set of various projects.
+
+====Projects====
+Project is a directory containing _.project_ file describing project's metadata (name, dependencies, builders). The project's directory can be part of workspace directory or just linked to a workspace (typically used when the project is a part of SVN/HG repository).
+
+
+http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/wiki/screens/eclipse-terminology.png
+
+====Resources====
+A resource represents an entity inside the project - it can be mapped to existing entity (e.g., file, folder, server) or can be virtual (e.g., ). The Eclipse platform introduces its own resource model and management.
+
+=== Eclipse Plug-in ===
+Eclipse plug-in is an OSGi bundle with additional meta-information stored in plugin.xml (e.g., extension point definitions). It also brings additional MANIFEST.MF headers (e.g., `Eclipse-BundleShape` for controlling if the plugin should be deployed as jar or unpacked) .
+
+====Plug-in Project structure====
+{{{
+simple-eclipse-plugin\
+  |-src
+  |-lib
+  |-META-INF
+    * MANIFEST.MF
+  * plugin.xml
+}}}
+
+====Extension point====
+It is a well-defined (via xsd) location in Eclipse infrastructure which helps plug-ins to contribute into UI or Eclipse platform. 
+For example, definition of new views, editors, actions, jobs, early startup initializers.
+
+-----
+
+== Plug-in project from existing JAR: `cz.cuni.mff.d3s.nprg044.twitter.api` ==
+  ||Goal: _Create an Eclipse plug-in from existing JAR_||
+
+Why?
+If you need to bundle 3rd party library as a OSGi/Eclipse bundle
+
+How?
+ * unpack `twitter4j-2.2.5.zip`
+   * can be downloaded from http://twitter4j.org/
+ * create new plug-in project
+   * menu _New > Project > Plug-in from existing JAR_:
+    # select JAR `twitter4j-core-2.2.5.jar`
+    # fill name project, name plug-in, plug-in ID (must be unique), uncheck option 'Unzip JAR archives into project'
+ * wizard will create a new project and setup its MANIFEST.MF
+ * revisit MANIFEST.MF
+   * tab: hide internal/implementation packages (*internal*)
+     * _good practice_ is to publish only API packages
+ 
+   ||Note: _If you change project build-path or MANIFEST.MF , they can be resynchronized. In such case, you can open MANIFEST.MF, and on the first tab click on 'Update build path...'||
+ 
+-----
+
+== Simple plug-in project: `cz.cuni.mff.d3s.nprg044.twitter.api.test`==
+  ||Goal: _Create a simple plug-in with activator and log a message from activator. Launch the plugin and try to debug it._||
+
+ * Create new plugin-project
+  * menu _New > Project > Plug-in Project_:
+    # fill name of project: `cz.cuni.mff.d3s.nprg044.twitter.api.test`
+    # fill 
+      * plug-in ID (should be unique): `cz.cuni.mff.d3s.nprg044.twitter.api.test`, 
+      * plug-in name: `Twitter API test`
+      * enable _Generate an activator_ check box
+      * rename `Activator` class to `TwitterTestActivator`
+        * Activator is a class handling plug-in life-cycle (start/stop)
+          * it is created when plug-in's class is required
+          * it is possible to specify an excptions via `exclude/include` directive in `MANIFEST.MF`
+            * see [http://wiki.eclipse.org/Lazy_Start_Bundles Bundle Activation]
+ * Edit MANIFEST.MF and put plug-in `cz.cuni.mff.d3s.nprg044.twitter.api` to Dependencies
+ * Edit code of `TwitterTestActivator` and put `System.out.println` calls into constructor, start and stop methods.
+   * ||Hint: start typing `sys` and then press _Ctrl+space_, the template dialog will be shown and you can select demanded option (e.g., `System.out.println`)||
+ * Append method `showUserStatus()`
+{{{
+protected void showUserStatus(String username) {
+		try {
+            Twitter twitter = new TwitterFactory().getInstance();
+            User user = twitter.showUser(username);
+            if (null != user.getStatus()) {
+                System.out.println("@" + user.getScreenName() + " - " + user.getStatus().getText());
+            } else {
+                // the user is protected
+                System.out.println("@" + user.getScreenName());
+            }            
+        } catch (TwitterException te) {
+            te.printStackTrace();
+        }		
+}
+}}}
+
+===Run the plug-in===
+To run the plug-in, it is necessary to create a _Launch configuration_ providing declaring an environment to execute the plug-in (recall - Eclipse plug-in is an OSGi bundle which needs OSGi framework to run). 
+
+There are several types of launch configurations (depends on installed plug-ins):
+  * Java application
+  * Eclipse application
+  * OSGi application
+  * ...
+
+Launch configuration can be used in two modes:
+  * regular run
+  * debugging  
+
+====Create launch configuration====
+ * _Toolbar > Run > Launch configurations_
+ * Create a new _Eclipse application_ launch configuration:
+  # tab - a new Eclipse instance workspace location 
+  # tab - VM arguments
+  # tab - plugins which will be deployed into a new Eclipse (so called _target platform_):
+    * default configuration is OK, but you can specify your own Eclipse configuration:
+      * Select _Plug-ins selected below only_
+      * Click on _Deselect all_
+      * Select only `cz.cuni.mff.d3s.nprg044.twitter.api.test`
+      * Click on _Add required plug-ins only_
+        * only your plug-in and its dependencies will create a _target platform_ of new Eclipse
+ * click on _Run_
+
+ ||Hint #1: If your plug-in is not started look at the status of plug-in in _Plug-in Registry_ view. To start the stopped plug-in, it is necessary to enable advanced properties in the context menu of the view.||
+ 
+ ||Hint #2: If your plug-in is nto started, look at _Error View_ (_Window > Show View > Error Log_)|| 
+ 
+ ||Hint #3: You can also use OSGi console, to observe a state of the running Eclipse platform. See _Console View_, select _Open Console_ icon, option _Host OSGi Console_.||
+
+ ||Hint #4: For tracking plug-ins dependencies, it is possible to use views _Plug-ins_ or _Target Platform State_.||
+     
+===Debugging===
+ * _Toolbar >  Debug > Launch configurations_
+ * The definition is the same as in the case of _Run configuration_ or you can reuse existing one.
+
+ * Plug-in can be debugged as regular Java-application. 
+ * You can 
+  * setup breakpoints
+  * observe state of variables 
+  * watch threads
+  * ...
+
+----
+
+== Commands ==
+A _command_ represent an activity which can be launched from different places of Eclipse UI. 
+It is handled by a _handler_ according a context (e.g., selected object, active editor or view).
+Furthermore, a command can have associated key-bindings which are also activated according to a context.
+
+  ||Note: _Commands and handlers represents new approach which should replace old approach of actions. However actions are still used._||
+
+Commands are defined via extension points:
+  * `org.eclipse.ui.commands` - commands definition, commands category definition
+  * `org.eclipse.ui.handlers` - definition of a handler for given command. The handler has to implement `IHandler` interface. It is recommended to inherit from `AbstractHandler` class.
+  * `org.eclipse.ui.bindings` - associate a given key shorcut with a command.
+  * `org.eclipse.ui.menus` - define a location in Eclipse UI where the command is shown
+
+==== Commands contribution ====
+The extension point `org.eclipse.ui.menus` defines a place where the command contributes. 
+The location is defined via locationURI which have structure `<scheme>:<menu-id>[?<placement-modifier>]`
+The `scheme` can be:
+  * menu: valid root of menu, for main menu `menu:org.eclipse.ui.main.menu` constant is defined
+  * toolbar: main toolbar has constant `toolbar:org.eclipse.ui.main.toolbar`
+  * popup: to contribute to a context pop-up menu (right-click). For contribution to all menus constant `popup:org.eclipse.ui.popup.any` can be used
+
+There are constants which represents views' toolbars, editors' context menu - see http://wiki.eclipse.org/Menu_Contributions .
+
+Placement-modifiers represents a position in given menu/toolbar/popup - for example, `after=additions`, `before=window`.
+
+==Plug-in defining commands: `cz.cuni.mff.d3s.nprg044.twitter.commands`==
+  ||Goal: _Define a plug-in which will provide an action showing user status_||
+
+  * create a new plug-in project `cz.cuni.mff.d3s.nprg044.twitter.commands`
+  * tab _Dependencies_:
+    * add `org.eclipse.core.commands` and `org.eclipse.ui`
+  * tab _Extensions_:
+   * add `org.eclipse.ui.commands` extension
+     * defined category `Twitter commands`
+     * define a command `cz.cuni.mff.d3s.nprg044.twitter.commands.command.showUserStatus` with name _Show user status_
+       * setup the right category
+   * add `org.eclipse.ui.handlers` extension
+     * define a new handler for given the command `cz.cuni.mff.d3s.nprg044.twitter.commands.command.showUserStatus`
+     * implements the handler class (click on link _class_):
+{{{
+public class ShowUserStatusHandler extends AbstractHandler {
+	/**
+	 * The constructor.
+	 */
+	public ShowUserStatusHandler() {
+	}
+
+	/**
+	 * the command has been executed, so extract extract the needed information
+	 * from the application context.
+	 */
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+		Shell shell = window.getShell();
+		
+		InputDialog inDialog = new InputDialog(shell, "Twitter status", "Type Twitter username:", "vtipy", null);
+		if (inDialog.open() == Dialog.OK) {
+			String username = inDialog.getValue();
+			
+			String status = getUserStatus(username);
+		
+			MessageDialog.openInformation(
+					shell,
+					"Twitter Status",
+					status);
+		}
+		return null;
+	}
+	
+	protected String getUserStatus(String username) {
+		String result = null;
+		
+		try {
+            Twitter twitter = new TwitterFactory().getInstance();
+            User user = twitter.showUser(username);
+            if (null != user.getStatus()) {            	
+                result = "@" + user.getScreenName() + " - " + user.getStatus().getText();
+            } else {
+                // the user is protected
+                result = "@" + user.getScreenName() + " - <PROTECTED>";
+            }            
+        } catch (TwitterException te) {
+            te.printStackTrace();
+        }
+        
+        return result;
+	}
+}
+}}}
+   * add `org.eclipse.ui.bindings` extension
+    * define a new _key_ (e.g., M1+6 means Ctrl+6)
+   * add `org.eclipse.ui.menus` extension
+    * add new _menuContribution_
+      * set _locatioURI_ to `menu:org.eclipse.ui.main.menu?after=additions`
+      * add new _menu_ subelement called _Twitter_
+       * add new _command_ subelement for command `cz.cuni.mff.d3s.nprg044.twitter.commands.command.showUserStatus`
+    * add  another _menuContribution_ 
+      * set _locationURI_ to `toolbar:org.eclipse.ui.main.toolbar?after=additions`
+        * add new _toolbar_ subelement
+          * add new _command_ subelement for command `cz.cuni.mff.d3s.nprg044.twitter.commands.command.showUserStatus`
+            * define its icon and tool-tip
+
+  ||Note: _Good practice is to define elements' IDs hierarchically with meaningful parts, e.g., `cz.cuni.mff.d3s.nprg044.twitter.commands.AuthorizeUser`._||
+
+===Assignments===
+
+  # Try to add new sub-menus for timeline management and user-management
+  # Add an _About action_ into the main _Help_ menu.
+  # Add an _About action_ into all pop-up menus
+
+==Actions==
+Another way (originaly intended to be deprecated) of adding various actions to workbench. It defines directly action and its handler.
+
+Extension points:
+ * `org.eclipse.ui.actionSet` - to add actions into menus and toolbars and also to define new menus. The action has to implement `org.eclipse.ui.IWorkbenchWindowActionDelegate` interface.
+ * `org.eclipse.ui.editorActions` - to add an action to editor's context pop-up menu, toolbars.
+ * `org.eclipse.ui.viewActions` - to add an action into view's toolbar.
+ * `org.eclipse.ui.popupMenus` - to add an object contribution into pop-up menu
+
+===Example of actions: plug-in `cz.cuni.mff.d3s.nprg044.twitter.actions`===
+The class `GetTimelineAction` implementing the interface `IWorkbenchWindowActionDelegate`:
+
+{{{
+    public void run(IAction action) {
+		InputDialog inDialog = new InputDialog(this.window.getShell(), "Twitter status", "Type Twitter username:", "vtipy", null);
+		if (inDialog.open() == Dialog.OK) {
+			String username = inDialog.getValue();
+			
+			getUserTimeline(username);		
+			
+		}
+	}
+	
+	protected void getUserTimeline(String username) {
+		Twitter twitter = new TwitterFactory().getInstance();
+        try {
+            List<Status> statuses;
+            String user;            
+            
+            statuses = twitter.getUserTimeline(username);
+            
+            System.out.println("Showing @" + username + "'s user timeline.");
+            for (Status status : statuses) {
+                System.out.println("@" + status.getUser().getScreenName() + " - " + status.getText());
+            }
+        } catch (TwitterException te) {
+            te.printStackTrace();            
+        }
+    }
+}}}
+
+===Assignments===
+
+  # Add a new submenu into Twitter top-level menu
+  # Add a new action into all pop-up menus enabled for 4 selected objects
+
+{{{
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Twitter action set"
+            visible="true"
+            id="cz.cuni.mff.d3s.nprg044.twitter.actions.actionSet">
+         <menu
+               id="cz.cuni.mff.d3s.nprg044.twitter.actions.timelineMenu"
+               label="Timeline"
+              
+path="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/timeline">
+            <groupMarker
+                  name="edit">
+            </groupMarker>
+            <separator
+                  name="additions">
+            </separator>
+         </menu>
+         <action
+               class="cz.cuni.mff.d3s.nprg044.twitter.actions.AboutAction"
+               id="cz.cuni.mff.d3s.nprg044.twitter.actions.aboutAction"
+               label="About"
+              
+menubarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/cz.cuni.
+mff.d3s.nprg044.twitter.actions.timelineMenu/edit"
+               style="push">
+         </action>
+         <action
+              
+class="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction"
+               icon="icons/sample.gif"
+              
+id="cz.cuni.mff.d3s.nprg044.twitter.actions.actions.GetTimelineAction"
+               label="&amp;Show user timeline via Action"
+              
+menubarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu/
+timeline"
+              
+toolbarPath="cz.cuni.mff.d3s.nprg044.twitter.commands.toolbars.twitterToolbar/
+additions"
+               tooltip="Show timeline">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+           
+id="cz.cuni.mff.d3s.nprg044.twitter.actions.simpleObjectContribution"
+            objectClass="java.lang.Object">
+         <action
+               class="cz.cuni.mff.d3s.nprg044.twitter.actions.AboutAction"
+               enablesFor="4"
+              
+id="cz.cuni.mff.d3s.nprg044.twitter.actions.AboutActionForObjects"
+               label="About for 4 selected items"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>
+}}}
+
+== Useful Hints ===
+It is useful to learn basic shortcuts to speed up Eclipse development:
+  * Open type - _Ctrl+Shift+T_
+  * Open resource - _Ctrl+Shift+R_
+  * Show inheritance tree of selected element - _Ctrl+T_
+  * Quick fix (on line marked by error/warning) - _Ctrl+1_
+  * Maximize editor - _Ctrl+M_
+  * Goto line - _Ctrl+L_
+  * Refactor the name - _Alt+Shift+R_
+  * Open type's methods (in editor) - _Ctrl+O_
+  * Plug-in spy - shows more information about selected element (ID, implementation class) - _Alt+Shift+F1_
+
+Useful views:
+  * Plug-in registry view - shows deployed plugins, their state, dependencies, allows to start/stop a plugin.
+
+
+== Recommended reading & links ==
+
+  * Lars Vogel: _Eclipse IDE  Tutorial_, http://www.vogella.de/articles/Eclipse/article.html
+  * Lars Vogel: _Eclipse Shortcuts_, http://www.vogella.de/articles/EclipseShortcuts/article.html
+  * Eclipse Wiki: Menu contributions (location URI),  http://wiki.eclipse.org/Menu_Contributions

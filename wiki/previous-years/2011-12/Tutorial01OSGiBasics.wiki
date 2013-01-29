@@ -3,7 +3,7 @@
 
 = Tutorial #1 - OSGi basics =
 
-See [http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/slides/2012-13/01-osgi/01-osgi.pdf slides].
+See [http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/slides/2011-12/01-osgi/01-osgi.pdf slides].
 
 <wiki:comment>
 
