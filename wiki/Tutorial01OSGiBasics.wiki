@@ -7,8 +7,6 @@ See [http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/slides/2
 == Resources ==
 OSGi tutorial for beginners - http://www.javaworld.com/javaworld/jw-03-2008/jw-03-osgi1.html
 
-OSGi tooling - http://en.wikipedia.org/wiki/OSGi-Tooling
-
 OSGi best practices - https://cwiki.apache.org/FELIX/presentations.data/best-practices-apachecon-20060628.pdf
 
 OSGi and Blueprint Service - http://www.ibm.com/developerworks/opensource/library/os-osgiblueprint/
