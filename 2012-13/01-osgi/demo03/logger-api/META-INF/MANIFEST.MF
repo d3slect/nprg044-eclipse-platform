@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Logger-api
+Bundle-SymbolicName: logger-api
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.osgi.framework;version="1.7.0"
+Export-Package: cz.cuni.mff.d3s.nprg044.log.api
