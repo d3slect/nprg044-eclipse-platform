@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="cz.cuni.mff.d3s.nprg044.twitter.wizards.Twitter"
+            name="Twitter">
+      </category>
+      <wizard
+            canFinishEarly="true"
+            category="cz.cuni.mff.d3s.nprg044.twitter.wizards.Twitter"
+            class="cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard"
+            finalPerspective="cz.cuni.mff.d3s.nprg044.twitter.perspectives.TwitterPerspective"
+            hasPages="true"
+            icon="icons/twitter.gif"
+            id="cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard"
+            name="New message">
+      </wizard>
+      <wizard
+            canFinishEarly="false"
+            category="cz.cuni.mff.d3s.nprg044.twitter.wizards.Twitter"
+            class="cz.cuni.mff.d3s.nprg044.twitter.ui.wizards.LoginWizard"
+            finalPerspective="cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective"
+            hasPages="true"
+            icon="icons/twitter.gif"
+            id="cz.cuni.mff.d3s.nprg044.twitter.ui.wizards.LoginWizard"
+            name="Twitter Login">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="cz.cuni.mff.d3s.nprg044.twitter.ui.wizards.handlers.LoginHandler"
+            commandId="cz.cuni.mff.d3s.nprg044.twitter.commands.Login">
+      </handler>
+   </extension>
+
+</plugin>

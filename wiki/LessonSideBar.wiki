@@ -7,8 +7,8 @@
     * [Tutorial02EclipseBasics Eclipse basics]
       * [Tutorial02EclipseBasics#Basic_concepts_of_Eclipse_Workbench Eclipse Workbench]
       * [Tutorial02EclipseBasics#Commands Commands and handlers]
-    * UI basics
-      * SWT and JFace
+    * [Tutorial03UIbasics UI basics]
+      * [Tutorial03UIbasics#SWT_and_JFace SWT and JFace]	  
     * Views
       * Views
       * Actions in Views
@@ -24,5 +24,5 @@
     * Resources
     * Concurrency
   * Examples
-    * Twitter Client
+    * [ExampleTwitterClientDesign Twitter Client]  
 
