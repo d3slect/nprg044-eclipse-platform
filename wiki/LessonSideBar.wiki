@@ -8,12 +8,12 @@
       * [Tutorial02EclipseBasics#Basic_concepts_of_Eclipse_Workbench Eclipse Workbench]
       * [Tutorial02EclipseBasics#Commands Commands and handlers]
     * [Tutorial03UIbasics UI basics]
-      * [Tutorial03UIbasics#SWT_and_JFace SWT and JFace]	  
-    * Views
-      * Views
-      * Actions in Views
-      * Property sheet
-      * Selection service
+      * [Tutorial03UIbasics#SWT_and_JFace SWT and JFace]
+    * [Tutorial04Views Views]
+      * [Tutorial04Views#Views Views]
+      * [Tutorial04Views#Actions_in_Views Actions in Views]
+      * [Tutorial04Views#Property_sheet Property sheet]
+      * [Tutorial04Views#Selection_service Selection service] 
     * Editors
       * Multi-page Editor
       * Text Editor

@@ -133,7 +133,7 @@ How?
    * menu _New > Project > Plug-in from existing JAR_:
     # select JAR `twitter4j-core-3.0.3.jar`
     # fill the project name, plug-in name, plug-in ID (must be unique)
-	# uncheck the option 'Unzip JAR archives into project'
+    # uncheck the option 'Unzip JAR archives into project'
  * the wizard will create a new project and setup its MANIFEST.MF
  * revisit MANIFEST.MF
    * tab: hide internal/implementation packages (*internal*)

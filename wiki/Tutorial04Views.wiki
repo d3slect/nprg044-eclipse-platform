@@ -4,7 +4,7 @@
 <wiki:toc max_depth="2" />
 
 = Workbench UI =
-Eclipse workbench provides a GUI model which is not connected to JFace. It provides workbench parts represented by _views_, and _editors_.
+Eclipse workbench provides a GUI model which is not connected to JFace. It provides workbench parts represented by _views_ and _editors_.
 {{{
 IAdaptable
  |- IWorkbenchPart
@@ -14,174 +14,204 @@ IAdaptable
 
 The class `IWorkbenchPart`:
  * method `void createPartControl(Composite parent)`
- * method `IWorkbenchPartSite getSite()` - _site_ is a primary interface between a workbench part and the workbench. For example, it is used for registering menus or global actions.
+ * method `IWorkbenchPartSite getSite()` - _site_ is a primary interface between a workbench part and the workbench. For example, it is used for registering menus and global actions.
  * method `String getTitle()`
  * method `Image getTitleImage()`
- * method `void setFocus()` - Asks this part to take focus within the workbench. Parts must assign focus to one of the controls contained in the part's parent composite. It is called by workbench
+ * method `void setFocus()` - asks this part to take focus within the workbench. The part must assign focus to one of the controls contained in the part's parent composite. It is called by the workbench.
 
-  ||Note:_There are also interfaces `IWorkbenchPart2` and `IWorkbenchPart3`. They represent new version of `IWorkbenchPart`. This is common concept of introducing new version of interfaces in Eclipse_||
+  ||Note: _There are also interfaces `IWorkbenchPart2` and `IWorkbenchPart3`. They represent new versions of `IWorkbenchPart`. This is a common concept of introducing new version of interfaces in Eclipse._||
 
 The class `IViewPart`:
- * `void init(IViewSite site)` - Initializes this view with the given view site. It is called by the workbench automatically during initialization of the part.
+ * `void init(IViewSite site)` - initializes this view with the given view site. It is called by the workbench automatically during initialization of the part.
 
 The class `IEditorPart`:
- * `void init(IEditorSite site, IEditorInput input)` - Initializes this editor with the given editor site and editor input (e.g., file, URI).It is automatically called by workbench.
+ * `void init(IEditorSite site, IEditorInput input)` - initializes this editor with the given editor site and editor input (e.g., a file or a URI). It is automatically called by the workbench.
 
 == Views ==
-A view is class implementing `IViewPart` interface. It shows a data with help of some [Tutorial03ViewsEditors#Viewers viewer]. It is beneficial to start with extending existing `ViewPart` class implementing basic infrastructure. 
+A view is class implementing the `IViewPart` interface. It shows data with the help of some [Tutorial03UIbasics#Viewers viewer]. It is beneficial to start with extending the `ViewPart` class that implements basic infrastructure.
  
 Important points:
- * method `createControlPart()` - create a graphical viewer showed by a view. For example, table, tree, or hand-made graph visualizator. Any SWT code can be here.
-   * calling method `viewer.setInput()` - setup viewer input 
+ * method `createControlPart()` - it creates a graphical viewer shown by the view. For example, a table, a tree, or a hand-made graph visualizator. Any SWT code can be here.
+   * calling method `viewer.setInput()` - set the viewer input 
    * calling method `viewer.setContentProvider()`
    * calling method `viewer.setLabelProvider()` 
-   * registering actions hooks/menus - e.g., via calling `getSite().registerContextMenu(menuMgr, viewer);`
+   * registering action hooks/menus - e.g., via calling `getSite().registerContextMenu(menuMgr, viewer);`
 
-=== Example: `cz.cuni.mff.d3s.twitter.ui.views`===
-  || Note: _Plug-in name follows common Eclipse naming convention - plug-in contributes into UI by providing new views hence its name contains `ui.views` part._||
+=== Example: `cz.cuni.mff.d3s.nprg044.twitter.ui.view` ===
+  || Note: _Plug-in name follows the common Eclipse naming convention - plug-in contributes into the UI by providing new views hence its name contains the `ui.view` suffix._||
 
-  Goal: _Create a plugin providing a view showing message timeline for a given Twitter user._
+  Goal: _Create a plugin that provides a view showing the message timeline for a given Twitter user._
 
-  * import into a workspace plug-in `cz.cuni.mff.d3s.twitter.api`
-  * create a new plug-in `cz.cuni.mff.d3s.twitter.ui.views`
+  * create a new plug-in `cz.cuni.mff.d3s.nprg044.twitter.ui.view`
   * configure `plugin.xml`:
-    * add a dependency on plug-in `cz.cuni.mff.d3s.twitter.api`
-    * add dependencies on plug-ins `org.eclipse.ui` and `org.eclipse.core.runtime`
+    * add a dependency on the plug-in `cz.cuni.mff.d3s.nprg044.twitter.api`
+    * add dependencies on the plug-ins `org.eclipse.ui` and `org.eclipse.core.runtime`
     * define extension points:
       * `org.eclipse.ui.views`:
         * add a new category _Twitter Category_ 
-          * category will be shown in menu _Window > Show Views > Others..._
+          * category will be shown in the menu _Window > Show Views > Others..._
         * add a new view
-          * define ID, name, category (to Twitter category), icon
-            * fastViewWidthRatio = 0.3 (one third of workbench width)
+          * define ID, name, category (set to Twitter category), icon
+            * fastViewWidthRatio = 0.3 (one third of the workbench width)
             * allowMultiple = true (we will allow showing timelines of various users)
-          * define `class` attribute to `cz.cuni.mff.d3s.twitter.ui.views.TwitterMessageTimelineView`    
+          * set the `class` attribute to `cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterMessageTimelineView`    
     * implements the class (inherits from the `ViewPart` class)
       * method `createPartControl(Composite parent)
         * create `GridLayout`, pass it to `parent.setLayout()`
 {{{
+// grid with one column
 GridLayout layout = new GridLayout(1, true);
-parent.setLayout(layout);		
+parent.setLayout(layout);
 }}}
-        * create `Text` control `searchBox` with flags `SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH`
-         * setup layout data - `new GridData(GridData.FILL_HORIZONTAL)`
+        * create a `Text` control `searchBox` with the flags `SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH`
+         * setup the layout data - `new GridData(GridData.FILL_HORIZONTAL)`
 {{{
-searchBox = new Text(parent, SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH);
-searchBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+// it allows single line and supports searching
+searchBox = new Text(parent, SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH);		
+// modify layout: fill the available horizontal space
+searchBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));		
 searchBox.setText("vtipy");
 }}}
-        * create `TableViewer` control `viewer` with flags `SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER`
-         * setup layout data `new GridData(GridData.FILL_BOTH)`
-           * you have to call `viewer.getControl()` to access underlying SWT control (`TableViewer` is JFace widget)
+        * create a `TableViewer` control `viewer` with the flags `SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER`
+         * setup the layout data `new GridData(GridData.FILL_BOTH)`
+           * you have to call `viewer.getControl()` to access the underlying SWT control (`TableViewer` is a JFace widget)
 {{{
+// it has a border and scroll bars 
 viewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));	
+// fill the available horizontal and vertical space
+viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 }}}
-         * setup input to `viewer.setInput(getViewSite())`	
-      * if you need lazy content resolving then put `SWT.VIRTUAL` into `viewer`'s flags. But, the content provider has to implement `ILazyContentProvider` instead of `IStructureContentProvider`
-    * try to run in debug mode without configuring content provider
+         * set the input to `viewer.setInput(getViewSite())`
+      * if you need lazy content resolving then put `SWT.VIRTUAL` into the `viewer`'s flags. But, the content provider has to implement `ILazyContentProvider` instead of `IStructureContentProvider` in that case
 {{{
 public class TwitterMessageTimelineView extends ViewPart {
 	private static final String[] COLUMN_NAMES = {"#", "username", "message"};
 	private static final int[] COLUMN_WIDTHS = {30, 100, 200};
-	private TableViewer viewer;
 	private Text searchBox;
+	private TableViewer viewer;
 
-	/**
-	 * 
-	 */
 	public TwitterMessageTimelineView() {	
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	/**
+	 * This method creates a graphical representation of this view.
+	 * Any widgets (SWT) can be used here.
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
+		// grid with one column
 		GridLayout layout = new GridLayout(1, true);
-		parent.setLayout(layout);		
-		searchBox = new Text(parent, SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH);
-		searchBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		searchBox.setText("vtipy");		
-				
+		parent.setLayout(layout);
+		
+		// create text control 'searchbox'
+		// it allows single line and supports searching
+		searchBox = new Text(parent, SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH);		
+		// modify layout: fill the available horizontal space
+		searchBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));		
+		searchBox.setText("vtipy");
+		
+		// create a table viewer control (JFace)
+		// it has a border and scroll bars 
 		viewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+	
+		// add columns into the table
 		createColumns(viewer);
-		viewer.setContentProvider(new MessageTimelineContentProvider());
+	
+		// set provider of data in the columns
+		viewer.setContentProvider(new MessageTimelineContentProvider(progressBar));
+		
+		// set provider of the column labels
 		viewer.setLabelProvider(new MessageTimelineLabelProvider());
-		// the input for the content provider
-		viewer.setInput(searchBox);		
-		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		// tuning of the underlying table		
+		// set input of the content provider
+		// viewer should generate the table based on the content of the search box
+		viewer.setInput(getViewSite());
+		
+		// getControl() returns the underlying SWT widget
+		// fill the available horizontal and vertical space
+		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+	
+		// define style of the underlying table		
 		viewer.getTable().setLinesVisible(true);		
 		viewer.getTable().setHeaderVisible(true);
-		
-		// make selection available to others
+
+		// make selection in the table available to other controls
 		getSite().setSelectionProvider(viewer);
 	}
-	
+
 	private void createColumns(TableViewer tableViewer) {
 		for (int i = 0; i < COLUMN_NAMES.length; i++) {
 			TableViewerColumn tvColumn = new TableViewerColumn(tableViewer, SWT.NULL);
 			TableColumn column = tvColumn.getColumn();
 			column.setWidth(COLUMN_WIDTHS[i]);
 			column.setText(COLUMN_NAMES[i]);
-			// I can also here register separated cell providers via calling TableViewerColumn.setLabelProvider
-			// - @see CellLabelProvider or StyledCellLabelProvider 			
+			
+			// NOTE
+			// it is also possible to register separated cell providers 
+			// using the method TableViewerColumn.setLabelProvider
+			// see CellLabelProvider or StyledCellLabelProvider
 		}		
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+	/**
+	 *  This part has the focus now (in the workbench).
+	 *  It must assign focus to one control inside it.
 	 */
 	@Override
 	public void setFocus() {
 		this.searchBox.setFocus();
 	}
-
 }
 }}}	
 
-    * implements content provider `MessageTimelineContentProvider` inheriting from `IStructureContentProvider`
-       * implements `inputChange` method
-         * register/deregister listeners to input, refreshing of the viewer is not necessary, because it is done by underlying infrastructure
+    * implement a content provider `MessageTimelineContentProvider` inheriting from `IStructureContentProvider`
+       * implement the `inputChange` method
+         * register/deregister listeners to the input, refreshing of the viewer is not necessary because it is done by the underlying infrastructure
 {{{
+/**
+ * Notification that a different control is now the input for this provider.
+ */
 public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-  this.viewer = viewer;
-
-  if (oldInput == newInput) 
-	  return;
-
-  if (oldInput instanceof Control) {
-	  Control c = (Control) oldInput;
-	  if (!c.isDisposed()) {
-		  ((Control) oldInput).removeKeyListener(keyListener);
-	  }
-  }
-  if (newInput instanceof Control) {
-	  Control c = (Control) newInput;
-	  if (!c.isDisposed()) {
-		  ((Control) newInput).addKeyListener(keyListener);
-	  }
-  }
+	this.viewer = viewer;
+		
+	if (oldInput == newInput) return;
+		
+	// remove listener for the old input of a control type
+	if (oldInput instanceof Control) {
+		Control c = (Control) oldInput;
+		if (!c.isDisposed()) {
+			((Control) oldInput).removeKeyListener(keyListener);
+		}
+	}
+		
+	// we must now listen for keys on a different control/widget
+	// register listener for the new input of a control type
+	if (newInput instanceof Control) {
+		Control c = (Control) newInput;
+		if (!c.isDisposed()) {
+			((Control) newInput).addKeyListener(keyListener);
+		}
+	}
 }
 }}}
-       * add key listern `keyListener`
+       * add a key listener 
 {{{
 private KeyListener keyListener = new KeyAdapter() {
-        private String username;
-
+	private String username;
+		
 	public void keyReleased(KeyEvent e) {
+		// watch for "Enter" keys
 		if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
+			// but only for text input widgets (some other widgets can be there)
 			if (e.widget instanceof Text) {
 				String newUsername = ((Text) e.widget).getText();
 				if (!newUsername.equals(username)) {
 					username = newUsername;
-					// run in UI thread
-					e.display.asyncExec(new Runnable() {							
+					// run in the UI thread
+					e.display.asyncExec(new Runnable() {
 						@Override
 						public void run() {
-							// IMPORTANT it is required to check if the widget is not disposed
+							// it is necessary to check that the widget is not disposed
 							if (!viewer.getControl().isDisposed()) {
 								viewer.refresh();
 							}
@@ -193,154 +223,98 @@ private KeyListener keyListener = new KeyAdapter() {
 	};
 };
 }}}
-       * implements `getElements` method
-        * parameter `inputElement` is an input element setup by calling `setInput` method of the viewer
+       * implement the `getElements` method
+        * parameter `inputElement` is an input element set by calling the `setInput` method of the viewer
 {{{
-public Object[] getElements(Object inputElement) {		
-	  String username = getUsername(inputElement);
-	  if (username == null || "".equals(username)) {
-		  return EMPTY_CONTENT;			
-	  } 
-	  Twitter twitter = new TwitterFactory().getInstance();
-  try {
-      List<Status> statuses = twitter.getUserTimeline(username);
-      if (!statuses.isEmpty()) {
-	  return statuses.toArray();
-      } else {
-	  return EMPTY_CONTENT;
-      }
-  } catch (Exception e) {
-	  return new String[] {e.getMessage()};
-  }
+public Object[] getElements(Object inputElement) {
+	String username = getUsername(inputElement);
+	if (username == null || username.equals("")) {
+		return EMPTY_CONTENT;
+	}
+		
+	Twitter twitter = TwitterAuthUtil.getTwitterInstance();
+		
+	// create a list of user statuses to be displayed in the viewer (table)
+	try {
+		List<Status> statuses = new ArrayList<Status>();
+			
+		User user = twitter.showUser(username);
+		if (user != null) {
+			statuses.add(twitter.showStatus(user.getStatus().getId()));
+		}
+			
+		if (!statuses.isEmpty()) {
+			return statuses.toArray();
+		}
+		else {
+			return EMPTY_CONTENT;
+		}
+	}
+	catch (Exception e) {
+		return new String[] {e.getMessage()};
+	}
 }
 
 private String getUsername(Object inputElement) {
 	if (inputElement instanceof Text) {
 		return ((Text) inputElement).getText();
-	} else if (inputElement instanceof UserNode) {
-		return ((UserNode) inputElement).getUser().getScreenName();			
 	}
-	
 	return null;
 }
 }}}
-       * in method `createPartControl` of the class `TwitterMessageTimelineView` setup `viewer.setInput(searchBox)` 
-         * searchBox will serves as an input for content provider
-         * it can be changed. The change invokes the method `inputChanged` of the content provider.
-       * Note: _try to setup content provider for `viewer` control during debugging the application_
-    * try to run without LabelProvider
-{{{
-public class MessageTimelineContentProvider implements
-		IStructuredContentProvider {
-	
-	private final static String[] EMPTY_CONTENT = new String[] {"There is no message to show..."}; 
-	
-	private Viewer viewer;
-	
-	private KeyListener keyListener = new KeyAdapter() {
-		private String username;
-		public void keyReleased(KeyEvent e) {
-			if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
-				if (e.widget instanceof Text) {
-					String newUsername = ((Text) e.widget).getText();
-					if (!newUsername.equals(username)) {
-						username = newUsername;
-						// run in UI thread
-						e.display.asyncExec(new Runnable() {							
-							@Override
-							public void run() {
-								viewer.refresh();								
-							}
-						});
-					}
-				}
-			}
-		};
-	};
+       * in the method `createPartControl` of the class `TwitterMessageTimelineView`, use the call `viewer.setInput(searchBox)` instead of the original variant
+         * searchBox will serve as an input for the content provider
+         * It can be changed. The change invokes the method `inputChanged` of the content provider.
 
-	@Override
-	public void dispose() {	
-	}
-
-	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		this.viewer = viewer;
-		
-		if (oldInput instanceof Control) {
-			Control c = (Control) oldInput;
-			if (!c.isDisposed()) {
-				((Control) oldInput).removeKeyListener(keyListener);
-			}
-		}
-		if (newInput instanceof Control) {
-			Control c = (Control) newInput;
-			if (!c.isDisposed()) {
-				((Control) newInput).addKeyListener(keyListener);
-			}
-		}
-	}
-
-	@Override
-	public Object[] getElements(Object inputElement) {		
-		String username = getUsername(inputElement);
-		if (username == null || "".equals(username)) {
-			return EMPTY_CONTENT;			
-		} 
-		Twitter twitter = new TwitterFactory().getInstance();
-		try {
-		    List<Status> statuses = twitter.getUserTimeline(username);
-		    if (!statuses.isEmpty()) {
-			return statuses.toArray();
-		    } else {
-			return EMPTY_CONTENT;
-		    }
-		} catch (Exception e) {
-			return new String[] {e.getMessage()};
-		}
-	}
-	
-	private String getUsername(Object inputElement) {
-		if (inputElement instanceof Text) {
-			return ((Text) inputElement).getText();
-		} 
-		
-		return null;
-	}
-}
-}}}
-    * implements `MessageTimelineLabelProvider` extending the class `LabelProvider` (implementing `ILabelProvider`) and implementing `ITableLabelProvider`.
+    * implement the `MessageTimelineLabelProvider` by extending the class `LabelProvider` (that implements `ILabelProvider`) and implementing `ITableLabelProvider`.
      * it is neccessary to return the right text/image for each column
-       * there is also way via the method `TableViewerColumn.setLabelProvider()` to configure separated label provider for each column.
-     * for images you can use built-in images accessible via call `PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);`      
+       * there is also another way via the method `TableViewerColumn.setLabelProvider()` to configure separated label provider for each column
+     * for images you can use built-in images accessible via the call `PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);`
 {{{
 public class MessageTimelineLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+	// return image (a part of the label) for the given column
 	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
-		if (element instanceof Status && columnIndex == 0) {
-			return getImage(element);
+		if (element instanceof Status) {
+			Status status = (Status) element;
+			
+			// we want to show image only in the first column
+			switch(columnIndex) {
+				case 0:
+					return getImage(status);
+				default:
+					return null;
+			}
+		}
+		
+		if (element instanceof String && columnIndex == 0) {
+			// get some built-in warning image
+			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJS_WARN_TSK);
 		}
 		
 		return null;
 	}
 
+	// return text part of the label for the given column
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		if (element instanceof Status) {
 			Status status = (Status) element;
 			
+			// show user name in the second column and message text (status) in the third column
 			switch (columnIndex) {
-			case 0:
-				return null;
-			case 1:				
-				return '@' + status.getUser().getScreenName();
-			case 2:
-				return status.getText();
-			default:
-				return null;
+				case 0:
+					return null;
+				case 1:				
+					return '@' + status.getUser().getScreenName();
+				case 2:
+					return status.getText();
+				default:
+					return null;
 			}			
-		}	
-		
+		}
+	
 		return null;
 	}
 	
@@ -354,127 +328,132 @@ public class MessageTimelineLabelProvider extends LabelProvider implements ITabl
 
 == Actions in Views ==
 ===Context and Expressions===
-We want to add delete command which will clear the timeline view.
+We want to add the delete command that will clear the timeline view.
 
-First we have to define the context when the delete command will be applied. For this purpose, expresions can be used. Each expression defines a condition which has to be satisfied. The expression can be re-used in other definitions.
+First we have to define the context in which the delete command will be applied. For this purpose, expressions can be used. Each expression defines a condition which has to be satisfied. The expression can be re-used in other definitions.
   * open `plugin.xml`
     * add a new dependency `org.eclipse.core.expressions`
   * add a new extension `org.eclipse.core.expressions.definitions`
    * define ID `cz.cuni.mff.d3s.nprg044.twitter.ui.view.inTimelineView`
-     * add `with` sub-element with value `activePartId` (for more variables see [http://wiki.eclipse.org/Command_Core_Expressions Core Expressions Help])
-       * add `equals` sub-element with value `cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (it is ID of defined MessageTimelineView)
+     * add `with` sub-element with the value `activePartId` (for more variables see [http://wiki.eclipse.org/Command_Core_Expressions Core Expressions Help])
+       * add `equals` sub-element with the value `cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (it is the ID of the previously defined MessageTimelineView)
 
-Add a new handler for global delete command (with id `org.eclipse.ui.edit.delete`) which will be active if and only if the timeline view is focused:
+Add a new handler for the global delete command (with the ID `org.eclipse.ui.edit.delete`) that will be active if and only if the timeline view has the focus.
   * open `plugin.xml`
   * add a new extension `org.eclipse.ui.handlers`
     * add a new handler:  
      * setup _commandId_ to `org.eclipse.ui.edit.delete`
      * add a new sub-element `activeWhen`
-       * add a new `reference` sub-element and setup it to `cz.cuni.mff.d3s.nprg044.twitter.ui.view.inTimelineView`
-    * add handler implementation:
-      * look at a helper class `HandlerUtil`
+       * add a new `reference` sub-element and set it to `cz.cuni.mff.d3s.nprg044.twitter.ui.view.inTimelineView`
+    * add the handler implementation:
+      * look at the helper class `HandlerUtil`
 {{{
-public class CleanTimelineView extends AbstractHandler{
+public class CleanTimelineView extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		// get the active workbench part when the event occurred
 		IWorkbenchPart part = HandlerUtil.getActivePart(event);
+		// this handler for the delete command applies only to message timeline view
 		if (part instanceof TwitterMessageTimelineView) {
 			((TwitterMessageTimelineView) part).cleanTimeline();
 		}
 		return null;
 	}
-
 }
 }}}
-  * add a new method `cleanTimeline` into the class `TwitterMessageTimelineView`:
+  * add the new method `cleanTimeline` into the class `TwitterMessageTimelineView`:
 {{{
 public void cleanTimeline() {
 	searchBox.setText("");
 	viewer.refresh();
 }
 }}}
-  * try to run the example and observe behavior of delete command
+  * try to run the example and observe behavior of the delete command
  
 ===Toolbar===
-Let's put the delete command into a toolbar of `TwitterMessageTimelineView` view:
+Let's put the delete command into a toolbar of the `TwitterMessageTimelineView` view:
   * open `plugin.xml`
   * add the extension `org.eclipse.ui.menus`
    * add a new _menuContribution_ 
-     * setup _locationURI_ to `toolbar:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (toolbar:<view ID>)
-     * add a sub-element _command_ referring `org.eclipse.ui.edit.delete` command
+     * set _locationURI_ to `toolbar:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (toolbar:<view ID>)
+     * add a sub-element _command_ referring to the `org.eclipse.ui.edit.delete` command
 
-===Pop-up menu===
- * as above, but _locatioURI_ is `menu:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (menu:<view ID>)
+===Menu===
+ * as above, but the _locatioURI_ is `menu:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (menu:<view ID>)
 
 ===Context menu===
-The context menu has to be register first to allow contribution via extension point 'org.eclipse.ui.menus'. The view can have multiple context menu registered. Default ID of the context  menu is the part ID.
+The context menu has to be registered first to allow contribution via the extension point 'org.eclipse.ui.menus'. The view can have multiple context menus registered. Default ID of the context menu is the part ID.
 
- * Add a new method `createContextMenu` into the class `TwitterMessageTimelineView`
-   * The method is called from the method `createPartControl`
+ * Add the new method `createContextMenu` into the class `TwitterMessageTimelineView`
+   * The method is called from the `createPartControl` method
 {{{
 private void createContextMenu() {
-    MenuManager menuManager = new MenuManager("#PopupMenu");
-    menuManager.setRemoveAllWhenShown(true);
-    menuManager.addMenuListener(new IMenuListener() {
-	    
-	    @Override
-	    public void menuAboutToShow(IMenuManager manager) {
-		    fillContextMenu(manager);				
-	    }
-    });
-    Menu menu = menuManager.createContextMenu(viewer.getControl());
-    viewer.getControl().setMenu(menu);
-    getSite().registerContextMenu(menuManager, viewer);
+	MenuManager menuManager = new MenuManager("#PopupMenu");
+	// remove old items from the menu every time just before it is
+	// displayed again (possibly for a different table element)
+	menuManager.setRemoveAllWhenShown(true);
+	menuManager.addMenuListener(new IMenuListener() {
+		@Override
+		public void menuAboutToShow(IMenuManager manager) {
+			// add separator just before other contributed items (set via extensions)
+			fillContextMenu(manager);
+		}
+	});
+	// create the actual context menu for the table viewer
+	Menu menu = menuManager.createContextMenu(viewer.getControl());
+	viewer.getControl().setMenu(menu);
+	getSite().registerContextMenu(menuManager, viewer);
 }
 }}}
- * add method `fillContextMenu`
-   * it is necessary to add a separator for additions - it is the place where new actions will be placed.
+ * add the method `fillContextMenu`
+   * it is necessary to add a separator for additions - it is the location where new actions will be placed.
 {{{
 private void fillContextMenu(IMenuManager manager) {
-	// this is required to allow contribution into the context menu
 	manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));				
 }
 }}}
 
- * add a _menuContribution_ like in cases above, but set _locationURI_ to `popup:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (for one context menu the locationURI has the form `popup:<view ID>`)
+ * add a _menuContribution_ like in the cases above, but set the _locationURI_ to `popup:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView` (for one context menu the locationURI has the form `popup:<view ID>`)
  
- * add a new _command_ definition `cz.cuni.mff.d3s.nprg044.twitter.ui.view.showMessageDetails` with default command handler which will show a _Property view_:
+ * add a new _command_ definition `cz.cuni.mff.d3s.nprg044.twitter.ui.view.showMessageDetails` with the default command handler which will show a _Property view_:
 {{{
-public class CleanTimelineView extends AbstractHandler{
-
+public class ShowMessageDetails extends AbstractHandler {
+	// response for a particular selection in the context menu
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchPart part = HandlerUtil.getActivePart(event);
-		if (part instanceof TwitterMessageTimelineView) {
-			((TwitterMessageTimelineView) part).cleanTimeline();
-		}
+		try {
+			// show the properties dialog
+			HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().showView("org.eclipse.ui.views.PropertySheet");
+		} catch (PartInitException e) {
+			throw new ExecutionException(e.getMessage(), e);
+		}	
 		return null;
 	}
-
 }
 }}}
-  * add the command into context menu
+  * add the command into the context menu
 
 
 == Property sheet ==
-We want to select the message details in _Property View_. The message is represented by the object `Status`.
+We want to show the message details in a _Property View_. The message is represented by the object `Status`.
 
-At first we have to provide a selection from the viewer. It is necessary to have the line 
+At first we have to set the viewer to provide a current selection. It is necessary to have the line 
 {{{
+// make selection in the table available to other controls
 getSite().setSelectionProvider(viewer);
 }}} 
-in the class `TwitterMessageTimelineView`.
+in the method `createPartControl(Composite parent)` of the class `TwitterMessageTimelineView`.
 
-Then we have to adapt `Status` to `IPropertySource` type which provides details about status (plugin `org.eclipse.ui.views` has to be in dependencies). There are two ways of adaptation:
-  # the `Status` has to implement `IAdaptable` interface:
+Then we have to adapt `Status` to the `IPropertySource` type which provides details about the status (plugin `org.eclipse.ui.views` has to be in the plug-in dependencies). There are two possible ways of adaptation:
+ # the `Status` object implements the `IAdaptable` interface:
 {{{
 public Object getAdapter(Class adapter) {
   return IPropertySource.class.equals(adapter) ? return new TwitterStatusPropertySource(this) : null;
 }
 }}}
-   * this is common solution if you can change the source code of `Status` class, however, in our case it is provided by third party library. But, there is another solution:
- # register an adapter factory for given type:
+   * this is a common solution if you can change the source code of the `Status` class. However, in our case it is provided by a third party library. But, there is another solution:
+ # register an adapter factory for the given type:
   * open `plugin.xml`
   * add a new extension `org.eclipse.core.runtime.adapters`
     * add a new factory:
@@ -483,10 +462,10 @@ public Object getAdapter(Class adapter) {
       * add a new sub-element `adapter` (what is a target of adaptation)
         * _type_ = `org.eclipse.ui.views.properties.IPropertySource`
 
-  * implements the factory `cz.cuni.mff.d3s.nprg044.twitter.ui.view.adapters.TwitterAdapterFactory`:
+  * implement the factory class `cz.cuni.mff.d3s.nprg044.twitter.ui.view.adapters.TwitterAdapterFactory`:
 {{{
 public class TwitterAdapterFactory implements IAdapterFactory {
-	
+
 	private static final Class[] SUPPORTED_ADAPTERS = { IPropertySource.class };
 
 	@Override
@@ -501,14 +480,12 @@ public class TwitterAdapterFactory implements IAdapterFactory {
 	public Class[] getAdapterList() {
 		return SUPPORTED_ADAPTERS;
 	}
-
 }
 }}}
 
    * and implement the class `TwitterStatusPropertySource`
 {{{
 public class TwitterStatusPropertySource implements IPropertySource {
-
 	private static final String MSG_ID = "twitter.prop.msg";
 	private static final String RETWEET_COUNT_ID = "twitter.prop.retweet.count";
 	
@@ -527,6 +504,7 @@ public class TwitterStatusPropertySource implements IPropertySource {
 	@Override
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		if (propertyDescriptors == null) {
+			// define supported properties
 			IPropertyDescriptor descMessage = new PropertyDescriptor(MSG_ID, "Message");
 			IPropertyDescriptor retweetCount= new PropertyDescriptor(RETWEET_COUNT_ID, "Retweet count");
 			propertyDescriptors = new IPropertyDescriptor[] { descMessage, retweetCount };
@@ -562,15 +540,16 @@ public class TwitterStatusPropertySource implements IPropertySource {
 }
 }}}
 
-|| _The concept of adaptors is one of the most important concepts in Eclipse platform. It is used to use one object in different contexts._ ||
+|| _The concept of adaptors is one of the most important concepts in the whole Eclipse platform. It allows to use one object in different contexts._ ||
 
-==Selection service==
-In the previous example, we saw that the viewer was registered as a selection provider (see line `getSite().setSelectionProvider(viewer);` in the class `TwitterMessageTimelineView`). There is also a way how to listen to selection events via registering an implementation of `ISelectionListener` with help of selection service (e.g., `getSite().getWorkbenchWindow().getSelectionService()`).
+== Selection service ==
+In the previous example, we saw that the viewer was registered as a selection provider (see the line `getSite().setSelectionProvider(viewer);` in the class `TwitterMessageTimelineView`). There is also a way to listen to selection events via registering an implementation of `ISelectionListener` with the help of a selection service (e.g., `getSite().getWorkbenchWindow().getSelectionService()`).
 
+== Your tasks ==
  * create a new view providing a list of usernames
  * publish a viewer as a selection source
- * register a listener to a new view via _Selection service_
-  * listener has to look at selection and repaint the viewer 
+ * register a listener to the new view via the _Selection service_
+   * listener has to look at the current selection and repaint the viewer 
 
 = Links =
  * SWT code snippets - http://www.eclipse.org/swt/snippets/
@@ -580,4 +559,4 @@ In the previous example, we saw that the viewer was registered as a selection pr
  * Eclipse help: Core expressions - http://wiki.eclipse.org/Command_Core_Expressions
  * Eclipse tutorial: Take control over you properties - http://www.eclipse.org/articles/Article-Properties-View/properties-view.html
  * Eclipse tutorial: The Eclipse Tabbed Properties View - http://www.eclipse.org/articles/Article-Tabbed-Properties/tabbed_properties_view.html
- 
+
