@@ -10,7 +10,7 @@ This is a tutorial for the Eclipse-related part of the course [http://is.cuni.cz
  # [Tutorial02EclipseBasics Eclipse basics] 
  # [Tutorial03UIbasics Eclipse UI basics]
  # [Tutorial04Views Views] 
- # Editors
+ # [Tutorial05Editors Editors]
  # Preferences, perspectives, and wizards
  # Product branding, updating
 
