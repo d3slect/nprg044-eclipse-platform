@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            category="T4Eclipse"
+            file="help/toc-primary.xml"
+            primary="true">
+      </toc>
+      <toc
+            file="help/toc-user.xml"
+            primary="false">
+      </toc>
+      <toc
+            file="help/toc-faq.xml"
+            primary="false">
+      </toc>
+      <toc
+            file="help/toc-devel.xml"
+            primary="false">
+      </toc>
+      <tocIcon
+            id="cz.cuni.mff.d3s.nprg044.twitter.help"
+            openIcon="icons/twitter.gif">
+      </tocIcon>
+   </extension>
+
+</plugin>

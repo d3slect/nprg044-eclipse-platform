@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toc label="T4Eclipse Developer Guide">
+   <topic href="help/devel/overview.html" label="Overview">
+   </topic>
+   <topic label="Architecture">
+   </topic>
+   <topic label="Extension points">
+   </topic>
+</toc>
