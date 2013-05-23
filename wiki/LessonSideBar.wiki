@@ -17,12 +17,12 @@
     * [Tutorial05Editors Editors]
       * [Tutorial05Editors#Simple_multi-page_editor_example Multi-page Editor]
       * [Tutorial05Editors#Text_Editor_improvements Text Editor]
-    * Perspectives and Wizards
-      * Perspectives
-      * Wizards
-    * Product branding and updating
+    * [Tutorial06Wizards Perspectives, Wizards, and Jobs]
+      * [Tutorial06Wizards#Perspective Perspectives]
+      * [Tutorial06Wizards#Wizards Wizards]
+      * [Tutorial06Wizards#Jobs Jobs (Concurrency)]
+    * [Tutorial07Branding Product branding and updating] 
     * Resources
-    * Concurrency
   * Examples
     * [ExampleTwitterClientDesign Twitter Client]  
 

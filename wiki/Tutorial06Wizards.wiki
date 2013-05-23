@@ -4,83 +4,71 @@
 <wiki:toc max_depth="3" />
 
 = Perspective =
-To setup a new perspective it is necessary to define extension `org.eclipse.ui.perspectives` and provides an implementation of the `IPerspectiveFactory` interface. 
-The implementation manage initial layout of the perspective (views, editor areas, menus) via `IPageLayout`.
+To setup a new perspective it is necessary to define the extension `org.eclipse.ui.perspectives` and provide an implementation of the `IPerspectiveFactory` interface. 
+The implementation creates the initial layout of the perspective (views, editor areas, menus) via `IPageLayout`.
 {{{
 public class TwitterPerspectiveFactory implements IPerspectiveFactory {
-
+	
 	/** The ID of this GUI element. */
-    public static final String PERSPECTIVE_ID = "cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective";
+	public static final String PERSPECTIVE_ID = "cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective";
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui.IPageLayout)
-     */
-    @Override
-    public void createInitialLayout(IPageLayout layout) {
-            addViews(layout);
-            addActionSets(layout);
-            addNewWizardShortcuts(layout);
-            addPerspectiveShortcuts(layout);
-            addViewShortcuts(layout);
-    }
+	@Override
+	public void createInitialLayout(IPageLayout layout) {
+		// define layout of the perspective
+		addViews(layout);
+		addActionSets(layout);
+		addNewWizardShortcuts(layout);
+		addPerspectiveShortcuts(layout);
+		addViewShortcuts(layout);
+	}
 
-    /**
-     * Adds the views.
-     */
-    private void addViews(IPageLayout layout) {
-            // create left panel view area
-            IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.25f, layout.getEditorArea());
-            
-            left.addView(TwitterMessageTimelineView.ID);
-            left.addView(IPageLayout.ID_PROP_SHEET);
+	private void addViews(IPageLayout layout) {
+		// create the left panel view area programmatically
+		// its position is left with respect to editor area
+		// left panel will occupy 25% of the horizontal space originally given to the editor area
+		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.25f, layout.getEditorArea());
+		
+		// left panel contains the message timeline and properties view/sheet
+		left.addView(TwitterMessageTimelineView.ID);
+		left.addView(IPageLayout.ID_PROP_SHEET);
+		
+		// create the bottom panel view area
+		// bottom panel will occupy 25% of the vertical space originally given to the editor area
+		IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, 0.75f, layout.getEditorArea());
+		bottom.addView(IPageLayout.ID_PROP_SHEET);
+		bottom.addView(IPageLayout.ID_PROBLEM_VIEW);
+		bottom.addView("org.eclipse.pde.runtime.LogView");
+		
+		// create the right panel view area
+		// right panel will occupy 25% of the horizontal space originally given to the editor area
+		IFolderLayout right = layout.createFolder("right", IPageLayout.RIGHT, 0.75f, layout.getEditorArea());
+		right.addView(IPageLayout.ID_OUTLINE);
+	}
 
-            // create bottom panel view area
-            IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, 0.75f, layout.getEditorArea());
-            bottom.addView(IPageLayout.ID_PROP_SHEET);
-            bottom.addView(IPageLayout.ID_PROBLEM_VIEW);
-            bottom.addView("org.eclipse.pde.runtime.LogView");
+	private void addActionSets(IPageLayout layout) {
+	}	
 
-            // create right panel view area
-            IFolderLayout right = layout.createFolder("right", IPageLayout.RIGHT, 0.75f, layout.getEditorArea());
-            right.addView(IPageLayout.ID_OUTLINE);
-    }
+	private void addPerspectiveShortcuts(IPageLayout layout) {
+		// add button that will turn of this perspective into the top right corner
+		layout.addPerspectiveShortcut(PERSPECTIVE_ID);
+	}
 
-    /**
-     * Adds the action sets.
-     */
-    private void addActionSets(IPageLayout layout) {
-//            layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
-    }	
+	// wizards like those in "File -> New"
+	private void addNewWizardShortcuts(IPageLayout layout) {
+		//layout.addNewWizardShortcut(LoginWizard.ID);
+	}
 
-    /**
-     * Adds the perspective shortcuts.
-     */
-    private void addPerspectiveShortcuts(IPageLayout layout) {
-            layout.addPerspectiveShortcut(PERSPECTIVE_ID);
-    }
-
-    /**
-     * Adds the new wizard shortcuts.
-     */
-    private void addNewWizardShortcuts(IPageLayout layout) {            
-//            layout.addNewWizardShortcut(NewMessageWizard.ID);
-    }
-
-    /**
-     * Adds the view shortcuts.
-     */
-    private void addViewShortcuts(IPageLayout layout) {
-            right.addView(UserViewPart.ID);
-    }
+	// shortcuts like those in "Window -> Show View"
+	private void addViewShortcuts(IPageLayout layout) {
+	}
 }
 }}}
 
 
 == Perspective extension ==
-It is possible to modify existing perspectives via extension point `org.eclipse.ui.perspectiveExtensions`
+It is possible to modify existing perspectives via the extension point `org.eclipse.ui.perspectiveExtensions`
  * define _targetID_ 
-   * regexp or ID of target perspective (e.g,. `cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective`)
+   * regexp or ID of the target perspective (e.g,. `cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective`)
  * define target perspective modification:
    * add new wizard shortcuts
    * add perspective shortcuts
@@ -91,14 +79,15 @@ It is possible to modify existing perspectives via extension point `org.eclipse.
 
 
 = Wizards =
-Wizard is a dialog implementing the `IWizard` interface. It can be defined via extensions `org.eclipse.ui.newWizards`, `org.eclipse.ui.importWizards` or `org.eclipse.ui.exportWizards` or implemented ad-hoc.
+A wizard is a dialog implementing the `IWizard` interface. It can be defined via extensions `org.eclipse.ui.newWizards`, `org.eclipse.ui.importWizards` or `org.eclipse.ui.exportWizards`, or implemented ad-hoc.
 
- * define extension `org.eclipse.ui.newWizards` which define a wizard for creation a new element
-   * add a new `Twitter` category (will be shown in dialog for wizard selection.
+ * create the wizard for a new message
+   * define the extension `org.eclipse.ui.newWizards` 
+   * add a new category `Twitter` (it will be shown in the dialog for wizard selection)
    * define _name_, 
    * define _finalPerspective_ as _Twitter perspective_
    * implement the _class_ attribute
-     * the wizard has to implement `IWizard` interface; however, it is beneficial to extend  the `Wizard` class.
+     * the wizard has to implement the `IWizard` interface; however, it is beneficial to extend the `Wizard` class
 {{{
 public class NewMessageWizard extends Wizard implements INewWizard {
 	
@@ -113,26 +102,29 @@ public class NewMessageWizard extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 	}
 	
+	// create our wizard page in a lazy manner
 	@Override
 	public void addPages() {
 		messagePage = new MessageWizardPage("Message");
 		addPage(messagePage);
-	}	
+	}
 
+	// perform response to the user clicking on the "Finish" button
 	@Override
-	public boolean performFinish() {		
+	public boolean performFinish() {
 		if (messagePage.canFlipToNextPage()) {
 			System.out.println("Message posted: " + messagePage.getMessageText());			
 			return true;
-		} else {
+		} 
+		else {
 			return false;
 		}
 	}
 }
 }}}
-   * the wizard has to setup pages in method `addPages` and perform finish action in method `performFinish` 
+   * the wizard has to setup pages in the method `addPages` and perform the finish action in the method `performFinish` 
 
-The wizard page represents one page shown in wizard. It has to setup its layout and validation of user inputs. The wizard page is represented by interface `IWizardPage`, but it is better to extend the class `WizardPage`:
+The wizard page represents one page shown in the wizard. It has to setup its layout and validation of the user input. The wizard page is represented by the interface `IWizardPage`, but it is better to extend the class `WizardPage`.
 {{{
 public class MessageWizardPage extends WizardPage {
 
@@ -143,12 +135,15 @@ public class MessageWizardPage extends WizardPage {
 
 	protected MessageWizardPage(String pageName) {
 		super(pageName);
+		
 		setTitle("Post a new message");
-		setDescription("Post twitte message. It should not contains more than 150characters!");
+		
+		setDescription("Post twitter message. It should not contain more than 150 characters!");
 		
 		setPageComplete(false);
 	}
 
+	// create layout of the wizard page
 	@Override
 	public void createControl(Composite parent) {
 		final Composite composite = new Composite(parent, SWT.NONE);
@@ -159,7 +154,7 @@ public class MessageWizardPage extends WizardPage {
 		messageEditor = new TextViewer(composite, SWT.BORDER | SWT.MULTI);
 		messageEditor.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));		
 		messageEditor.getTextWidget().addModifyListener(new ModifyListener() {
-			
+			// check the number of characters after each modification
 			@Override
 			public void modifyText(ModifyEvent e) {
 				updateCharactersCount(messageEditor.getTextWidget().getText().length());				
@@ -176,23 +171,27 @@ public class MessageWizardPage extends WizardPage {
 		
 		if (validatePage()) {
 			setPageComplete(true);				
-		} else {
+		} 
+		else {
 			setPageComplete(false);
 		}
 	}
 	
+	// validates the user input
 	protected boolean validatePage() {
-		int length = messageEditor.getTextWidget().getText().length();
-		
+		int length = messageEditor.getTextWidget().getText() != null ? messageEditor.getTextWidget().getText().length() : 0;
+	
 		if (length > 0 && length <= MAX_CHAR) {
 			setErrorMessage(null);
 			return true;
-		} else {
+		} 
+		else {
 			setErrorMessage("Character count has to be in range (0..150>" );
 			return false;
 		}
 	}
 	
+	// returns true if this page is complete and we can move to the next one
 	@Override
 	public boolean canFlipToNextPage() {		
 		return validatePage();
@@ -204,16 +203,16 @@ public class MessageWizardPage extends WizardPage {
 }
 }}}
 
-||Note: _To launch wizard programmaticaly, it is necessary to create an instance of wizard and pass it to the instance of the `WizardDialog` class which is responsible for presentation of the wizard_||
+||Note: _To launch the wizard programmatically, it is necessary to create an instance of the wizard and pass it to the instance of the `WizardDialog` class, which is responsible for presentation of the wizard._||
 
-= Jobs =    
+= Jobs =
 The `Job` class allows execution of user code in a separate thread.
 
-`Job` includes following methods:
- * `run()` - user has to override the method to implement a logic of job
+`Job` includes the following methods:
+ * `run()` - user has to override the method to implement the logic of a given job
  * `schedule()` - schedule the job
- * `join()` - wait for job to finish
- * `cancel()` - cancel the job, only setup the flag published via method `isCanceled()`
+ * `join()` - wait for the job to finish
+ * `cancel()` - cancel the job, only setup the flag published via the method `isCanceled()`
 
 {{{
 if (!job.cancel())
@@ -221,28 +220,23 @@ if (!job.cancel())
 }}}
 
 Job result signaled via `IStatus` (`IStatus.OK`, `IStatus.ERROR`)
-  
 
-Job types. 
-  * user - modal dialog is shown, can be put intp background. Configured via calling `setUser(true)`.
-  * system - no contribution into UI. E.g., jobs which are NOT initiated by an user. Configured via `setSystem(true)` before job scheduling.
+Job types:
+  * user - modal dialog is shown, can be put into the background. Configured via the call `setUser(true)`.
+  * system - no contribution into the UI. E.g., jobs which are NOT initiated by a user. Configured via the call `setSystem(true)` before job scheduling.
 
 == Periodic jobs == 
 The job implementation has to reschedule itself - i.e., it needs to call `schedule(num)`.
 
 == Reporting progress ==
 Progress monitor is represented by the `IProgressMonitor` interface:
-  * `monitor.beginTask("Getting follows", numberOfFollows);` - start a monitor for a given units of work
-  * `monitor.worked(1)` - 1 unit of work processed
+  * `monitor.beginTask("Getting follows", numberOfFollows);` - start a monitor for given units of work
+  * `monitor.worked(1)` - one unit of work processed
   * `monitor.done()` - computation is finished
 
-== Early startup of Eclipse ==
-Define the extension point `org.eclipse.ui.startup` and implements the interface `IStartup`.
-
-
 = Resources =
-  * Eclipse Help - Wizards - http://help.eclipse.org/help33/topic/org.eclipse.platform.doc.isv/guide/dialogs.htm
-  * Eclipse Help - Perspective - http://help.eclipse.org/help33/topic/org.eclipse.platform.doc.isv/guide/workbench_perspectives.htm
+  * Eclipse Help - Wizards - http://help.eclipse.org/juno/topic/org.eclipse.platform.doc.isv/guide/dialogs.htm
+  * Eclipse Help - Perspective - http://help.eclipse.org/juno/topic/org.eclipse.platform.doc.isv/guide/workbench_perspectives.htm
   * Eclipse Article - JFace Wizards - http://www.eclipse.org/articles/article.php?file=Article-JFaceWizards/index.html
   * Eclipse Atticle - On the Job: The Eclipse Jobs API - http://www.eclipse.org/articles/Article-Concurrency/jobs-api.html
   

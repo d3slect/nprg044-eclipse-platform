@@ -11,8 +11,8 @@ This is a tutorial for the Eclipse-related part of the course [http://is.cuni.cz
  # [Tutorial03UIbasics Eclipse UI basics]
  # [Tutorial04Views Views] 
  # [Tutorial05Editors Editors]
- # Preferences, perspectives, and wizards
- # Product branding, updating
+ # [Tutorial06Wizards Perspectives, preferences, and wizards]
+ # [Tutorial07Branding Product branding and updating]
 
 ==Source code==
 Source code for each lecture can be found in [http://code.google.com/a/eclipselabs.org/p/nprg044-eclipse-platform/source/browse/trunk/2012-13 SVN repository].
