@@ -11,7 +11,7 @@ This is a tutorial for the Eclipse-related part of the course [http://is.cuni.cz
  # [Tutorial03UIbasics Eclipse UI basics]
  # [Tutorial04Views Views] 
  # [Tutorial05Editors Editors]
- # [Tutorial06Wizards Perspectives, preferences, and wizards]
+ # [Tutorial06Wizards Perspectives, wizards, and jobs]
  # [Tutorial07Branding Product branding and updating]
 
 ==Source code==
