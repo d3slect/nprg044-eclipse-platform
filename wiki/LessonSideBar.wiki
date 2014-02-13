@@ -3,26 +3,14 @@
 
   * [Intro Introduction]
   * Tutorial structure
-    * [Tutorial01OSGiBasics OSGi basics]
-    * [Tutorial02EclipseBasics Eclipse basics]
-      * [Tutorial02EclipseBasics#Basic_concepts_of_Eclipse_Workbench Eclipse Workbench]
-      * [Tutorial02EclipseBasics#Commands Commands and handlers]
-    * [Tutorial03UIbasics UI basics]
-      * [Tutorial03UIbasics#SWT_and_JFace SWT and JFace]
-    * [Tutorial04Views Views]
-      * [Tutorial04Views#Views Views]
-      * [Tutorial04Views#Actions_in_Views Actions in Views]
-      * [Tutorial04Views#Property_sheet Property sheet]
-      * [Tutorial04Views#Selection_service Selection service] 
-    * [Tutorial05Editors Editors]
-      * [Tutorial05Editors#Simple_multi-page_editor_example Multi-page Editor]
-      * [Tutorial05Editors#Text_Editor_improvements Text Editor]
-    * [Tutorial06Wizards Perspectives, Wizards, and Jobs]
-      * [Tutorial06Wizards#Perspective Perspectives]
-      * [Tutorial06Wizards#Wizards Wizards]
-      * [Tutorial06Wizards#Jobs Jobs (Concurrency)]
-    * [Tutorial07Branding Product branding and updating] 
+    * OSGi basics
+    * Eclipse basics
+    * UI basics
+    * Views
+    * Editors
+    * Perspectives, Wizards, and Jobs
+    * Product branding and updating
     * Resources
   * Examples
-    * [ExampleTwitterClientDesign Twitter Client]  
+    * Twitter Client
 
