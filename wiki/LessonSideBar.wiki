@@ -3,7 +3,7 @@
 
   * [Intro Introduction]
   * Tutorial structure
-	* [Tutorial01OSGiBasics OSGi basics] 
+    * [Tutorial01OSGiBasics OSGi basics] 
     * Eclipse basics
     * UI basics
     * Views
