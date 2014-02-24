@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Demo02-impl-decl
+Bundle-SymbolicName: demo02-impl-decl
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: cz.cuni.mff.d3s.nprg044.tut1.demo02.api,
+ org.osgi.framework;version="1.7.0",
+ org.osgi.service.component;version="1.2.0"
+Require-Bundle: demo02-api;bundle-version="1.0.0",
+ org.eclipse.equinox.ds;bundle-version="1.4.0"
+Service-Component: OSGI-INF/component.xml,
+ OSGI-INF/factory.xml

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Demo02-api
+Bundle-SymbolicName: demo02-api
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: cz.cuni.mff.d3s.nprg044.tut1.demo02.api
+Import-Package: org.osgi.framework;version="1.7.0"
+

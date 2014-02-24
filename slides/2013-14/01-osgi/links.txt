@@ -1,0 +1,16 @@
+http://www.sonatype.com/books/mcookbook/reference/sect-osgi-generate-project.html
+http://nexnet.wordpress.com/2010/05/23/osgi-maven-declarative-services-eclipse/
+http://tycho.sonatype.org/how-to-create-a-new-osgi-bundle.html
+
+Tycho sonatype help
+ https://docs.sonatype.org/display/TYCHO/Tycho+reference+card
+
+Pax - Swiss army knife to manage OSGi bundles
+http://www.ops4j.org/projects/pax/construct/maven-pax-plugin/
+
+Felix bundle plugin - based on BND
+http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html
+
+OSGI Equinox
+http://www.eclipse.org/equinox/documents/quickstart.php
+
