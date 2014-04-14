@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Perspective
+Bundle-SymbolicName: cz.cuni.mff.d3s.nprg044.twitter.ui.perspective;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.ui;bundle-version="3.103.0",
+ cz.cuni.mff.d3s.nprg044.twitter.ui.view;bundle-version="1.0.0",
+ cz.cuni.mff.d3s.nprg044.twitter.wizards;bundle-version="1.0.0"
