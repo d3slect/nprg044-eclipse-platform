@@ -5,7 +5,7 @@
   * Tutorial structure
     * [Tutorial01OSGiBasics OSGi basics]
     * [Tutorial02EclipseBasics Eclipse basics]
-    * UI basics and views
+    * [Tutorial03UIBasicsViews UI basics and views]
     * Advanced UI, perspectives, wizards, and jobs
     * Editors
     * Product branding and updating

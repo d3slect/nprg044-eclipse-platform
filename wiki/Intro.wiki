@@ -8,7 +8,7 @@ This is a tutorial for the Eclipse-related part of the course [http://is.cuni.cz
 
  # [Tutorial01OSGiBasics OSGi basics] ([http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/slides/2013-14/01-osgi/01-osgi.pdf slides])
  # [Tutorial02EclipseBasics Eclipse basics]
- # UI basics and views
+ # [Tutorial03UIBasicsViews UI basics and views]
  # Advanced UI, perspectives, wizards, and jobs
  # Editors
  # Product branding and updating
