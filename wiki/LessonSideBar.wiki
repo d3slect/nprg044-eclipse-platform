@@ -6,8 +6,8 @@
     * [Tutorial01OSGiBasics OSGi basics]
     * [Tutorial02EclipseBasics Eclipse basics]
     * [Tutorial03UIBasicsViews UI basics and views]
-    * Advanced UI, perspectives, wizards, and jobs
-    * Editors
+    * [Tutorial04AdvancedUI Advanced UI, perspectives, wizards, and jobs]
+    * [Tutorial05Editors Editors]
     * Product branding and updating
   * Examples
     * [ExampleTwitterClientDesign Twitter Client]
