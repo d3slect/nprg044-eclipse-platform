@@ -4,11 +4,11 @@
   * [Intro Introduction]
   * Tutorial structure
     * [Tutorial01OSGiBasics OSGi basics]
-    * [Tutorial02EclipseBasics Eclipse basics]
-    * [Tutorial03UIBasicsViews UI basics and views]
-    * [Tutorial04AdvancedUI Advanced UI, perspectives, wizards, and jobs]
-    * [Tutorial05Editors Editors]
-    * [Tutorial06Branding Product branding and updating]
+    * Eclipse basics
+    * UI basics and views
+    * Advanced UI, perspectives, wizards, and jobs
+    * Editors
+    * Product branding and updating
   * Examples
-    * [ExampleTwitterClientDesign Twitter Client]
+    * Twitter Client
 

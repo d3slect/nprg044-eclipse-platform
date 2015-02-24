@@ -1,0 +1,18 @@
+#summary Content outline of Eclipse Platform Classes 2013/14.
+
+= Eclipse Platform Classes 2013-14 =
+
+This is a tutorial for the Eclipse-related part of the course [http://is.cuni.cz/studium/eng/predmety/index.php?do=predmet&kod=NPRG044 Netbeans and Eclipse platforms - NPRG044].
+
+==Outline==
+
+ # [Tutorial01OSGiBasics OSGi basics] ([http://svn.codespot.com/a/eclipselabs.org/nprg044-eclipse-platform/slides/2013-14/01-osgi/01-osgi.pdf slides])
+ # [Tutorial02EclipseBasics Eclipse basics]
+ # [Tutorial03UIBasicsViews UI basics and views]
+ # [Tutorial04AdvancedUI Advanced UI, perspectives, wizards, and jobs]
+ # [Tutorial05Editors Editors]
+ # [Tutorial06Branding Product branding and updating]
+
+==Source code==
+Source code for each lecture can be found in [http://code.google.com/a/eclipselabs.org/p/nprg044-eclipse-platform/source/browse/trunk/2013-14 SVN repository].
+
