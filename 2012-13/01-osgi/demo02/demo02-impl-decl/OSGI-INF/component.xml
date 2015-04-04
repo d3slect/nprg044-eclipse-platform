@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" name="service component">
-   <implementation class="cz.cuni.mff.d3s.nprg044.tut1.demo02.impl_decl.ServiceComponentImpl"/>
-   <service>
-      <provide interface="cz.cuni.mff.d3s.nprg044.tut1.demo02.api.IService"/>
-   </service>
-   <reference bind="bindHelloService" cardinality="0..1" interface="cz.cuni.mff.d3s.nprg044.tut1.demo02.api.IHelloService" name="IHelloService" policy="dynamic"/>
-   <reference bind="bindCF" cardinality="1..1" interface="org.osgi.service.component.ComponentFactory" name="ComponentFactory" policy="static" target="(component.factory=cz.cuni.mff.d3s.nprg044.tut1.demo02.HelloComponentFactory)" unbind="unbindCF"/>   
-</scr:component>

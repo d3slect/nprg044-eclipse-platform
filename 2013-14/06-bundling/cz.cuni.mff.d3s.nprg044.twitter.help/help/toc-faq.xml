@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?NLS TYPE="org.eclipse.help.toc"?>
-
-<toc label="T4Eclipse FAQ">
-	<topic label="How to change credentials?"  href="html/user/faq.html#ChangeCredentials" />
-</toc>
