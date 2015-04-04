@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" enabled="true" immediate="true" name="logger-component">
-   <implementation class="cz.cuni.mff.d3s.nprg044.log.impl.LoggerImpl"/>
-   <service>
-      <provide interface="cz.cuni.mff.d3s.nprg044.log.api.ILogger"/>
-   </service>
-   <reference bind="addLogTarget" cardinality="0..n" interface="cz.cuni.mff.d3s.nprg044.log.api.ILogTarget" name="TARGET" policy="dynamic" unbind="removeLogTarget"/>
-   <property name="logPrefix" value="Logger " />   
-</scr:component>

@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" enabled="true" name="cz.mff.cuni.d3s.nprg044.tut1.test01.impl2">
-   <implementation class="cz.mff.cuni.d3s.nprg044.tut1.test01.impl2.ComponentTwo"/>
-</scr:component>
