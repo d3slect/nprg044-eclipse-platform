@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Simple_log_target_bundle Plug-in
-Bundle-SymbolicName: cz.cuni.mff.dsrg.simple_log_target_bundle
-Bundle-Version: 1.0.0
-Import-Package: cz.cuni.mff.dsrg.log.api,
- org.osgi.framework
-Bundle-Activator: cz.cuni.mff.dsrg.log.impl.SimpleLogTargetActivator
