@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docbase="/home/michal/doc/!presentations/PREDNASKY/OSGi_CZJUG/images"
+   sodipodi:docname="platform.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/michal/doc/!presentations/PREDNASKY/OSGi_CZJUG/images/platform.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="381.42857"
+     inkscape:cy="600"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1214"
+     inkscape:window-height="887"
+     inkscape:window-x="125"
+     inkscape:window-y="13" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#c8b7b7;fill-opacity:1;stroke:#000000;stroke-width:1.00000012;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2160"
+       width="379.00003"
+       height="37.857178"
+       x="160.5"
+       y="544.005" />
+    <text
+       xml:space="preserve"
+       style="font-size:10px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="292.98486"
+       y="567.60254"
+       id="text2170"><tspan
+         sodipodi:role="line"
+         id="tspan2172"
+         x="292.98486"
+         y="567.60254"
+         style="font-size:14px;font-weight:bold">Hardware / OS</tspan></text>
+    <rect
+       style="fill:#d5e5ff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2174"
+       width="279"
+       height="38.57143"
+       x="210.5"
+       y="493.79074" />
+    <rect
+       style="fill:#ddff55;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2194"
+       width="229"
+       height="38.57143"
+       x="260.5"
+       y="443.79074" />
+    <rect
+       style="fill:#ffe680;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2196"
+       width="179"
+       height="38.57143"
+       x="310.5"
+       y="392.86218" />
+    <rect
+       style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2198"
+       width="129"
+       height="38.57143"
+       x="360.5"
+       y="343.29074" />
+    <rect
+       style="fill:#ff5555;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2200"
+       width="39.5"
+       height="239"
+       x="500"
+       y="292.86218" />
+    <path
+       style="fill:#cccccc;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 160 292.375 L 160 342.375 L 160 532.375 L 200 532.375 L 200 482.375 L 250 482.375 L 250 432.375 L 300 432.375 L 300 382.375 L 350 382.375 L 350 342.375 L 350 332.375 L 490 332.375 L 490 292.375 L 160 292.375 z "
+       id="path2202" />
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="257.98828"
+       y="518.29572"
+       id="text2207"><tspan
+         sodipodi:role="line"
+         id="tspan2209"
+         x="257.98828"
+         y="518.29572">Execution environment</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="341.5791"
+       y="468.29568"
+       id="text2211"><tspan
+         sodipodi:role="line"
+         id="tspan2213"
+         x="341.5791"
+         y="468.29568">Modules</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="362.57324"
+       y="415.95551"
+       id="text2215"><tspan
+         sodipodi:role="line"
+         id="tspan2217"
+         x="362.57324"
+         y="415.95551">Life cycle</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="395.71143"
+       y="367.79568"
+       id="text2219"><tspan
+         sodipodi:role="line"
+         id="tspan2221"
+         x="395.71143"
+         y="367.79568">Service</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;writing-mode:lr-tb;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="202.85715"
+       y="384.64789"
+       id="text2223"><tspan
+         sodipodi:role="line"
+         id="tspan2225"
+         x="202.85715"
+         y="384.64789">Bundles</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14px;font-style:normal;font-weight:bold;writing-mode:tb-rl;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="519.79443"
+       y="346.01257"
+       id="text2227"><tspan
+         sodipodi:role="line"
+         id="tspan2229"
+         x="346.01257"
+         y="519.79443">Security</tspan></text>
+  </g>
+</svg>
