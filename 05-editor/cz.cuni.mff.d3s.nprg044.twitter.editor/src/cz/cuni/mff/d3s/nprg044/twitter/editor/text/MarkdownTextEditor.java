@@ -1,6 +1,8 @@
 package cz.cuni.mff.d3s.nprg044.twitter.editor.text;
 
+import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITypedRegion;
+import org.eclipse.jface.viewers.IPostSelectionProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -54,21 +56,30 @@ public class MarkdownTextEditor extends TextEditor {
 				outlinePage.setInput(getDocumentProvider().getDocument(getEditorInput()));
 				
 				// outline page will be notified about changes of the caret position
-				getSourceViewer().getTextWidget().addCaretListener(outlinePage);
+				IPostSelectionProvider provider = (IPostSelectionProvider)getSelectionProvider();
+                provider.addPostSelectionChangedListener(new ISelectionChangedListener(){
 
-				// register a listener for selection of elements in the content outline page
-				outlinePage.addSelectionChangedListener(new ISelectionChangedListener() {
-					@Override
-					public void selectionChanged(SelectionChangedEvent event) {
-						IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-						if (!selection.isEmpty()) {
-							// show and highlight the selected text region
-							ITypedRegion region = (ITypedRegion) selection.getFirstElement();
-							selectAndReveal(region.getOffset(), region.getLength());
-							setHighlightRange(region.getOffset(), region.getLength(), true);
-						}						
-					}
-				});
+                    @Override
+                    public void selectionChanged(SelectionChangedEvent event) {
+                        ITextSelection textSelection = (ITextSelection) event.getSelection();
+                        outlinePage.select(textSelection);
+                    }
+                    
+                });
+                
+                // register a listener for selection of elements in the content outline page
+                outlinePage.addSelectionChangedListener(new ISelectionChangedListener() {
+                    @Override
+                    public void selectionChanged(SelectionChangedEvent event) {
+                        IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+                        if (!selection.isEmpty()) {
+                            // show and highlight the selected text region
+                            ITypedRegion region = (ITypedRegion) selection.getFirstElement();
+                            selectAndReveal(region.getOffset(), region.getLength());
+                            setHighlightRange(region.getOffset(), region.getLength(), true);
+                        }                       
+                    }
+                });
 			}	
 			
 			return outlinePage;
@@ -76,4 +87,5 @@ public class MarkdownTextEditor extends TextEditor {
 		
 		return super.getAdapter(adapter);
 	}
+	
 }
