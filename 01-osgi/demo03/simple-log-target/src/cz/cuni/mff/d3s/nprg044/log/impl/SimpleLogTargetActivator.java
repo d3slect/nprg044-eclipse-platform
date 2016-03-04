@@ -8,7 +8,7 @@ import cz.cuni.mff.d3s.nprg044.log.api.ILogTarget;
 
 public class SimpleLogTargetActivator implements BundleActivator {
 
-	private ServiceRegistration registration;
+	private ServiceRegistration<?> registration;
 	
 	public void start(BundleContext context) throws Exception {
 		SimpleLogTargetImpl logTargetImpl = new SimpleLogTargetImpl();
