@@ -22,4 +22,5 @@
 <booleanAttribute key="tracing" value="false"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="true"/>
+<stringAttribute key="workspace_bundles" value="demo02-api@default:default,demo02-impl-prog@default:default"/>
 </launchConfiguration>
