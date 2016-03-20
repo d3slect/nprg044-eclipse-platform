@@ -9,10 +9,12 @@ public class HelloServiceFactoryImpl implements IHelloService {
 
 	private String greeting = null;
 
+	@Override
 	public String getGreeting() {
 		return greeting;
 	}
 
+	@Override
 	public void greet() {
 		System.out.println(getGreeting());
 	}

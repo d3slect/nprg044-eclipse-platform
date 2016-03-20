@@ -13,6 +13,7 @@ public class ServiceComponentImpl implements IService {
 
 	private IHelloService helloService;
 
+	@Override
 	public void test() {
 		System.out.println("Test service!");
 	}
