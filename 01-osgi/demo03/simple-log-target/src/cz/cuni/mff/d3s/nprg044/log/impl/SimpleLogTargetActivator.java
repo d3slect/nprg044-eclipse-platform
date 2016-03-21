@@ -10,6 +10,7 @@ public class SimpleLogTargetActivator implements BundleActivator {
 
 	private ServiceRegistration<?> registration;
 	
+	@Override
 	public void start(BundleContext context) throws Exception {
 		SimpleLogTargetImpl logTargetImpl = new SimpleLogTargetImpl();
 		
@@ -17,6 +18,7 @@ public class SimpleLogTargetActivator implements BundleActivator {
 
 	}
 
+	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
 		registration.unregister();
 	}

@@ -13,6 +13,7 @@ public class LoggerImpl implements ILogger {
 	private String prefix = null; 
 	private List<ILogTarget> logTargets = new LinkedList<ILogTarget>();
 
+	@Override
 	public void info(String message) {
 		for (ILogTarget target : logTargets) {
 			target.write(prefix + "[" + target.getName() +  "]: " + message);

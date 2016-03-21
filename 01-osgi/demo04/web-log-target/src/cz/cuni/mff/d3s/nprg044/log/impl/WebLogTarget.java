@@ -23,10 +23,12 @@ public class WebLogTarget implements ILogTarget {
 	
 	private List<String> messages = new LinkedList<String>();	
 	
+	@Override
 	public void write(String message) {
 		messages.add(message);
 	}
 
+	@Override
 	public String getName() {
 		return "Web Log Target";
 	}

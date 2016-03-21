@@ -10,21 +10,23 @@ import cz.cuni.mff.d3s.nprg044.log.api.ILogger;
 
 public class ServiceTestActivator implements BundleActivator, Runnable {
 
-	private ServiceTracker tracker;
+	private ServiceTracker<Object, Object> tracker;
 	private Thread testThread;
 	private ILogger logger;
 	
+	@Override
 	public void start(BundleContext context) throws Exception {		
 		System.out.println("ServiceTestActivator start");
 		
 		// create a service tracker
-		tracker = new ServiceTracker(context, ILogger.class.getName(), new SimpleServiceCustomizer(context));
+		tracker = new ServiceTracker<Object, Object>(context, ILogger.class.getName(), new SimpleServiceCustomizer(context));
 
 		// track the log service
 		System.out.println("opening tracker for ILogger");		
 		tracker.open();		
 	}
 
+	@Override
 	public void stop(BundleContext context) throws Exception {		
 		System.out.println("ServiceTestActivator stop");
 		
@@ -35,6 +37,7 @@ public class ServiceTestActivator implements BundleActivator, Runnable {
 		logger = null;
 	}
 	
+	@Override
 	public void run() {
 		System.out.print("Test thread started");
 		
@@ -60,7 +63,7 @@ public class ServiceTestActivator implements BundleActivator, Runnable {
 		System.out.print("Test thread exiting");
 	}
 
-	private class SimpleServiceCustomizer implements ServiceTrackerCustomizer {
+	private class SimpleServiceCustomizer implements ServiceTrackerCustomizer<Object, Object> {
 		
 		private BundleContext ctx;
 		
@@ -68,7 +71,8 @@ public class ServiceTestActivator implements BundleActivator, Runnable {
 			this.ctx = ctx;
 		}
 
-		public Object addingService(ServiceReference reference) {
+		@Override
+		public Object addingService(ServiceReference<Object> reference) {
 			System.out.println("SimpleServiceCustomizer: ILogger adding");
 			
 			// grab the service
@@ -82,10 +86,12 @@ public class ServiceTestActivator implements BundleActivator, Runnable {
 			return logger;
 		}
 
-		public void modifiedService(ServiceReference reference, Object service) {
+		@Override
+		public void modifiedService(ServiceReference<Object> reference, Object service) {
 		}
 
-		public void removedService(ServiceReference reference, Object service) {
+		@Override
+		public void removedService(ServiceReference<Object> reference, Object service) {
 			System.out.println("SimpleServiceCustomizer: ILogger removed");
 		}		
 	}
