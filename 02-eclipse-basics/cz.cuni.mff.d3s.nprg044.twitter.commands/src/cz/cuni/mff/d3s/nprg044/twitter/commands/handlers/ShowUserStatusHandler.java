@@ -11,10 +11,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import cz.cuni.mff.d3s.nprg044.twitter.auth.TwitterAuthUtil;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.User;
 
 public class ShowUserStatusHandler extends AbstractHandler {
