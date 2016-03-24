@@ -26,6 +26,7 @@ public class TwitterTestActivator extends AbstractUIPlugin {
 		System.out.println("test activator constructor");
 	}
 	
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
@@ -37,6 +38,7 @@ public class TwitterTestActivator extends AbstractUIPlugin {
 		showUserStatus("vtipy");
 	}
 
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
