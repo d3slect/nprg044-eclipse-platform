@@ -4,9 +4,11 @@ Bundle-Name: Twitter API Test
 Bundle-SymbolicName: cz.cuni.mff.d3s.nprg044.twitter.api.test
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: cz.cuni.mff.d3s.nprg044.twitter.api.test.TwitterTestActivator
-Require-Bundle: org.eclipse.core.runtime,
- cz.cuni.mff.d3s.nprg044.twitter.api;bundle-version="1.0.0",
- cz.cuni.mff.d3s.nprg044.twitter.auth;bundle-version="1.0.0",
- org.eclipse.ui;bundle-version="3.103.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: cz.cuni.mff.d3s.nprg044.twitter.auth,
+ org.eclipse.core.runtime;version="3.5.0",
+ org.eclipse.ui.plugin,
+ org.osgi.framework;version="1.8.0",
+ twitter4j,
+ twitter4j.api
