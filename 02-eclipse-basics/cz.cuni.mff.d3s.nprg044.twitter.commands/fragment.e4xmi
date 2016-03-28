@@ -17,14 +17,33 @@
     <elements xsi:type="commands:KeyBinding" xmi:id="_XLQ8kPJmEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.keybinding.0" keySequence="M1+6" command="_1-LXgPJjEeW9Yaw_-fS1MQ"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_KScQAPJmEeW9Yaw_-fS1MQ" featurename="menuContributions" parentElementId="org.eclipse.e4.legacy.ide.application">
-    <elements xsi:type="menu:MenuContribution" xmi:id="_RetpcPJmEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menucontribution.0" positionInParent="menu:org.eclipse.ui.main.menu?after=additions" parentId="org.eclipse.ui.main.menu">
-      <children xsi:type="menu:Menu" xmi:id="_BbxgQPPlEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menu.twitter" label="Twitter" mnemonics="T">
+    <elements xsi:type="menu:MenuContribution" xmi:id="_RetpcPJmEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menucontribution.0" positionInParent="after=additions" parentId="org.eclipse.ui.main.menu">
+      <children xsi:type="menu:Menu" xmi:id="_BbxgQPPlEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menu.twitterMenu" label="Twitter" mnemonics="T">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_HIvqIPPlEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu.showUserStatusCommand" mnemonics="S" command="_1-LXgPJjEeW9Yaw_-fS1MQ"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_QtpXwPP5EeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menuseparator.beginning"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_ZbYj8PP5EeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menuseparator.timeline" accessibilityPhrase=""/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_d62Y4PP5EeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menuseparator.user"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_iKNVQPP5EeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.handledmenuitem.aboutt4eclipse" label="About T4Eclipse" command="_Kc20kPNIEeW9Yaw_-fS1MQ"/>
       </children>
+    </elements>
+    <elements xsi:type="menu:MenuContribution" xmi:id="_iaa5oPT4EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menucontribution.1" positionInParent="after=cz.cuni.mff.d3s.nprg044.twitter.commands.menuseparator.user" parentId="cz.cuni.mff.d3s.nprg044.twitter.commands.menu.twitterMenu">
+      <children xsi:type="menu:Menu" xmi:id="_gved8PT8EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menu.user" label="User" tooltip="User management" mnemonics="U">
+        <children xsi:type="menu:MenuSeparator" xmi:id="_wUImAPT5EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menuseparator.login"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_iiuroPT5EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.handledmenuitem.login" label="Login" tooltip="Login" command="_ArirgPNIEeW9Yaw_-fS1MQ"/>
+        <children xsi:type="menu:MenuSeparator" xmi:id="_uJ7_UPT5EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menuseparator.logout"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_162W4PT5EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.handledmenuitem.logout" label="Logout" tooltip="Logout the user" command="_EekRMPNIEeW9Yaw_-fS1MQ"/>
+      </children>
+    </elements>
+    <elements xsi:type="menu:MenuContribution" xmi:id="_MPsnEPT8EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menucontribution.2" positionInParent="after=cz.cuni.mff.d3s.nprg044.twitter.commands.menuseparator.timeline" parentId="cz.cuni.mff.d3s.nprg044.twitter.commands.menu.twitterMenu">
+      <children xsi:type="menu:Menu" xmi:id="_OzZ58PT8EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menu.timeline" label="Timeline" mnemonics="T">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_JZ8sgPT9EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.handledmenuitem.newmessage" label="New message" mnemonics="N" command="_5cGpUPNHEeW9Yaw_-fS1MQ"/>
+      </children>
+    </elements>
+    <elements xsi:type="menu:MenuContribution" xmi:id="_u5j54PUDEeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menucontribution.4" positionInParent="after=additions" parentId="help">
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_-9pBgPUDEeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.handledmenuitem.aboutt4eclipse" label="About T4Eclipse" command="_Kc20kPNIEeW9Yaw_-fS1MQ"/>
+    </elements>
+    <elements xsi:type="menu:MenuContribution" xmi:id="_N6Q2APT9EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menucontribution.3" positionInParent="after=additions" parentId="popup">
+      <children xsi:type="menu:HandledMenuItem" xmi:id="_ZnTr8PT9EeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.handledmenuitem.aboutt4eclipse" label="About T4Eclipse" command="_Kc20kPNIEeW9Yaw_-fS1MQ"/>
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_Bwd7APTvEeWKObIqXCWhnQ" featurename="trimContributions" parentElementId="org.eclipse.e4.legacy.ide.application">
