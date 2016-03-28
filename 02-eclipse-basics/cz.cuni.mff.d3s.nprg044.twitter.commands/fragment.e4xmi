@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_ScOzIPHNEeW9Yaw_-fS1MQ">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_4GSI8PJiEeW9Yaw_-fS1MQ" featurename="commands" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:Command" xmi:id="_1-LXgPJjEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.command.showUserStatus" commandName="Show user status" description="Show a given user status" category="_pYl_8PToEeWPJcJvUo6MOg"/>
+    <elements xsi:type="commands:Command" xmi:id="_5cGpUPNHEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.CreateNewMessage" commandName="Create new message" category="_pYl_8PToEeWPJcJvUo6MOg"/>
+    <elements xsi:type="commands:Command" xmi:id="_ArirgPNIEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.Login" commandName="Login" description="Login into Twitter" category="_pYl_8PToEeWPJcJvUo6MOg"/>
+    <elements xsi:type="commands:Command" xmi:id="_EekRMPNIEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.Logout" commandName="Logout" description="Logout the user" category="_pYl_8PToEeWPJcJvUo6MOg"/>
+    <elements xsi:type="commands:Command" xmi:id="_Kc20kPNIEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.About" commandName="About" category="_pYl_8PToEeWPJcJvUo6MOg"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_JwUKoPToEeWPJcJvUo6MOg" featurename="categories" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:Category" xmi:id="_pYl_8PToEeWPJcJvUo6MOg" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.category.twittercommands" name="Twitter commands" description="Twitter category"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_JMRZgPJjEeW9Yaw_-fS1MQ" featurename="handlers" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:Handler" xmi:id="_1EXaoPJjEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.handler.0" contributionURI="bundleclass://cz.cuni.mff.d3s.nprg044.twitter.commands/cz.cuni.mff.d3s.nprg044.twitter.commands.handlers.ShowUserStatusHandler" command="_1-LXgPJjEeW9Yaw_-fS1MQ"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="__LHWQPJlEeW9Yaw_-fS1MQ" featurename="bindings" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:KeyBinding" xmi:id="_XLQ8kPJmEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.keybinding.0" keySequence="M1+6" command="_1-LXgPJjEeW9Yaw_-fS1MQ"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_KScQAPJmEeW9Yaw_-fS1MQ" featurename="menuContributions" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="menu:MenuContribution" xmi:id="_RetpcPJmEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menucontribution.0" positionInParent="menu:org.eclipse.ui.main.menu?after=additions" parentId="org.eclipse.ui.main.menu">
+      <children xsi:type="menu:Menu" xmi:id="_BbxgQPPlEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menu.twitter" label="Twitter" mnemonics="T">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_HIvqIPPlEeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menus.twitterMenu.showUserStatusCommand" mnemonics="S" command="_1-LXgPJjEeW9Yaw_-fS1MQ"/>
+        <children xsi:type="menu:MenuSeparator" xmi:id="_QtpXwPP5EeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menuseparator.beginning"/>
+        <children xsi:type="menu:MenuSeparator" xmi:id="_ZbYj8PP5EeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menuseparator.timeline" accessibilityPhrase=""/>
+        <children xsi:type="menu:MenuSeparator" xmi:id="_d62Y4PP5EeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.menuseparator.user"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_iKNVQPP5EeW9Yaw_-fS1MQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.handledmenuitem.aboutt4eclipse" label="About T4Eclipse" command="_Kc20kPNIEeW9Yaw_-fS1MQ"/>
+      </children>
+    </elements>
+  </fragments>
+</fragment:ModelFragments>
