@@ -28,9 +28,9 @@
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_Bwd7APTvEeWKObIqXCWhnQ" featurename="trimContributions" parentElementId="org.eclipse.e4.legacy.ide.application">
-    <elements xsi:type="menu:TrimContribution" xmi:id="_WYd5wPTvEeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.trimcontribution.0" parentId="org.eclipse.ui.main.toolbar">
+    <elements xsi:type="menu:TrimContribution" xmi:id="_WYd5wPTvEeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.trimcontribution.0" parentId="org.eclipse.ui.main.toolbar" positionInParent="after=additions">
       <children xsi:type="menu:ToolBar" xmi:id="_eQMrAPTvEeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.toolbar.0">
-        <children xsi:type="menu:HandledToolItem" xmi:id="_iJFoIPTvEeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.handledtoolitem." label="" iconURI="platform:/plugin/cz.cuni.mff.d3s.nprg044.twitter.commands/icons/twitter.gif" tooltip="Show user status" command="_1-LXgPJjEeW9Yaw_-fS1MQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_iJFoIPTvEeWKObIqXCWhnQ" elementId="cz.cuni.mff.d3s.nprg044.twitter.commands.handledtoolitem.0" label="" iconURI="platform:/plugin/cz.cuni.mff.d3s.nprg044.twitter.commands/icons/twitter.gif" tooltip="Show user status" command="_1-LXgPJjEeW9Yaw_-fS1MQ"/>
       </children>
     </elements>
   </fragments>
