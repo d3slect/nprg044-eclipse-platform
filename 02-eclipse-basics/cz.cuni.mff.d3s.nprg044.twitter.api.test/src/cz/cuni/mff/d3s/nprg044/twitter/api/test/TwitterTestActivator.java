@@ -9,7 +9,6 @@ import twitter4j.User;
 
 import cz.cuni.mff.d3s.nprg044.twitter.auth.TwitterAuthUtil;
 
-
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -20,21 +19,20 @@ public class TwitterTestActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static TwitterTestActivator plugin;
-	
 
 	public TwitterTestActivator() {
 		System.out.println("test activator constructor");
 	}
-	
+
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		
+
 		System.out.println("test activator start");
-		
+
 		System.out.println("twitter API call: showUserStatus()");
-		
+
 		showUserStatus("vtipy");
 	}
 
@@ -42,10 +40,10 @@ public class TwitterTestActivator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		
+
 		System.out.println("test activator stop");
 	}
-	
+
 	/**
 	 * Returns the shared instance
 	 */
@@ -55,17 +53,17 @@ public class TwitterTestActivator extends AbstractUIPlugin {
 
 	protected void showUserStatus(String username) {
 		try {
-            Twitter twitter = TwitterAuthUtil.getTwitterInstance();		
-            User user = twitter.showUser(username);
-            if (user.getStatus() != null) {
-                System.out.println("@" + user.getScreenName() + " - " + user.getStatus().getText());
-            } else {
-                // the user is protected
-                System.out.println("@" + user.getScreenName() + " - <PROTECTED>");
-            }            
-        } catch (TwitterException te) {
-            te.printStackTrace();
-        }		
+			Twitter twitter = TwitterAuthUtil.getTwitterInstance();
+			User user = twitter.showUser(username);
+			if (user.getStatus() != null) {
+				System.out.println("@" + user.getScreenName() + " - " + user.getStatus().getText());
+			} else {
+				// the user is protected
+				System.out.println("@" + user.getScreenName() + " - <PROTECTED>");
+			}
+		} catch (TwitterException te) {
+			te.printStackTrace();
+		}
 	}
 
 }
