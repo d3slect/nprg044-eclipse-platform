@@ -5,4 +5,8 @@ Bundle-SymbolicName: swt.examples
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: D3S MFF CUNI
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.ui;bundle-version="3.6.2"
+Import-Package: org.eclipse.swt,
+ org.eclipse.swt.events,
+ org.eclipse.swt.graphics,
+ org.eclipse.swt.layout,
+ org.eclipse.swt.widgets
