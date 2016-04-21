@@ -14,7 +14,8 @@ public class CleanTimelineView extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		// get the active workbench part when the event occurred
 		IWorkbenchPart part = HandlerUtil.getActivePart(event);
-		// this handler for the delete command applies only to message timeline view
+		// this handler for the delete command applies only to message timeline
+		// view
 		if (part instanceof TwitterMessageTimelineView) {
 			((TwitterMessageTimelineView) part).cleanTimeline();
 		}

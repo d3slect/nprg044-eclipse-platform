@@ -13,7 +13,7 @@ public class TwitterViewPlugin extends AbstractUIPlugin {
 
 	// The shared instance
 	private static TwitterViewPlugin plugin;
-	
+
 	public TwitterViewPlugin() {
 	}
 

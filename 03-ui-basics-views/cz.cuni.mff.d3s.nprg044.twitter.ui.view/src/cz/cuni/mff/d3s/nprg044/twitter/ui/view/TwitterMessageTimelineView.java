@@ -28,13 +28,13 @@ import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.MessageTimelineContentP
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.MessageTimelineLabelProvider;
 
 /**
- * A class implementing our view.
- * The superclass ViewPart implements basic infrastructure.
+ * A class implementing our view. The superclass ViewPart implements basic
+ * infrastructure.
  */
 public class TwitterMessageTimelineView extends ViewPart implements ISelectionListener {
 
-	private static final String[] COLUMN_NAMES = {"#", "username", "message"};
-	private static final int[] COLUMN_WIDTHS = {30, 100, 200};
+	private static final String[] COLUMN_NAMES = { "#", "username", "message" };
+	private static final int[] COLUMN_WIDTHS = { 30, 100, 200 };
 
 	public static final String ID = "cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView";
 
@@ -42,78 +42,79 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 	private TableViewer viewer;
 	private ProgressBar progressBar;
 
-
-	public TwitterMessageTimelineView() {		
+	public TwitterMessageTimelineView() {
 	}
 
 	/**
-	 * This method creates a graphical representation of this view.
-	 * Any widgets (SWT) can be used here.
+	 * This method creates a graphical representation of this view. Any widgets
+	 * (SWT) can be used here.
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
 		// grid with one column
 		GridLayout layout = new GridLayout(1, true);
 		parent.setLayout(layout);
-		
-		// create text control 'searchbox'		
+
+		// create text control 'searchbox'
 		// it allows single line and supports searching
-		searchBox = new Text(parent, SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH);		
+		searchBox = new Text(parent, SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH);
 		// modify layout: fill the available horizontal space
-		searchBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));		
+		searchBox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		searchBox.setText("vtipy");
-		
+
 		// listener notified when the search box gains focus
 		searchBox.addFocusListener(new FocusAdapter() {
 			@Override
-			public void focusGained(FocusEvent e) {				
+			public void focusGained(FocusEvent e) {
 				if (viewer.getInput() != searchBox) {
 					// update input for the viewer
 					viewer.setInput(searchBox);
 				}
 			}
 		});
-		
+
 		// horizontal progress bar
 		progressBar = new ProgressBar(parent, SWT.HORIZONTAL);
 		progressBar.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	
+
 		// create a table viewer control (JFace)
-		// it has a border and scroll bars 
+		// it has a border and scroll bars
 		viewer = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-	
+
 		// add columns into the table
 		createColumns(viewer);
 
 		// set provider of data in the columns
 		viewer.setContentProvider(new MessageTimelineContentProvider(progressBar));
-		
+
 		// set provider of the column labels
 		viewer.setLabelProvider(new MessageTimelineLabelProvider());
-		
+
 		// set input of the content provider
-		// viewer should generate the table based on the content of the search box
+		// viewer should generate the table based on the content of the search
+		// box
 		viewer.setInput(searchBox);
-		
+
 		// getControl() returns the underlying SWT widget
 		// fill the available horizontal and vertical space
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
-		
-		// define style of the underlying table		
-		viewer.getTable().setLinesVisible(true);		
+
+		// define style of the underlying table
+		viewer.getTable().setLinesVisible(true);
 		viewer.getTable().setHeaderVisible(true);
-		
+
 		// make selection in the table available to other controls
 		getSite().setSelectionProvider(viewer);
-		
+
 		// register this class as a selection consumer on a given widget
 		// this view will be notified when the selection changes in UserViewPart
 		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(UserViewPart.ID, this);
-				
-		// we need to register the context menu first to allow contributions via extension points
+
+		// we need to register the context menu first to allow contributions via
+		// extension points
 		createContextMenu();
 	}
-	
+
 	private void createContextMenu() {
 		MenuManager menuManager = new MenuManager("#PopupMenu");
 		// remove old items from the menu every time just before it is
@@ -122,7 +123,8 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 		menuManager.addMenuListener(new IMenuListener() {
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
-				// add separator just before other contributed items (set via extensions)
+				// add separator just before other contributed items (set via
+				// extensions)
 				fillContextMenu(manager);
 			}
 		});
@@ -131,9 +133,9 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuManager, viewer);
 	}
-	
+
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));				
+		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
 	private void createColumns(TableViewer tableViewer) {
@@ -142,26 +144,26 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 			TableColumn column = tvColumn.getColumn();
 			column.setWidth(COLUMN_WIDTHS[i]);
 			column.setText(COLUMN_NAMES[i]);
-			
+
 			// NOTE
-			// it is also possible to register separated cell providers 
+			// it is also possible to register separated cell providers
 			// using the method TableViewerColumn.setLabelProvider
 			// see CellLabelProvider or StyledCellLabelProvider
-		}		
+		}
 	}
-	
+
 	/**
-	 *  This part has the focus now (in the workbench).
-	 *  It must assign focus to one control inside it.
+	 * This part has the focus now (in the workbench). It must assign focus to
+	 * one control inside it.
 	 */
 	@Override
 	public void setFocus() {
 		this.searchBox.setFocus();
 	}
-	
+
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-	 	// look at the selection and change input of the viewer
+		// look at the selection and change input of the viewer
 		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
 			Object o = ((IStructuredSelection) selection).getFirstElement();
 			if (o instanceof UserNode) {
@@ -170,19 +172,18 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 					searchBox.setText(((UserNode) o).getScreenName());
 				}
 			}
-		}
-		else {
+		} else {
 			viewer.setInput(searchBox);
 		}
 	}
-	
+
 	@Override
-	public void dispose() {		
+	public void dispose() {
 		super.dispose();
 		// unregister the listener
 		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
 	}
-	
+
 	public void cleanTimeline() {
 		searchBox.setText("");
 		viewer.refresh();

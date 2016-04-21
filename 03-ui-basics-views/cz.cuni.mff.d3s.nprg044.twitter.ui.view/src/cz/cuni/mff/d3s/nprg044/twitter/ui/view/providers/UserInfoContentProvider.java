@@ -16,11 +16,11 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 
 public class UserInfoContentProvider implements ILazyTreeContentProvider {
-	
-	private static final String CANNOT_RETRIEVE_DATA = "cannot retrieve data" ;
-	
+
+	private static final String CANNOT_RETRIEVE_DATA = "cannot retrieve data";
+
 	private TreeViewer viewer;
-	
+
 	private Twitter twitter = TwitterAuthUtil.getTwitterInstance();
 
 	@Override
@@ -29,8 +29,9 @@ public class UserInfoContentProvider implements ILazyTreeContentProvider {
 
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		if (oldInput == newInput) return;
-			
+		if (oldInput == newInput)
+			return;
+
 		this.viewer = (TreeViewer) viewer;
 	}
 
@@ -38,25 +39,24 @@ public class UserInfoContentProvider implements ILazyTreeContentProvider {
 	@Override
 	public void updateElement(Object parent, int index) {
 		if (parent instanceof Text) {
-			handleTextControl((Text) parent, index);			
+			handleTextControl((Text) parent, index);
 		} else if (parent instanceof AbstractUserInfoViewNode) {
 			handleNode((AbstractUserInfoViewNode) parent, index);
 		}
 	}
-	
+
 	private void handleTextControl(Text parent, int index) {
 		String username = parent.getText();
 		User user = getUser(username);
 		// create tree node for the user
 		if (user != null) {
-			UserNode userNode = new UserNode(user, null, twitter, viewer);			
+			UserNode userNode = new UserNode(user, null, twitter, viewer);
 			viewer.replace(parent, index, userNode);
 			viewer.setChildCount(userNode, UserNode.CHILDREN_COUNT);
-		} 
-		else {			
-			UserNode userNode = new UserNode(username, null, twitter, viewer);			
+		} else {
+			UserNode userNode = new UserNode(username, null, twitter, viewer);
 			viewer.replace(parent, index, userNode);
-			viewer.setChildCount(userNode, UserNode.CHILDREN_COUNT);			
+			viewer.setChildCount(userNode, UserNode.CHILDREN_COUNT);
 		}
 	}
 
@@ -65,35 +65,35 @@ public class UserInfoContentProvider implements ILazyTreeContentProvider {
 		if (node != null) {
 			viewer.replace(parent, index, node);
 			int numOfChildren = node.getNumberOfChildren();
-			viewer.setChildCount(node, numOfChildren);							
-		}				
+			viewer.setChildCount(node, numOfChildren);
+		}
 	}
 
 	@Override
 	public void updateChildCount(Object element, int currentChildCount) {
 		if (element instanceof Text) {
-			this.viewer.setChildCount(element, 1);			
+			this.viewer.setChildCount(element, 1);
 		} else if (element instanceof AbstractUserInfoViewNode) {
 			AbstractUserInfoViewNode node = (AbstractUserInfoViewNode) element;
 			int numOfChildren = node.getNumberOfChildren();
-			viewer.setChildCount(node, numOfChildren);			
-		} 
+			viewer.setChildCount(node, numOfChildren);
+		}
 	}
 
 	@Override
-	public Object getParent(Object element) {		
+	public Object getParent(Object element) {
 		if (element instanceof AbstractUserInfoViewNode) {
 			return ((AbstractUserInfoViewNode) element).getParent();
 		}
-		
+
 		return null;
 	}
-	
+
 	private User getUser(String username) {
 		try {
 			return twitter.showUser(username);
 		} catch (TwitterException e) {
 			return null;
 		}
-	}	
+	}
 }

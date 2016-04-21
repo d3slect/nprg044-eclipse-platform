@@ -16,7 +16,7 @@ public class ShowMessageDetails extends AbstractHandler {
 			HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().showView("org.eclipse.ui.views.PropertySheet");
 		} catch (PartInitException e) {
 			throw new ExecutionException(e.getMessage(), e);
-		}	
+		}
 		return null;
 	}
 

@@ -9,8 +9,8 @@ import twitter4j.Status;
 public class TwitterStatusPropertySource implements IPropertySource {
 	private static final String MSG_ID = "twitter.prop.msg";
 	private static final String RETWEET_COUNT_ID = "twitter.prop.retweet.count";
-	
-	private Status status;	
+
+	private Status status;
 	private IPropertyDescriptor[] propertyDescriptors;
 
 	public TwitterStatusPropertySource(Status status) {
@@ -27,10 +27,10 @@ public class TwitterStatusPropertySource implements IPropertySource {
 		if (propertyDescriptors == null) {
 			// define supported properties
 			IPropertyDescriptor descMessage = new PropertyDescriptor(MSG_ID, "Message");
-			IPropertyDescriptor retweetCount= new PropertyDescriptor(RETWEET_COUNT_ID, "Retweet count");
+			IPropertyDescriptor retweetCount = new PropertyDescriptor(RETWEET_COUNT_ID, "Retweet count");
 			propertyDescriptors = new IPropertyDescriptor[] { descMessage, retweetCount };
 		}
-		
+
 		return propertyDescriptors;
 	}
 
@@ -41,7 +41,7 @@ public class TwitterStatusPropertySource implements IPropertySource {
 		} else if (id.equals(RETWEET_COUNT_ID)) {
 			return status.getRetweetCount();
 		}
-		
+
 		return null;
 	}
 

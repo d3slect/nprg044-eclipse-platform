@@ -8,7 +8,7 @@ import org.eclipse.ui.PlatformUI;
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.internal.model.ErrorNode;
 
 public class UserInfoLabelProvider extends LabelProvider {
-	
+
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof ErrorNode) {
@@ -16,7 +16,7 @@ public class UserInfoLabelProvider extends LabelProvider {
 		}
 		return super.getImage(element);
 	}
-	
+
 	@Override
 	public String getText(Object element) {
 		return super.getText(element);

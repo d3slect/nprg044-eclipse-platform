@@ -41,7 +41,7 @@ public class Example01 {
 		final int[] index = new int[1];
 		b.addListener(SWT.Selection, new Listener() {
 				@Override
-				public void handleEvent(Event e) {
+			public void handleEvent(Event e) {
 					Button s = new Button(c, SWT.PUSH);
 					s.setText("By click " + index[0]);
 					index[0]++;

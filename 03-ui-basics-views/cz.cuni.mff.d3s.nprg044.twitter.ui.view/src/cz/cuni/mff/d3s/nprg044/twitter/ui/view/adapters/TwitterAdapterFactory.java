@@ -9,18 +9,18 @@ import twitter4j.Status;
 
 public class TwitterAdapterFactory implements IAdapterFactory {
 
-	private static final Class[] SUPPORTED_ADAPTERS = { IPropertySource.class };
+	private static final Class<?>[] SUPPORTED_ADAPTERS = { IPropertySource.class };
 
 	@Override
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if  (IPropertySource.class.equals(adapterType)) {
+		if (IPropertySource.class.equals(adapterType)) {
 			return new TwitterStatusPropertySource((Status) adaptableObject);
 		}
 		return null;
 	}
 
 	@Override
-	public Class[] getAdapterList() {
+	public Class<?>[] getAdapterList() {
 		return SUPPORTED_ADAPTERS;
 	}
 

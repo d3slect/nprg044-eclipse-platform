@@ -6,15 +6,15 @@ import org.eclipse.jface.viewers.TreeViewer;
 import twitter4j.Twitter;
 
 public class FollowersNode extends LazyNode {
-	
-	private UserNode user; 
-	
+
+	private UserNode user;
+
 	public FollowersNode(UserNode parent, Twitter twitter, TreeViewer treeViewer) {
 		super(treeViewer);
-		
+
 		this.user = parent;
-		
-		setTwitter(twitter);		
+
+		setTwitter(twitter);
 	}
 
 	@Override
@@ -24,16 +24,16 @@ public class FollowersNode extends LazyNode {
 
 	@Override
 	public String getTitle() {
-		return "Followers";		
+		return "Followers";
 	}
 
 	@Override
-	protected AbstractUserInfoViewNode[] doQueryChildren(IProgressMonitor monitor) {		
+	protected AbstractUserInfoViewNode[] doQueryChildren(IProgressMonitor monitor) {
 		return EMPTY;
 	}
 
 	@Override
-	protected String getPendingMessage() {	
+	protected String getPendingMessage() {
 		return "Computing followers...";
 	}
 

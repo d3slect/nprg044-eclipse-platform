@@ -4,31 +4,31 @@ import twitter4j.Twitter;
 
 // abstract tree node
 public abstract class AbstractUserInfoViewNode {
-	
+
 	private Twitter twitter;
-	
-	public abstract String getTitle(); 
-	
+
+	public abstract String getTitle();
+
 	public abstract AbstractUserInfoViewNode getParent();
-			
+
 	public abstract int getNumberOfChildren();
-	
-	public abstract AbstractUserInfoViewNode getChild(int index); 
+
+	public abstract AbstractUserInfoViewNode getChild(int index);
 
 	public final boolean hasChildren() {
 		int count = getNumberOfChildren();
-		
+
 		if (count > 0 || count < 0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
+
 	public String getDecoration() {
-		return null;		
+		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getTitle();

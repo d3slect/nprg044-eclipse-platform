@@ -4,14 +4,14 @@ public final class ErrorNode extends AbstractUserInfoViewNode {
 
 	private String msg;
 	private AbstractUserInfoViewNode parent;
-	
+
 	public ErrorNode(String msg, AbstractUserInfoViewNode parent) {
-		this.msg = msg;		
+		this.msg = msg;
 		this.parent = parent;
 	}
 
 	@Override
-	public String getTitle() {		
+	public String getTitle() {
 		return msg;
 	}
 

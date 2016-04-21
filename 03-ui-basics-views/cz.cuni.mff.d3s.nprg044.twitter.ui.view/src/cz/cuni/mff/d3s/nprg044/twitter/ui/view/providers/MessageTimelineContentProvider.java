@@ -19,23 +19,22 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.User;
 
-
 public class MessageTimelineContentProvider implements IStructuredContentProvider {
 
-	private static final String[] EMPTY_CONTENT = new String[] {"There is no message to show..."}; 
+	private static final String[] EMPTY_CONTENT = new String[] { "There is no message to show..." };
 
 	private Viewer viewer;
 	private ProgressBar progressBar;
 
-	
 	private KeyListener keyListener = new KeyAdapter() {
 		private String username;
-		
+
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// watch for "Enter" keys
 			if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
-				// but only for text input widgets (some other widgets can be there)
+				// but only for text input widgets (some other widgets can be
+				// there)
 				if (e.widget instanceof Text) {
 					String newUsername = ((Text) e.widget).getText();
 					if (!newUsername.equals(username)) {
@@ -44,7 +43,8 @@ public class MessageTimelineContentProvider implements IStructuredContentProvide
 						e.display.asyncExec(new Runnable() {
 							@Override
 							public void run() {
-								// it is necessary to check that the widget is not disposed
+								// it is necessary to check that the widget is
+								// not disposed
 								if (!viewer.getControl().isDisposed()) {
 									viewer.refresh();
 								}
@@ -55,17 +55,17 @@ public class MessageTimelineContentProvider implements IStructuredContentProvide
 			}
 		};
 	};
-	
+
 	public MessageTimelineContentProvider() {
 		super();
 	}
-	
+
 	public MessageTimelineContentProvider(ProgressBar progressBar) {
 		this.progressBar = progressBar;
 	}
-	
+
 	@Override
-	public void dispose() {	
+	public void dispose() {
 	}
 
 	/**
@@ -74,9 +74,10 @@ public class MessageTimelineContentProvider implements IStructuredContentProvide
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		this.viewer = viewer;
-		
-		if (oldInput == newInput) return;
-		
+
+		if (oldInput == newInput)
+			return;
+
 		// remove listener for the old input of a control type
 		if (oldInput instanceof Control) {
 			Control c = (Control) oldInput;
@@ -84,7 +85,7 @@ public class MessageTimelineContentProvider implements IStructuredContentProvide
 				((Control) oldInput).removeKeyListener(keyListener);
 			}
 		}
-		
+
 		// we must now listen for keys on a different control/widget
 		// register listener for the new input of a control type
 		if (newInput instanceof Control) {
@@ -94,7 +95,7 @@ public class MessageTimelineContentProvider implements IStructuredContentProvide
 			}
 		}
 	}
-	
+
 	// the parameter 'inputElement' is the one supplied to 'setInput'
 	@Override
 	public Object[] getElements(Object inputElement) {
@@ -102,45 +103,43 @@ public class MessageTimelineContentProvider implements IStructuredContentProvide
 		if (username == null || username.equals("")) {
 			return EMPTY_CONTENT;
 		}
-		
+
 		Twitter twitter = TwitterAuthUtil.getTwitterInstance();
-		
+
 		// create a list of user statuses to be displayed in the viewer (table)
 		try {
 			List<Status> statuses = new ArrayList<Status>();
-			
+
 			if (progressBar != null) {
 				// set the range (0,1) and the current position (0)
-				progressBar.setMaximum(1); 
-				progressBar.setSelection(0); 
+				progressBar.setMaximum(1);
+				progressBar.setSelection(0);
 			}
-			
+
 			User user = twitter.showUser(username);
 			if (user != null) {
 				statuses.add(twitter.showStatus(user.getStatus().getId()));
 				// we have the user status -> update our progress bar
-				if (progressBar != null) progressBar.setSelection(1);
+				if (progressBar != null)
+					progressBar.setSelection(1);
 			}
-			
+
 			if (!statuses.isEmpty()) {
 				return statuses.toArray();
-			}
-			else {
+			} else {
 				return EMPTY_CONTENT;
 			}
-		}
-		catch (Exception e) {
-			return new String[] {e.getMessage()};
+		} catch (Exception e) {
+			return new String[] { e.getMessage() };
 		}
 	}
 
 	private String getUsername(Object inputElement) {
 		if (inputElement instanceof Text) {
 			return ((Text) inputElement).getText();
-		}
-		else if (inputElement instanceof UserNode) {
+		} else if (inputElement instanceof UserNode) {
 			return ((UserNode) inputElement).getScreenName();
-		}		
+		}
 		return null;
 	}
 

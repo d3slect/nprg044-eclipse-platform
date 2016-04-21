@@ -13,27 +13,27 @@ public class UserNode extends AbstractUserInfoViewNode {
 	private AbstractUserInfoViewNode parent;
 	private FollowersNode followersNode;
 	private FollowsNode followsNode;
-	
+
 	private String username;
 
 	public static final int CHILDREN_COUNT = 2;
-	
+
 	public UserNode(String username, AbstractUserInfoViewNode parent, Twitter twitter, TreeViewer treeViewer) {
 		this((User) null, parent, twitter, treeViewer);
-		
+
 		this.username = username;
 	}
 
 	public UserNode(User u, AbstractUserInfoViewNode parent, Twitter twitter, TreeViewer treeViewer) {
 		this.user = u;
 		this.parent = parent;
-		
+
 		setTwitter(twitter);
 
-		this.followersNode = new FollowersNode(this, twitter, treeViewer);		
-		this.followsNode = new FollowsNode(this, twitter, treeViewer);		
+		this.followersNode = new FollowersNode(this, twitter, treeViewer);
+		this.followsNode = new FollowsNode(this, twitter, treeViewer);
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
@@ -45,14 +45,14 @@ public class UserNode extends AbstractUserInfoViewNode {
 	public FollowsNode getFollowsNode() {
 		return this.followsNode;
 	}
-	
+
 	public String getScreenName() {
 		return user == null ? username : user.getScreenName();
 	}
 
 	@Override
 	public String getTitle() {
-		return getScreenName();		
+		return getScreenName();
 	}
 
 	@Override

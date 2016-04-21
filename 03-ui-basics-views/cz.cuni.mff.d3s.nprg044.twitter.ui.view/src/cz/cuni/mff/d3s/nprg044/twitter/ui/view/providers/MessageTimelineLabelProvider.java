@@ -25,21 +25,21 @@ public class MessageTimelineLabelProvider extends LabelProvider implements ITabl
 	public Image getColumnImage(Object element, int columnIndex) {
 		if (element instanceof Status) {
 			Status status = (Status) element;
-			
+
 			// we want to show image only in the first column
-			switch(columnIndex) {
-				case 0:
-					return getImage(status);
-				default:
-					return null;
+			switch (columnIndex) {
+			case 0:
+				return getImage(status);
+			default:
+				return null;
 			}
 		}
-		
+
 		if (element instanceof String && columnIndex == 0) {
 			// get some built-in warning image
 			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJS_WARN_TSK);
 		}
-		
+
 		return null;
 	}
 
@@ -48,52 +48,53 @@ public class MessageTimelineLabelProvider extends LabelProvider implements ITabl
 	public String getColumnText(Object element, int columnIndex) {
 		if (element instanceof Status) {
 			Status status = (Status) element;
-			
-			// show user name in the second column and message text (status) in the third column
+
+			// show user name in the second column and message text (status) in
+			// the third column
 			switch (columnIndex) {
-				case 0:
-					return null;
-				case 1:				
-					return '@' + status.getUser().getScreenName();
-				case 2:
-					return status.getText();
-				default:
-					return null;
-			}			
+			case 0:
+				return null;
+			case 1:
+				return '@' + status.getUser().getScreenName();
+			case 2:
+				return status.getText();
+			default:
+				return null;
+			}
 		}
-	
+
 		if (element instanceof String && columnIndex == 2) {
 			return (String) element;
 		}
-			
+
 		return null;
 	}
-	
+
 	public Image getImage(Status status) {
 		User user = status.getUser();
-		
+
 		if (user != null && !imageCache.containsKey(user)) {
 			try {
 				// load image
 				URL imageUrl = new URL(user.getProfileImageURL());
 				Image image = createImageFromURL(imageUrl);
 				imageCache.put(user, image);
+			} catch (Exception e) {
 			}
-			catch (Exception e) {}
 		}
-		
-		return imageCache.get(user);		
+
+		return imageCache.get(user);
 	}
-	
+
 	private Image createImageFromURL(URL url) {
-		ImageDescriptor imgDescriptor =  ImageDescriptor.createFromURL(url);
+		ImageDescriptor imgDescriptor = ImageDescriptor.createFromURL(url);
 		ImageData imgData = imgDescriptor.getImageData().scaledTo(64, 64);
-		Display display = Display.getCurrent();			
+		Display display = Display.getCurrent();
 		Image image = new Image(display, imgData);
-		
-		return image;			
+
+		return image;
 	}
-	
+
 	@Override
 	public void dispose() {
 		// created images have to be disposed explicitly
@@ -101,7 +102,7 @@ public class MessageTimelineLabelProvider extends LabelProvider implements ITabl
 		for (Image image : imageCache.values()) {
 			image.dispose();
 		}
-	
+
 		super.dispose();
 	}
 }
