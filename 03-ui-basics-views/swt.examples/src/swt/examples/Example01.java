@@ -40,6 +40,7 @@ public class Example01 {
 		b.setText("add a new button at row 2 column 1");
 		final int[] index = new int[1];
 		b.addListener(SWT.Selection, new Listener() {
+				@Override
 				public void handleEvent(Event e) {
 					Button s = new Button(c, SWT.PUSH);
 					s.setText("By click " + index[0]);

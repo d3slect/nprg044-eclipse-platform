@@ -47,15 +47,18 @@ public class Example01 {
 		/**
 		 * Returns all elements to be shown in the table.
 		 */
+		@Override
 		public Object[] getElements(Object inputElement) {
 			// we do not have to do any more processing here
 			// input element is also the model (content)
 			return (User[]) inputElement;
 		}
 
+		@Override
 		public void dispose() {			
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {			
 		}		
 	}
@@ -66,6 +69,7 @@ public class Example01 {
 	public class TwitterUsersLabelProvider extends LabelProvider implements ITableLabelProvider {		
 		private HashMap<User, Image> imageCache = new HashMap<User, Image>();
 
+		@Override
 		public Image getColumnImage(Object element, int columnIndex) {
 			User user = (User) element;
 			switch(columnIndex) {
@@ -86,6 +90,7 @@ public class Example01 {
 			}
 		}
 
+		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			User user = (User) element;
 			

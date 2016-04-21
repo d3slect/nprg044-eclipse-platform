@@ -8,13 +8,12 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Text;
 
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.User;
 import cz.cuni.mff.d3s.nprg044.twitter.auth.TwitterAuthUtil;
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.internal.model.AbstractUserInfoViewNode;
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.internal.model.UserNode;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
 public class UserInfoContentProvider implements ILazyTreeContentProvider {
 	
