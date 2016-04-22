@@ -65,7 +65,7 @@ public class Example01 {
 	 * Object of this class provides text and image for each element of the
 	 * model (i.e., for each User).
 	 */
-	public class TwitterUsersLabelProvider extends LabelProvider implements ITableLabelProvider {
+	private class TwitterUsersLabelProvider extends LabelProvider implements ITableLabelProvider {
 		private HashMap<User, Image> imageCache = new HashMap<User, Image>();
 
 		@Override
