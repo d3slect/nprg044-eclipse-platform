@@ -17,8 +17,6 @@ import twitter4j.User;
 
 public class UserInfoContentProvider implements ILazyTreeContentProvider {
 
-	private static final String CANNOT_RETRIEVE_DATA = "cannot retrieve data";
-
 	private TreeViewer viewer;
 
 	private Twitter twitter = TwitterAuthUtil.getTwitterInstance();
