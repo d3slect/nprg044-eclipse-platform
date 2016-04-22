@@ -135,27 +135,27 @@ public class Example01 {
 		progressBar.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		// JFace control
-		final TableViewer v = new TableViewer(shell, SWT.BORDER | SWT.FULL_SELECTION);
-		v.setLabelProvider(new TwitterUsersLabelProvider());
-		v.setContentProvider(new TwitterUsersContentProvider());
+		final TableViewer viewer = new TableViewer(shell, SWT.BORDER | SWT.FULL_SELECTION);
+		viewer.setLabelProvider(new TwitterUsersLabelProvider());
+		viewer.setContentProvider(new TwitterUsersContentProvider());
 
-		TableColumn column = new TableColumn(v.getTable(), SWT.NONE);
+		TableColumn column = new TableColumn(viewer.getTable(), SWT.NONE);
 		column.setWidth(200);
 		column.setText("Follower name");
 
-		column = new TableColumn(v.getTable(), SWT.NONE);
+		column = new TableColumn(viewer.getTable(), SWT.NONE);
 		column.setWidth(500);
 		column.setText("Status");
 
 		// we set the actual user list as the input element
 		User[] model = EMPTY_USER_LIST;
-		v.setInput(model);
+		viewer.setInput(model);
 
-		v.getTable().setLinesVisible(true);
-		v.getTable().setHeaderVisible(true);
+		viewer.getTable().setLinesVisible(true);
+		viewer.getTable().setHeaderVisible(true);
 
 		// layout the underlying SWT control
-		v.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// handle "enter" in the text field
 		textField.addKeyListener(new KeyAdapter() {
@@ -164,7 +164,7 @@ public class Example01 {
 				if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
 					String username = textField.getText();
 					// update the input element
-					v.setInput(createModel(username));
+					viewer.setInput(createModel(username));
 				}
 			}
 		});
