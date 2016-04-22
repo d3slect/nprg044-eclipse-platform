@@ -5,15 +5,6 @@ Bundle-SymbolicName: jface.examples
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: D3S MFF CUNI
-Import-Package: org.eclipse.core.commands.common,
- org.eclipse.core.runtime;version="3.5.0",
- org.eclipse.jface.resource,
- org.eclipse.jface.viewers,
- org.eclipse.swt,
- org.eclipse.swt.events,
- org.eclipse.swt.graphics,
- org.eclipse.swt.layout,
- org.eclipse.swt.widgets,
- twitter4j,
- twitter4j.api,
- twitter4j.conf
+Require-Bundle: org.eclipse.swt,
+ cz.cuni.mff.d3s.nprg044.twitter.api,
+ org.eclipse.jface
