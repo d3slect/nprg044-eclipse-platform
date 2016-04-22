@@ -23,12 +23,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
+import cz.cuni.mff.d3s.nprg044.twitter.auth.TwitterAuthUtil;
 import twitter4j.IDs;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.User;
-import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * A simple example showing usage of TableViewer.
@@ -172,15 +171,9 @@ public class Example01 {
 	}
 
 	private User[] createModel(String username) {
-		ConfigurationBuilder cb = new ConfigurationBuilder();
-
-		// authentication credentials
-		cb.setOAuthConsumerKey("******");
-		cb.setOAuthConsumerSecret("******");
-		cb.setOAuthAccessToken("******");
-		cb.setOAuthAccessTokenSecret("******");
-
-		Twitter twitter = new TwitterFactory(cb.build()).getInstance();
+		
+		// make sure to copy twitter4j.properties into src folder
+		Twitter twitter = TwitterAuthUtil.getTwitterInstance();
 
 		try {
 			ArrayList<User> result = new ArrayList<User>();
