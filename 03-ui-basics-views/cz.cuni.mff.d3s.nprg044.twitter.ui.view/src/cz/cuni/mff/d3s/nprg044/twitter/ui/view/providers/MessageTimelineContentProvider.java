@@ -56,10 +56,6 @@ public class MessageTimelineContentProvider implements IStructuredContentProvide
 		};
 	};
 
-	public MessageTimelineContentProvider() {
-		super();
-	}
-
 	public MessageTimelineContentProvider(ProgressBar progressBar) {
 		this.progressBar = progressBar;
 	}
