@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/descriptor/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_yqg3cAiVEeaeAuJbK0e8Ag">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_Vx_-kAiWEeaeAuJbK0e8Ag" featurename="descriptors" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="basic:PartDescriptor" xmi:id="_szRSMAmQEeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.partdescriptor.twittertimeline" label="Twitter timeline" iconURI="platform:/plugin/cz.cuni.mff.d3s.nprg044.twitter.ui.view/icons/twitter2.png" category="Twitter" contributionURI="bundleclass://cz.cuni.mff.d3s.nprg044.twitter.ui.view/cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterMessageTimelineView">
+      <tags>View</tags>
+      <handlers xmi:id="_nmgRIAo6EeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.handler.1" contributionURI="bundleclass://cz.cuni.mff.d3s.nprg044.twitter.ui.view/cz.cuni.mff.d3s.nprg044.twitter.ui.view.commands.CleanTimelineView" command="_mBFLEAnwEeaeAuJbK0e8Ag"/>
+      <menus xmi:id="_ndrVAAopEeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.menu.0">
+        <tags>ViewMenu</tags>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_9Qs4QAowEeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.handledmenuitem.0" iconURI="platform:/plugin/org.eclipse.ui/icons/full/obj16/delete_obj.png" command="_mBFLEAnwEeaeAuJbK0e8Ag"/>
+      </menus>
+      <toolbar xmi:id="_8uE9QAo5EeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.toolbar.0">
+        <children xsi:type="menu:HandledToolItem" xmi:id="__eUQQAo5EeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.handledtoolitem.delete" label="Delete" iconURI="platform:/plugin/org.eclipse.ui/icons/full/obj16/delete_obj.png" command="_mBFLEAnwEeaeAuJbK0e8Ag"/>
+      </toolbar>
+    </elements>
+    <elements xsi:type="basic:PartDescriptor" xmi:id="_DTfaAAmVEeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.partdescriptor.userview" label="Twitter user view" iconURI="platform:/plugin/cz.cuni.mff.d3s.nprg044.twitter.ui.view/icons/twitter.gif" category="Twitter" contributionURI="bundleclass://cz.cuni.mff.d3s.nprg044.twitter.ui.view/cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserViewPart">
+      <tags>View</tags>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_yCERsAnlEeaeAuJbK0e8Ag" featurename="handlers" parentElementId="org.eclipse.e4.legacy.ide.application"/>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_4dEE4AiVEeaeAuJbK0e8Ag" featurename="commands" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:Command" xmi:id="_oKB1kAnlEeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.command.showmessagedetails" commandName="Show message details"/>
+    <elements xsi:type="commands:Command" xmi:id="_mBFLEAnwEeaeAuJbK0e8Ag" elementId="org.eclipse.ui.edit.delete" commandName="Delete"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_srzZ0An0EeaeAuJbK0e8Ag" featurename="bindings" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:KeyBinding" xmi:id="_08mLUAn0EeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.keybinding.0" keySequence="DEL" command="_mBFLEAnwEeaeAuJbK0e8Ag"/>
+  </fragments>
+</fragment:ModelFragments>

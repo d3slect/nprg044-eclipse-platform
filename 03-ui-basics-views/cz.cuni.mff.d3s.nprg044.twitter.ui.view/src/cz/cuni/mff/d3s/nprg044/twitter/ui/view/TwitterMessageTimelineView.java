@@ -1,11 +1,18 @@
 package cz.cuni.mff.d3s.nprg044.twitter.ui.view;
 
-import org.eclipse.jface.action.IMenuListener;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.services.IServiceConstants;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -14,14 +21,10 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.part.ViewPart;
 
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.internal.model.UserNode;
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.MessageTimelineContentProvider;
@@ -31,26 +34,21 @@ import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.MessageTimelineLabelPro
  * A class implementing our view. The superclass ViewPart implements basic
  * infrastructure.
  */
-public class TwitterMessageTimelineView extends ViewPart implements ISelectionListener {
+public class TwitterMessageTimelineView {
 
 	private static final String[] COLUMN_NAMES = { "#", "username", "message" };
-	private static final int[] COLUMN_WIDTHS = { 30, 100, 200 };
-
-	public static final String ID = "cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView";
+	private static final int[] COLUMN_WIDTHS = { 70, 100, 150 };
 
 	private Text searchBox;
 	private TableViewer viewer;
 	private ProgressBar progressBar;
 
-	public TwitterMessageTimelineView() {
-	}
-
 	/**
 	 * This method creates a graphical representation of this view. Any widgets
 	 * (SWT) can be used here.
 	 */
-	@Override
-	public void createPartControl(Composite parent) {
+	@PostConstruct
+	public void createPartControl(Composite parent, ESelectionService selectionService) {
 		// grid with one column
 		GridLayout layout = new GridLayout(1, true);
 		parent.setLayout(layout);
@@ -104,35 +102,41 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 		viewer.getTable().setHeaderVisible(true);
 
 		// make selection in the table available to other controls
-		getSite().setSelectionProvider(viewer);
-
-		// register this class as a selection consumer on a given widget
-		// this view will be notified when the selection changes in UserViewPart
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(UserViewPart.ID, this);
-
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				Object selectionForService = selection.size() == 1 ? selection.getFirstElement() : selection.toArray();
+				// set the selection to the service
+				// NOTE: calling Post selection to notify Properties view via adapter 
+				selectionService.setPostSelection(selectionForService);
+		    }
+		});
+		
 		// we need to register the context menu first to allow contributions via
 		// extension points
-		createContextMenu();
+//		createContextMenu();
 	}
 
-	private void createContextMenu() {
-		MenuManager menuManager = new MenuManager("#PopupMenu");
-		// remove old items from the menu every time just before it is
-		// displayed again (possibly for a different table element)
-		menuManager.setRemoveAllWhenShown(true);
-		menuManager.addMenuListener(new IMenuListener() {
-			@Override
-			public void menuAboutToShow(IMenuManager manager) {
-				// add separator just before other contributed items (set via
-				// extensions)
-				fillContextMenu(manager);
-			}
-		});
-		// create the actual context menu for the table viewer
-		Menu menu = menuManager.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuManager, viewer);
-	}
+//	private void createContextMenu() {
+//		MenuManager menuManager = new MenuManager("#PopupMenu");
+//		// remove old items from the menu every time just before it is
+//		// displayed again (possibly for a different table element)
+//		menuManager.setRemoveAllWhenShown(true);
+//		menuManager.addMenuListener(new IMenuListener() {
+//			@Override
+//			public void menuAboutToShow(IMenuManager manager) {
+//				// add separator just before other contributed items (set via
+//				// extensions)
+//				fillContextMenu(manager);
+//			}
+//		});
+//		// create the actual context menu for the table viewer
+//		Menu menu = menuManager.createContextMenu(viewer.getControl());
+//		viewer.getControl().setMenu(menu);
+//		getSite().registerContextMenu(menuManager, viewer);
+//	}
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -156,33 +160,49 @@ public class TwitterMessageTimelineView extends ViewPart implements ISelectionLi
 	 * This part has the focus now (in the workbench). It must assign focus to
 	 * one control inside it.
 	 */
-	@Override
+	@Focus
 	public void setFocus() {
 		this.searchBox.setFocus();
 	}
 
-	@Override
-	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		// look at the selection and change input of the viewer
-		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
-			Object o = ((IStructuredSelection) selection).getFirstElement();
-			if (o instanceof UserNode) {
-				viewer.setInput(o);
-				if (!searchBox.isDisposed()) {
-					searchBox.setText(((UserNode) o).getScreenName());
-				}
+//	@Override
+//	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+//		// look at the selection and change input of the viewer
+//		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
+//			Object o = ((IStructuredSelection) selection).getFirstElement();
+//			if (o instanceof UserNode) {
+//				viewer.setInput(o);
+//				if (!searchBox.isDisposed()) {
+//					searchBox.setText(((UserNode) o).getScreenName());
+//				}
+//			}
+//		} else {
+//			viewer.setInput(searchBox);
+//		}
+//	}
+	
+	@Inject
+	public void setTodo(@Optional @Named(IServiceConstants.ACTIVE_SELECTION) UserNode userNode) {
+		// method may be called before the UI is created - check "viewer != null" is needed
+		if (viewer != null && userNode != null) {
+			viewer.setInput(userNode);
+			// TODO - je potreba check na isDisposed?
+			if (!searchBox.isDisposed()) {
+				searchBox.setText(userNode.getScreenName());
 			}
-		} else {
-			viewer.setInput(searchBox);
-		}
+		}		
+//		else {
+//			viewer.setInput(searchBox);
+//		}
+		// TODO
 	}
 
-	@Override
-	public void dispose() {
-		super.dispose();
-		// unregister the listener
-		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
-	}
+//	@Override
+//	public void dispose() {
+//		super.dispose();
+//		// unregister the listener
+//		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
+//	}
 
 	public void cleanTimeline() {
 		searchBox.setText("");

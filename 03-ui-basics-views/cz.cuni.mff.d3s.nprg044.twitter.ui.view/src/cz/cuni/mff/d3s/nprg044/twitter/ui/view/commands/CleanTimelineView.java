@@ -1,25 +1,18 @@
 package cz.cuni.mff.d3s.nprg044.twitter.ui.view.commands;
 
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.handlers.HandlerUtil;
+import javax.inject.Named;
+
+import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.services.IServiceConstants;
 
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterMessageTimelineView;
 
-public class CleanTimelineView extends AbstractHandler {
+public class CleanTimelineView {
 
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		// get the active workbench part when the event occurred
-		IWorkbenchPart part = HandlerUtil.getActivePart(event);
-		// this handler for the delete command applies only to message timeline
-		// view
-		if (part instanceof TwitterMessageTimelineView) {
-			((TwitterMessageTimelineView) part).cleanTimeline();
-		}
-		return null;
+	@Execute
+	public void execute(@Named(IServiceConstants.ACTIVE_PART) MPart activePart) {
+		((TwitterMessageTimelineView) activePart.getObject()).cleanTimeline();
 	}
 
 }

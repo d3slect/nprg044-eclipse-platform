@@ -1,5 +1,12 @@
 package cz.cuni.mff.d3s.nprg044.twitter.ui.view;
 
+import javax.annotation.PostConstruct;
+
+import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -7,24 +14,18 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.part.ViewPart;
 
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.UserInfoContentProvider;
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.UserInfoLabelProvider;
 
-public class UserViewPart extends ViewPart {
-
-	public static final String ID = "cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserInfoView";
+public class UserViewPart {
 
 	private Text searchBox;
 	private TreeViewer viewer;
 	private ProgressBar progressBar;
 
-	public UserViewPart() {
-	}
-
-	@Override
-	public void createPartControl(Composite parent) {
+	@PostConstruct
+	public void createPartControl(Composite parent, ESelectionService selectionService) {
 		GridLayout layout = new GridLayout(1, true);
 		parent.setLayout(layout);
 		searchBox = new Text(parent, SWT.SINGLE | SWT.SEARCH | SWT.ICON_SEARCH);
@@ -45,10 +46,20 @@ public class UserViewPart extends ViewPart {
 		viewer.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// make selection in the viewer available to others
-		getSite().setSelectionProvider(viewer);
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				Object selectionForService = selection.size() == 1 ? selection.getFirstElement() : selection.toArray();
+				// set the selection to the service
+				selectionService.setSelection(selectionForService);
+//				selectionService.setPostSelection(selectionForService);				
+			}
+		});
 	}
 
-	@Override
+	@Focus
 	public void setFocus() {
 		this.viewer.getControl().setFocus();
 	}

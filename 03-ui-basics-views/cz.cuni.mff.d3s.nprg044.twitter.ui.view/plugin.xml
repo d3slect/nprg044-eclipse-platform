@@ -1,96 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.4"?>
 <plugin>
+
    <extension
-         point="org.eclipse.ui.views">
-      <category
-            id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterCategory"
-            name="Twitter">
-      </category>
-      <view
-            allowMultiple="true"
-            category="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterCategory"
-            class="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterMessageTimelineView"
-            fastViewWidthRatio="0.3"
-            icon="icons/twitter2.png"
-            id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView"
-            name="Twitter Timeline"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            category="cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterCategory"
-            class="cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserViewPart"
-            icon="icons/twitter.gif"
-            id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserInfoView"
-            name="User view"
-            restorable="true">
-      </view>
-   </extension>
-   <extension
-         point="org.eclipse.core.expressions.definitions">
-      <definition
-            id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.inTimelineView">
-         <with
-               variable="activePartId">
-            <equals
-                  value="cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView">
-            </equals>
-         </with>
-      </definition>
-   </extension>
-   <extension
-         point="org.eclipse.ui.handlers">
-      <handler
-            class="cz.cuni.mff.d3s.nprg044.twitter.ui.view.commands.CleanTimelineView"
-            commandId="org.eclipse.ui.edit.delete">
-         <activeWhen>
-            <reference
-                  definitionId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.inTimelineView">
-            </reference>
-         </activeWhen>
-      </handler>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView">
-         <command
-               commandId="org.eclipse.ui.edit.delete"
-               label="Delete"
-               style="push">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView?after=additions">
-         <command
-               commandId="org.eclipse.ui.edit.delete"
-               style="push">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView?after=additions">
-         <command
-               commandId="org.eclipse.ui.edit.delete"
-               style="push">
-         </command>
-         <command
-               commandId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.showMessageDetails"
-               label="Show properties"
-               style="push">
-         </command>
-      </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="cz.cuni.mff.d3s.nprg044.twitter.ui.view.commands.ShowMessageDetails"
-            id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.showMessageDetails"
-            name="Show message details">
-      </command>
+         id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.fragment"
+         point="org.eclipse.e4.workbench.model">
+      <fragment
+            uri="fragment.e4xmi">
+      </fragment>
    </extension>
    <extension
          point="org.eclipse.core.runtime.adapters">
@@ -102,5 +18,4 @@
          </adapter>
       </factory>
    </extension>
-
 </plugin>
