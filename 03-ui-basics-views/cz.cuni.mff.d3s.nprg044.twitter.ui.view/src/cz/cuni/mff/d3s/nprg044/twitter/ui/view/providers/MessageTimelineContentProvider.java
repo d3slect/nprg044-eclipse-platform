@@ -30,17 +30,17 @@ public class MessageTimelineContentProvider implements IStructuredContentProvide
 		private String username;
 
 		@Override
-		public void keyReleased(KeyEvent e) {
+		public void keyReleased(KeyEvent event) {
 			// watch for "Enter" keys
-			if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
+			if (event.keyCode == SWT.CR || event.keyCode == SWT.KEYPAD_CR) {
 				// but only for text input widgets (some other widgets can be
 				// there)
-				if (e.widget instanceof Text) {
-					String newUsername = ((Text) e.widget).getText();
+				if (event.widget instanceof Text) {
+					String newUsername = ((Text) event.widget).getText();
 					if (!newUsername.equals(username)) {
 						username = newUsername;
 						// run in the UI thread
-						e.display.asyncExec(new Runnable() {
+						event.display.asyncExec(new Runnable() {
 							@Override
 							public void run() {
 								// it is necessary to check that the widget is
@@ -114,7 +114,11 @@ public class MessageTimelineContentProvider implements IStructuredContentProvide
 
 			User user = twitter.showUser(username);
 			if (user != null && user.getStatus() != null) {
-				statuses.add(twitter.showStatus(user.getStatus().getId()));
+				// call showStatus to get Status object with additional information
+				// filled in
+				Status filledStatus = twitter.showStatus(user.getStatus().getId());
+				statuses.add(filledStatus);
+				
 				// we have the user status -> update our progress bar
 				if (progressBar != null)
 					progressBar.setSelection(1);
