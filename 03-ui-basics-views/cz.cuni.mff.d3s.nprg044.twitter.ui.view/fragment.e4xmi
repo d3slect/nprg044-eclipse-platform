@@ -4,9 +4,14 @@
     <elements xsi:type="basic:PartDescriptor" xmi:id="_szRSMAmQEeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.partdescriptor.twittertimeline" label="Twitter timeline" iconURI="platform:/plugin/cz.cuni.mff.d3s.nprg044.twitter.ui.view/icons/twitter2.png" category="Twitter" contributionURI="bundleclass://cz.cuni.mff.d3s.nprg044.twitter.ui.view/cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterMessageTimelineView">
       <tags>View</tags>
       <handlers xmi:id="_nmgRIAo6EeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.handler.1" contributionURI="bundleclass://cz.cuni.mff.d3s.nprg044.twitter.ui.view/cz.cuni.mff.d3s.nprg044.twitter.ui.view.commands.CleanTimelineView" command="_mBFLEAnwEeaeAuJbK0e8Ag"/>
+      <handlers xmi:id="_vWfdwAsNEeaVlNCAAq_vkA" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.handler.0" contributionURI="bundleclass://cz.cuni.mff.d3s.nprg044.twitter.ui.view/cz.cuni.mff.d3s.nprg044.twitter.ui.view.commands.ShowMessageDetails" command="_oKB1kAnlEeaeAuJbK0e8Ag"/>
       <menus xmi:id="_ndrVAAopEeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.menu.0">
         <tags>ViewMenu</tags>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_9Qs4QAowEeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.handledmenuitem.0" iconURI="platform:/plugin/org.eclipse.ui/icons/full/obj16/delete_obj.png" command="_mBFLEAnwEeaeAuJbK0e8Ag"/>
+      </menus>
+      <menus xsi:type="menu:PopupMenu" xmi:id="_pPII0AsLEeaVlNCAAq_vkA" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.popupmenu.tablemenu" label="Table Menu">
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_-qh6cAsLEeaVlNCAAq_vkA" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.handledmenuitem.delete" label="Delete" iconURI="platform:/plugin/org.eclipse.ui/icons/full/obj16/delete_obj.png" command="_mBFLEAnwEeaeAuJbK0e8Ag"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_9QzcgAsNEeaVlNCAAq_vkA" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.handledmenuitem.showproperties" label="Show properties" command="_oKB1kAnlEeaeAuJbK0e8Ag"/>
       </menus>
       <toolbar xmi:id="_8uE9QAo5EeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.toolbar.0">
         <children xsi:type="menu:HandledToolItem" xmi:id="__eUQQAo5EeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.handledtoolitem.delete" label="Delete" iconURI="platform:/plugin/org.eclipse.ui/icons/full/obj16/delete_obj.png" command="_mBFLEAnwEeaeAuJbK0e8Ag"/>

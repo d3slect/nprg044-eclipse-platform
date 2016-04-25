@@ -6,10 +6,9 @@ import javax.inject.Named;
 
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.services.EMenuService;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -24,7 +23,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbenchActionConstants;
 
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.internal.model.UserNode;
 import cz.cuni.mff.d3s.nprg044.twitter.ui.view.providers.MessageTimelineContentProvider;
@@ -39,6 +37,8 @@ public class TwitterMessageTimelineView {
 	private static final String[] COLUMN_NAMES = { "#", "username", "message" };
 	private static final int[] COLUMN_WIDTHS = { 70, 100, 150 };
 
+	private static final String POPUP_MENU_ID = "cz.cuni.mff.d3s.nprg044.twitter.ui.view.popupmenu.tablemenu";
+	
 	private Text searchBox;
 	private TableViewer viewer;
 	private ProgressBar progressBar;
@@ -48,7 +48,7 @@ public class TwitterMessageTimelineView {
 	 * (SWT) can be used here.
 	 */
 	@PostConstruct
-	public void createPartControl(Composite parent, ESelectionService selectionService) {
+	public void createPartControl(Composite parent, ESelectionService selectionService, EMenuService menuService) {
 		// grid with one column
 		GridLayout layout = new GridLayout(1, true);
 		parent.setLayout(layout);
@@ -116,30 +116,7 @@ public class TwitterMessageTimelineView {
 		
 		// we need to register the context menu first to allow contributions via
 		// extension points
-//		createContextMenu();
-	}
-
-//	private void createContextMenu() {
-//		MenuManager menuManager = new MenuManager("#PopupMenu");
-//		// remove old items from the menu every time just before it is
-//		// displayed again (possibly for a different table element)
-//		menuManager.setRemoveAllWhenShown(true);
-//		menuManager.addMenuListener(new IMenuListener() {
-//			@Override
-//			public void menuAboutToShow(IMenuManager manager) {
-//				// add separator just before other contributed items (set via
-//				// extensions)
-//				fillContextMenu(manager);
-//			}
-//		});
-//		// create the actual context menu for the table viewer
-//		Menu menu = menuManager.createContextMenu(viewer.getControl());
-//		viewer.getControl().setMenu(menu);
-//		getSite().registerContextMenu(menuManager, viewer);
-//	}
-
-	private void fillContextMenu(IMenuManager manager) {
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		menuService.registerContextMenu(viewer.getControl(), POPUP_MENU_ID);
 	}
 
 	private void createColumns(TableViewer tableViewer) {
@@ -165,44 +142,16 @@ public class TwitterMessageTimelineView {
 		this.searchBox.setFocus();
 	}
 
-//	@Override
-//	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-//		// look at the selection and change input of the viewer
-//		if (!selection.isEmpty() && selection instanceof IStructuredSelection) {
-//			Object o = ((IStructuredSelection) selection).getFirstElement();
-//			if (o instanceof UserNode) {
-//				viewer.setInput(o);
-//				if (!searchBox.isDisposed()) {
-//					searchBox.setText(((UserNode) o).getScreenName());
-//				}
-//			}
-//		} else {
-//			viewer.setInput(searchBox);
-//		}
-//	}
-	
 	@Inject
 	public void setTodo(@Optional @Named(IServiceConstants.ACTIVE_SELECTION) UserNode userNode) {
 		// method may be called before the UI is created - check "viewer != null" is needed
 		if (viewer != null && userNode != null) {
 			viewer.setInput(userNode);
-			// TODO - je potreba check na isDisposed?
 			if (!searchBox.isDisposed()) {
 				searchBox.setText(userNode.getScreenName());
 			}
 		}		
-//		else {
-//			viewer.setInput(searchBox);
-//		}
-		// TODO
 	}
-
-//	@Override
-//	public void dispose() {
-//		super.dispose();
-//		// unregister the listener
-//		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(this);
-//	}
 
 	public void cleanTimeline() {
 		searchBox.setText("");
