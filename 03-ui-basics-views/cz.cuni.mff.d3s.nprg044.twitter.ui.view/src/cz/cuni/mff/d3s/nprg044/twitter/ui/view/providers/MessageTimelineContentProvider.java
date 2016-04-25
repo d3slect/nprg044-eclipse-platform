@@ -117,7 +117,7 @@ public class MessageTimelineContentProvider implements IStructuredContentProvide
 			}
 
 			User user = twitter.showUser(username);
-			if (user != null) {
+			if (user != null && user.getStatus() != null) {
 				statuses.add(twitter.showStatus(user.getStatus().getId()));
 				// we have the user status -> update our progress bar
 				if (progressBar != null)
