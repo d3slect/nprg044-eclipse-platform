@@ -1,23 +1,16 @@
 package cz.cuni.mff.d3s.nprg044.twitter.ui.view.commands;
 
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.e4.core.di.annotations.Execute;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 
-public class ShowMessageDetails extends AbstractHandler {
+public class ShowMessageDetails {
 
-	// response for a particular selection in the context menu
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		try {
-			// show the properties dialog
-			HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().showView("org.eclipse.ui.views.PropertySheet");
-		} catch (PartInitException e) {
-			throw new ExecutionException(e.getMessage(), e);
-		}
-		return null;
+	private static final String PROPERTY_PART_ID = "org.eclipse.ui.views.PropertySheet";
+	
+	@Execute
+	public void execute(EPartService partService) {
+		partService.showPart(PROPERTY_PART_ID, PartState.ACTIVATE);
 	}
-
+	
 }
