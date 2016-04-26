@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: JFace Examples
 Bundle-SymbolicName: jface.examples
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: D3S MFF CUNI
 Require-Bundle: org.eclipse.swt,
  cz.cuni.mff.d3s.nprg044.twitter.api,
