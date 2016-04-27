@@ -21,7 +21,6 @@
       <tags>View</tags>
     </elements>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_yCERsAnlEeaeAuJbK0e8Ag" featurename="handlers" parentElementId="org.eclipse.e4.legacy.ide.application"/>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_4dEE4AiVEeaeAuJbK0e8Ag" featurename="commands" parentElementId="org.eclipse.e4.legacy.ide.application">
     <elements xsi:type="commands:Command" xmi:id="_oKB1kAnlEeaeAuJbK0e8Ag" elementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.command.showmessagedetails" commandName="Show message details"/>
     <elements xsi:type="commands:Command" xmi:id="_mBFLEAnwEeaeAuJbK0e8Ag" elementId="org.eclipse.ui.edit.delete" commandName="Delete"/>
