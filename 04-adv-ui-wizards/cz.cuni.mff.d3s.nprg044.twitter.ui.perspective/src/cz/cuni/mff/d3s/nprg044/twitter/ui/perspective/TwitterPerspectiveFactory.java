@@ -30,9 +30,8 @@ public class TwitterPerspectiveFactory implements IPerspectiveFactory {
 		// left panel will occupy 25% of the horizontal space originally given to the editor area
 		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.25f, layout.getEditorArea());
 		
-		// left panel contains the message timeline and properties view/sheet
+		// left panel contains the message timeline
 		left.addView(TWITTER_MESSAGE_TIMELINE_VIEW_ID);
-		left.addView(IPageLayout.ID_PROP_SHEET);
 		
 		// create the bottom panel view area
 		// bottom panel will occupy 25% of the vertical space originally given to the editor area
