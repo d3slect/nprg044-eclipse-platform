@@ -19,22 +19,25 @@
          </perspectiveShortcut>
          <newWizardShortcut
                id="cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard">
-         </newWizardShortcut>
-         <viewShortcut
-               id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView">
-         </viewShortcut>
+         </newWizardShortcut>         
          <newWizardShortcut
                id="cz.cuni.mff.d3s.nprg044.twitter.ui.wizards.LoginWizard">
          </newWizardShortcut>
+         <!-- looks like the e4 views and viewShortcuts don't work -->
+         <!--
          <viewShortcut
-               id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserInfoView">
+               id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.MessageTimelineView">
+         </viewShortcut>
+         <viewShortcut
+               id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.partdescriptor.userview">
          </viewShortcut>
          <view
-               id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.UserInfoView"
+               id="cz.cuni.mff.d3s.nprg044.twitter.ui.view.partdescriptor.userview"
                minimized="false"
                ratio="0.3"
                relationship="left">
          </view>
+         -->
       </perspectiveExtension>
    </extension>
 
