@@ -4,8 +4,6 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
-import cz.cuni.mff.d3s.nprg044.twitter.ui.view.TwitterMessageTimelineView;
-
 /**
  * This class manages the initial layout of the perspective (views, editor areas, menus).
  */
@@ -13,7 +11,8 @@ public class TwitterPerspectiveFactory implements IPerspectiveFactory {
 
 	/** ID of this GUI element. */
 	public static final String PERSPECTIVE_ID = "cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective";
-
+	
+	private static final String TWITTER_MESSAGE_TIMELINE_VIEW_ID = "cz.cuni.mff.d3s.nprg044.twitter.ui.view.partdescriptor.twittertimeline"; 
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -32,7 +31,7 @@ public class TwitterPerspectiveFactory implements IPerspectiveFactory {
 		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.25f, layout.getEditorArea());
 		
 		// left panel contains the message timeline and properties view/sheet
-		left.addView(TwitterMessageTimelineView.ID);
+		left.addView(TWITTER_MESSAGE_TIMELINE_VIEW_ID);
 		left.addView(IPageLayout.ID_PROP_SHEET);
 		
 		// create the bottom panel view area
