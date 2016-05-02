@@ -64,7 +64,7 @@ public class MessageWizardPage extends WizardPage {
 	
 	// validates the user input
 	protected boolean validatePage() {
-		int length = messageEditor.getTextWidget().getText() != null ? messageEditor.getTextWidget().getText().length() : 0;
+		int length = getMessageText() != null ? getMessageText().length() : 0;
 	
 		if (length > 0 && length <= MAX_CHAR) {
 			setErrorMessage(null);
@@ -83,6 +83,6 @@ public class MessageWizardPage extends WizardPage {
 	}
 
 	public String getMessageText() {		
-		return messageEditor.getDocument().get();
+		return messageEditor.getTextWidget().getText();
 	}
 }
