@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_rFNXkBHYEeaESqRG9f--Tg">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vXQWYBHqEeaESqRG9f--Tg" featurename="children" parentElementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.popupmenu.tablemenu">
+    <elements xsi:type="menu:HandledMenuItem" xmi:id="_l0olEBH0EeaESqRG9f--Tg" elementId="cz.cuni.mff.d3s.nprg044.twitter.wizards.handledmenuitem.loginwizard" label="Login Wizard" command="_BRAz8BHwEeaESqRG9f--Tg"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_3WNXsBHvEeaESqRG9f--Tg" featurename="handlers" parentElementId="cz.cuni.mff.d3s.nprg044.twitter.ui.view.partdescriptor.twittertimeline">
+    <elements xsi:type="commands:Handler" xmi:id="_4MCMcBHvEeaESqRG9f--Tg" elementId="cz.cuni.mff.d3s.nprg044.twitter.wizards.handler.0" contributionURI="bundleclass://cz.cuni.mff.d3s.nprg044.twitter.wizards/cz.cuni.mff.d3s.nprg044.twitter.ui.wizards.handlers.LoginHandler" command="_BRAz8BHwEeaESqRG9f--Tg"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="__C1FIBHvEeaESqRG9f--Tg" featurename="commands" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:Command" xmi:id="_BRAz8BHwEeaESqRG9f--Tg" elementId="cz.cuni.mff.d3s.nprg044.twitter.wizards.command.login" commandName="Login"/>
+  </fragments>
+</fragment:ModelFragments>
