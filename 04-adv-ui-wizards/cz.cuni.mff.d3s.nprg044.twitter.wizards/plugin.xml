@@ -11,7 +11,7 @@
             canFinishEarly="true"
             category="cz.cuni.mff.d3s.nprg044.twitter.wizards.Twitter"
             class="cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard"
-            finalPerspective="cz.cuni.mff.d3s.nprg044.twitter.perspectives.TwitterPerspective"
+            finalPerspective="cz.cuni.mff.d3s.nprg044.twitter.ui.perspective.TwitterPerspective"
             hasPages="true"
             icon="icons/twitter.gif"
             id="cz.cuni.mff.d3s.nprg044.twitter.wizards.NewMessageWizard"
