@@ -21,175 +21,165 @@ import cz.cuni.mff.d3s.nprg044.twitter.editor.text.colors.IMarkdownTextColorCons
 import cz.cuni.mff.d3s.nprg044.twitter.editor.text.parts.MarkdownTextPartitionScanner;
 
 public class MarkdownTextEditorConfiguration extends SourceViewerConfiguration {
-	
-	private RuleBasedScanner markdownDefaultTextScanner;
-	private RuleBasedScanner markdownH1Scanner;
-	private RuleBasedScanner markdownH2Scanner;
-	private RuleBasedScanner markdownBoldTextScanner;
-	private RuleBasedScanner markdownItalicsTextScanner;
-	
-	private ColorManager colorManager;
 
-	public MarkdownTextEditorConfiguration(ColorManager colorManager) {
-		this.colorManager = colorManager;
-	}
+    private RuleBasedScanner markdownDefaultTextScanner;
+    private RuleBasedScanner markdownH1Scanner;
+    private RuleBasedScanner markdownH2Scanner;
+    private RuleBasedScanner markdownBoldTextScanner;
+    private RuleBasedScanner markdownItalicsTextScanner;
 
-	@Override
-	public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType) {
-		return new MarkdownTextHover();
-	}
-	
-	// registers code completion assistants for content types of text partitions
-	@Override
-	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
-		ContentAssistant assistant = new ContentAssistant();
-		IContentAssistProcessor sharedProcessor = new MarkdownContentAssistProcessor();
-		
-		// define assist processor for each content type -> we use the same for all types here
-		assistant.setContentAssistProcessor(sharedProcessor, IDocument.DEFAULT_CONTENT_TYPE);
-		assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_H1);
-		assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_H2);
-		assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_BOLD);
-		assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_ITALICS);		
-		
-		assistant.setEmptyMessage("Sorry, no hint for you :-/");
-		assistant.enableAutoActivation(true);
-		assistant.setAutoActivationDelay(500);
-		
-		return assistant;
-	}
+    private ColorManager colorManager;
 
-	/**
-	 * Register supported content types of the document partitions.
-	 * We have four custom types and the default one.
-	 */
-	@Override
-	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
-		return new String[] { IDocument.DEFAULT_CONTENT_TYPE,
-				MarkdownTextPartitionScanner.MARKDOWN_H1,
-				MarkdownTextPartitionScanner.MARKDOWN_H2,
-				MarkdownTextPartitionScanner.MARKDOWN_BOLD,
-				MarkdownTextPartitionScanner.MARKDOWN_ITALICS 
-			};
-	}
-	
-	/**
-	 * Returns the PresentationReconciler object that is responsible for the proper
-	 * style attributes (presentation) of each document partition.
-	 * It manages the process of defining correct style attributes (color, etc) for
-	 * text partitions that are changed by the user, i.e. correct style for updated
-	 * partitions of the document content ("model").
-	 * It identifies the "damaged text" (without the proper style) in the document based 
-	 * on user's actions (typing, etc) and "repairs" it.
-	 */
-	@Override
-	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
-		PresentationReconciler reconciler = new PresentationReconciler();
-		
-		DefaultDamagerRepairer dr = null;
-		
-		// creates the damager-repairer for the H1 content type (mark)
-			// the scanner must define the correct style attributes for every possible token
-			// that can appear inside text with the given content type
-		dr = new DefaultDamagerRepairer(getMarkdownH1Scanner());		
-		reconciler.setDamager(dr, MarkdownTextPartitionScanner.MARKDOWN_H1);
-		reconciler.setRepairer(dr, MarkdownTextPartitionScanner.MARKDOWN_H1);
-		
-		dr = new DefaultDamagerRepairer(getMarkdownH2Scanner());
-		reconciler.setDamager(dr, MarkdownTextPartitionScanner.MARKDOWN_H2);
-		reconciler.setRepairer(dr, MarkdownTextPartitionScanner.MARKDOWN_H2);
-		
-		dr = new DefaultDamagerRepairer(getMarkdownBoldTextScanner());
-		reconciler.setDamager(dr, MarkdownTextPartitionScanner.MARKDOWN_BOLD);
-		reconciler.setRepairer(dr, MarkdownTextPartitionScanner.MARKDOWN_BOLD);
-		
-		dr = new DefaultDamagerRepairer(getMarkdownItalicsTextScanner());
-		reconciler.setDamager(dr, MarkdownTextPartitionScanner.MARKDOWN_ITALICS);
-		reconciler.setRepairer(dr, MarkdownTextPartitionScanner.MARKDOWN_ITALICS);
+    public MarkdownTextEditorConfiguration(ColorManager colorManager) {
+        this.colorManager = colorManager;
+    }
 
-		dr = new DefaultDamagerRepairer(getMarkdownDefaultTextScanner());
-		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
-		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
+    @Override
+    public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType) {
+        return new MarkdownTextHover();
+    }
 
-		return reconciler;
-	}
+    // registers code completion assistants for content types of text partitions
+    @Override
+    public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+        ContentAssistant assistant = new ContentAssistant();
+        IContentAssistProcessor sharedProcessor = new MarkdownContentAssistProcessor();
 
-	/**
-	 * A scanner that returns tokens that have proper text attributes for H1 content type.
-	 * The scanner says what style attributes (color, font) the tokens should have.
-	 * 
-	 * Here we define the same style for all possible text with the content type H1.
-	 */
-	private ITokenScanner getMarkdownH1Scanner() {
-		if (markdownH1Scanner == null) {			
-			markdownH1Scanner = new RuleBasedScanner() {
-					{
-						setDefaultReturnToken(new Token(new TextAttribute(
-								colorManager.getColor(IMarkdownTextColorConstants.H1),
-								colorManager.getColor(IMarkdownTextColorConstants.H1_BG),
-								TextAttribute.UNDERLINE
-							)));
-					}
-				};
-		}
-		return markdownH1Scanner;
-	}
-	
-	private ITokenScanner getMarkdownH2Scanner() {
-		if (markdownH2Scanner == null) {
-			markdownH2Scanner = new RuleBasedScanner() {
-					{
-						setDefaultReturnToken(new Token(new TextAttribute(
-								colorManager.getColor(IMarkdownTextColorConstants.H2),
-								colorManager.getColor(IMarkdownTextColorConstants.H2_BG),
-								SWT.NONE
-							)));
-					}
-				};
-		}
-		return markdownH2Scanner;
-	}
+        // define assist processor for each content type -> we use the same for
+        // all types here
+        assistant.setContentAssistProcessor(sharedProcessor, IDocument.DEFAULT_CONTENT_TYPE);
+        assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_H1);
+        assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_H2);
+        assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_BOLD);
+        assistant.setContentAssistProcessor(sharedProcessor, MarkdownTextPartitionScanner.MARKDOWN_ITALICS);
 
-	private ITokenScanner getMarkdownBoldTextScanner() {
-		if (markdownBoldTextScanner == null) {
-			markdownBoldTextScanner = new RuleBasedScanner() {
-					{
-						setDefaultReturnToken(new Token(new TextAttribute(
-								colorManager.getColor(IMarkdownTextColorConstants.BOLD_TEXT),
-								null,
-								SWT.BOLD
-							)));
-					}
-				};
-		}
-		return markdownBoldTextScanner;
-	}
+        assistant.setEmptyMessage("Sorry, no hint for you :-/");
+        assistant.enableAutoActivation(true);
+        assistant.setAutoActivationDelay(500);
 
-	private ITokenScanner getMarkdownItalicsTextScanner() {
-		if (markdownItalicsTextScanner == null) {
-			markdownItalicsTextScanner = new RuleBasedScanner() {
-					{
-						setDefaultReturnToken(new Token(new TextAttribute(
-								colorManager.getColor(IMarkdownTextColorConstants.ITALICS_TEXT),
-								null,
-								SWT.ITALIC
-							)));
-					}
-				};
-		}
-		return markdownItalicsTextScanner;
-	}
+        return assistant;
+    }
 
-	private ITokenScanner getMarkdownDefaultTextScanner() {
-		if (markdownDefaultTextScanner == null) {
-			markdownDefaultTextScanner = new RuleBasedScanner() {
-					{
-						setDefaultReturnToken(new Token(new TextAttribute(
-								colorManager.getColor(IMarkdownTextColorConstants.DEFAULT_TEXT)
-							)));
-					}
-				};
-		}
-		return markdownDefaultTextScanner;
-	}
+    /**
+     * Register supported content types of the document partitions. We have four
+     * custom types and the default one.
+     */
+    @Override
+    public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
+        return new String[] { IDocument.DEFAULT_CONTENT_TYPE, MarkdownTextPartitionScanner.MARKDOWN_H1,
+                MarkdownTextPartitionScanner.MARKDOWN_H2, MarkdownTextPartitionScanner.MARKDOWN_BOLD,
+                MarkdownTextPartitionScanner.MARKDOWN_ITALICS };
+    }
+
+    /**
+     * Returns the PresentationReconciler object that is responsible for the
+     * proper style attributes (presentation) of each document partition. It
+     * manages the process of defining correct style attributes (color, etc) for
+     * text partitions that are changed by the user, i.e. correct style for
+     * updated partitions of the document content ("model"). It identifies the
+     * "damaged text" (without the proper style) in the document based on user's
+     * actions (typing, etc) and "repairs" it.
+     */
+    @Override
+    public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
+        PresentationReconciler reconciler = new PresentationReconciler();
+
+        DefaultDamagerRepairer dr = null;
+
+        // creates the damager-repairer for the H1 content type (mark)
+        // the scanner must define the correct style attributes for every
+        // possible token
+        // that can appear inside text with the given content type
+        dr = new DefaultDamagerRepairer(getMarkdownH1Scanner());
+        reconciler.setDamager(dr, MarkdownTextPartitionScanner.MARKDOWN_H1);
+        reconciler.setRepairer(dr, MarkdownTextPartitionScanner.MARKDOWN_H1);
+
+        dr = new DefaultDamagerRepairer(getMarkdownH2Scanner());
+        reconciler.setDamager(dr, MarkdownTextPartitionScanner.MARKDOWN_H2);
+        reconciler.setRepairer(dr, MarkdownTextPartitionScanner.MARKDOWN_H2);
+
+        dr = new DefaultDamagerRepairer(getMarkdownBoldTextScanner());
+        reconciler.setDamager(dr, MarkdownTextPartitionScanner.MARKDOWN_BOLD);
+        reconciler.setRepairer(dr, MarkdownTextPartitionScanner.MARKDOWN_BOLD);
+
+        dr = new DefaultDamagerRepairer(getMarkdownItalicsTextScanner());
+        reconciler.setDamager(dr, MarkdownTextPartitionScanner.MARKDOWN_ITALICS);
+        reconciler.setRepairer(dr, MarkdownTextPartitionScanner.MARKDOWN_ITALICS);
+
+        dr = new DefaultDamagerRepairer(getMarkdownDefaultTextScanner());
+        reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
+        reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
+
+        return reconciler;
+    }
+
+    /**
+     * A scanner that returns tokens that have proper text attributes for H1
+     * content type. The scanner says what style attributes (color, font) the
+     * tokens should have.
+     * 
+     * Here we define the same style for all possible text with the content type
+     * H1.
+     */
+    private ITokenScanner getMarkdownH1Scanner() {
+        if (markdownH1Scanner == null) {
+            markdownH1Scanner = new RuleBasedScanner() {
+                {
+                    setDefaultReturnToken(new Token(new TextAttribute(
+                            colorManager.getColor(IMarkdownTextColorConstants.H1),
+                            colorManager.getColor(IMarkdownTextColorConstants.H1_BG), TextAttribute.UNDERLINE)));
+                }
+            };
+        }
+        return markdownH1Scanner;
+    }
+
+    private ITokenScanner getMarkdownH2Scanner() {
+        if (markdownH2Scanner == null) {
+            markdownH2Scanner = new RuleBasedScanner() {
+                {
+                    setDefaultReturnToken(
+                            new Token(new TextAttribute(colorManager.getColor(IMarkdownTextColorConstants.H2),
+                                    colorManager.getColor(IMarkdownTextColorConstants.H2_BG), SWT.NONE)));
+                }
+            };
+        }
+        return markdownH2Scanner;
+    }
+
+    private ITokenScanner getMarkdownBoldTextScanner() {
+        if (markdownBoldTextScanner == null) {
+            markdownBoldTextScanner = new RuleBasedScanner() {
+                {
+                    setDefaultReturnToken(new Token(new TextAttribute(
+                            colorManager.getColor(IMarkdownTextColorConstants.BOLD_TEXT), null, SWT.BOLD)));
+                }
+            };
+        }
+        return markdownBoldTextScanner;
+    }
+
+    private ITokenScanner getMarkdownItalicsTextScanner() {
+        if (markdownItalicsTextScanner == null) {
+            markdownItalicsTextScanner = new RuleBasedScanner() {
+                {
+                    setDefaultReturnToken(new Token(new TextAttribute(
+                            colorManager.getColor(IMarkdownTextColorConstants.ITALICS_TEXT), null, SWT.ITALIC)));
+                }
+            };
+        }
+        return markdownItalicsTextScanner;
+    }
+
+    private ITokenScanner getMarkdownDefaultTextScanner() {
+        if (markdownDefaultTextScanner == null) {
+            markdownDefaultTextScanner = new RuleBasedScanner() {
+                {
+                    setDefaultReturnToken(new Token(
+                            new TextAttribute(colorManager.getColor(IMarkdownTextColorConstants.DEFAULT_TEXT))));
+                }
+            };
+        }
+        return markdownDefaultTextScanner;
+    }
 }
