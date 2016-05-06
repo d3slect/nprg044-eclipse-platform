@@ -26,28 +26,6 @@
       </editor>
    </extension>
    <extension
-         point="org.eclipse.ui.commands">
-      <command
-            categoryId="cz.cuni.mff.d3s.nprg044.twitter.editor.MarkdownTextEditorCategory"
-            defaultHandler="cz.cuni.mff.d3s.nprg044.twitter.editor.text.commands.MarkBoldHandler"
-            id="cz.cuni.mff.d3s.nprg044.twitter.editor.MarkBoldCommand"
-            name="Mark bold">
-      </command>
-      <category
-            id="cz.cuni.mff.d3s.nprg044.twitter.editor.MarkdownTextEditorCategory"
-            name="Markdown text editor">
-      </category>
-   </extension>
-   <extension
-         point="org.eclipse.ui.bindings">
-      <key
-            commandId="cz.cuni.mff.d3s.nprg044.twitter.editor.MarkBoldCommand"
-            contextId="org.eclipse.ui.textEditorScope"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="M1+B">
-      </key>
-   </extension>
-   <extension
          point="org.eclipse.core.runtime.adapters">
       <factory
             adaptableType="org.eclipse.jface.text.ITypedRegion"
@@ -57,5 +35,13 @@
          </adapter>
       </factory>
    </extension>
+<extension
+         id="markdown.editor.fragment"
+         point="org.eclipse.e4.workbench.model">
+      <fragment
+            uri="fragment.e4xmi">
+      </fragment>
+   </extension>
+
 
 </plugin>

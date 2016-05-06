@@ -10,6 +10,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text;bundle-version="3.8.1",
  org.eclipse.ui.views;bundle-version="3.6.100",
  org.eclipse.ui.forms;bundle-version="3.5.200",
- org.eclipse.ui.ide;bundle-version="3.8.1"
+ org.eclipse.ui.ide;bundle-version="3.8.1",
+ org.eclipse.e4.core.di.annotations,
+ org.eclipse.e4.ui.workbench,
+ org.eclipse.e4.ui.services,
+ org.eclipse.e4.ui.model.workbench
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

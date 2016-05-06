@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_auCtQBLHEea8yOcPkI-nKg">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_buNJwBLHEea8yOcPkI-nKg" featurename="commands" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:Command" xmi:id="_gXCWEBLHEea8yOcPkI-nKg" elementId="cz.cuni.mff.d3s.nprg044.twitter.editor.MarkBoldCommand" commandName="Bold" category="_CyCLYBNcEea8yOcPkI-nKg"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_9RhwMBNbEea8yOcPkI-nKg" featurename="categories" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:Category" xmi:id="_CyCLYBNcEea8yOcPkI-nKg" elementId="cz.cuni.mff.d3s.nprg044.twitter.editor.MarkdownTextEditorCategory" name="Markdown text editor"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_nMUy4BLHEea8yOcPkI-nKg" featurename="handlers" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="commands:Handler" xmi:id="_pF6KsBLHEea8yOcPkI-nKg" elementId="cz.cuni.mff.d3s.nprg044.twitter.editor.MarkBoldHandler" contributionURI="bundleclass://cz.cuni.mff.d3s.nprg044.twitter.editor/cz.cuni.mff.d3s.nprg044.twitter.editor.text.commands.MarkBoldHandler" command="_gXCWEBLHEea8yOcPkI-nKg"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_BRxcUBLJEea8yOcPkI-nKg" featurename="bindings" parentElementId="org.eclipse.ui.textEditorScope">
+    <elements xsi:type="commands:KeyBinding" xmi:id="_m1ofQBLJEea8yOcPkI-nKg" elementId="markdown.editor.keybinding.0" keySequence="M1+B" command="_gXCWEBLHEea8yOcPkI-nKg"/>
+  </fragments>
+</fragment:ModelFragments>
