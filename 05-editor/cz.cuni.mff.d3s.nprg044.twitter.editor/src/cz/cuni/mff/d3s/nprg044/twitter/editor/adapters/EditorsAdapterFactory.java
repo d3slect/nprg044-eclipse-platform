@@ -6,10 +6,11 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 public class EditorsAdapterFactory implements IAdapterFactory {
 
-    private static final Class[] SUPPORTED_ADAPTERS = { IPropertySource.class };
+    private static final Class<?>[] SUPPORTED_ADAPTERS = { IPropertySource.class };
 
     // return adaptation of a TypedRegion object to the IPropertySource
     // interface
+    @SuppressWarnings({ "rawtypes", "unchecked" })    
     @Override
     public Object getAdapter(Object adaptableObject, Class adapterType) {
         if (IPropertySource.class.equals(adapterType)) {
@@ -19,7 +20,7 @@ public class EditorsAdapterFactory implements IAdapterFactory {
     }
 
     @Override
-    public Class[] getAdapterList() {
+    public Class<?>[] getAdapterList() {
         return SUPPORTED_ADAPTERS;
     }
 }

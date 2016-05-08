@@ -49,8 +49,9 @@ public class MarkdownTextEditor extends TextEditor {
      * Returns an object of the IContentOutlinePage class that is associated
      * with this editor. The page is displayed inside the outline window.
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
+    public Object getAdapter(Class adapter) {
         if (IContentOutlinePage.class.equals(adapter)) {
             if (outlinePage == null) {
                 outlinePage = new MarkdownTextOutlinePage();
